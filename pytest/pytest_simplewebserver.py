@@ -13,7 +13,7 @@ class MyHandler(BaseHTTPRequestHandler):
         if not os.path.isfile(self.path):
             self.send_response(400)
         else:
-            self.send_error(200)
+            self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
