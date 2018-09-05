@@ -17,13 +17,6 @@ class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.respond({'status': 200})
 
-    def read_file(self):
-        if not os.path.isfile(file_name):
-            raise Exception('File not found at {}. Kindly check the command line arguments again'.format(file_name))
-
-        with open(file_name) as f:
-            for line in f:
-
     def handle_http(self, status_code, path):
         self.send_response(status_code)
         self.send_header('Content-type', 'text/html')
@@ -34,6 +27,9 @@ class MyHandler(BaseHTTPRequestHandler):
         <p>You accessed path: {}</p>
         </body></html>
         '''.format(path)
+        with open(self.path, 'rb') as file:
+            content += """ {} """.format(file.read())
+
         return bytes(content, 'UTF-8')
 
     def respond(self, opts):
@@ -43,10 +39,10 @@ class MyHandler(BaseHTTPRequestHandler):
 
 def get_args():
     parser = argparse.ArgumentParser(description='Simple HTTP Server')
+    parser.add_argument('file', help='File path', nargs='?')
     parser.add_argument('port', default=PORT_NUMBER,
                         help='Port',
                         nargs='?')
-    parser.add_argument('file', help='File path', nargs='?')
 
     args = parser.parse_args()
 
