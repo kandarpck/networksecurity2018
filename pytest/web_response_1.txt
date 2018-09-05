@@ -1,0 +1,6 @@
+
+        <html><head><title>Network Security</title></head>
+        <body><p>File Requested</p>
+        <p>You accessed path: /Users/kandarp/Github/networksecurity2018/pytest/web_message_1.txt</p>
+        </body></html>
+         b'Kandarp Khandwala Testing' 

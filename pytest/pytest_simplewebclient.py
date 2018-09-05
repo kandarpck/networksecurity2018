@@ -8,6 +8,12 @@ PORT_NUMBER = "9000"
 def get_file(path, port):
     file = requests.get(HOST_NAME + ":" + port + "/" + path)
     print(file.text)
+    return file
+
+
+def save_file(file):
+    with open('web_response_1.txt', 'w') as f:
+        f.write(file.text)
 
 
 def get_args():
@@ -24,4 +30,5 @@ def get_args():
 
 if __name__ == '__main__':
     arguments = get_args()
-    get_file(arguments.file, arguments.port)
+    file = get_file(arguments.file, arguments.port)
+    save_file(file)
