@@ -10,7 +10,10 @@ PORT_NUMBER = 9000
 
 class MyHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
-        self.send_response(200)
+        if not os.path.isfile(self.path):
+            self.send_response(400)
+        else:
+            self.send_error(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
@@ -27,6 +30,7 @@ class MyHandler(BaseHTTPRequestHandler):
         <p>You accessed path: {}</p>
         </body></html>
         '''.format(path)
+
         with open(self.path, 'rb') as file:
             content += """ {} """.format(file.read())
 
@@ -59,4 +63,4 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass
     httpd.server_close()
-    print(time.asctime(), 'Server Stops - %s:%s' % (HOST_NAME, PORT_NUMBER))
+    print(time.asctime(), 'Server Stops - %s:%s' % (HOST_NAME, int(arguments.port)))
