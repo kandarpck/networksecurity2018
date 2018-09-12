@@ -1,0 +1,616 @@
+
+
+
+Network Working Group                                    S. Nielson, Ed.
+Request for Comments: 1                   JHU Network Security Fall 2017
+Category: Standards Track                                 September 2018
+
+
+                    Playground Request For Comments
+
+Abstract
+
+   The PLAYGROUND (Poly-Localized Algorithmic Yields Generated Remotely
+   On Unused Network Devices) system is designed to give students and
+   researchers a sandbox in which to develop network security
+   experiments.  For PLAYGROUND experiments that involve a PETF
+   (Playground Engineering Task Force), PRFC's (Playground RFC's) are
+   used in a manner similar to RFC's.  This PRFC specifices the format
+   standards for PRFC's.
+
+Status of this Memo
+
+   This document specifies a Playgrounds standards track protocol for
+   the Playground Experiment, and requests discussion and suggestions
+   for improvements.  Distribution of this memo is unlimited.
+
+Copyright Notice
+
+   Copyright (c) 2018 SETH JAMES NIELSON.  All rights reserved.
+
+   This document is used solely for educational purposes.  Any citations
+   within this document are also for educational purposes and also for
+   technical reference.  If any of these cited elements are protected
+   under copyright, their inclusion here falls under Fair Use
+   provisions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nielson                      Standards Track                    [Page 1]
+
+RFC 1                            PRFC's                   September 2018
+
+
+Table of Contents
+
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1.  Requirements Language  . . . . . . . . . . . . . . . . . .  3
+   2.  General Authoring Guidelines . . . . . . . . . . . . . . . . .  4
+     2.1.  Meta Data  . . . . . . . . . . . . . . . . . . . . . . . .  4
+     2.2.  Copyright Information  . . . . . . . . . . . . . . . . . .  5
+     2.3.  Guidelines for Writing Standards . . . . . . . . . . . . .  6
+     2.4.  Guidlines for Writing Non-Standards  . . . . . . . . . . .  7
+   3.  PRFC Submission Process  . . . . . . . . . . . . . . . . . . .  7
+   4.  PRFC Revision Process  . . . . . . . . . . . . . . . . . . . .  8
+   5.  Security Considerations  . . . . . . . . . . . . . . . . . . .  9
+   6.  Normative References . . . . . . . . . . . . . . . . . . . . .  9
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . .  9
+   Intellectual Property and Copyright Statements . . . . . . . . . . 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nielson                      Standards Track                    [Page 2]
+
+RFC 1                            PRFC's                   September 2018
+
+
+1.  Introduction
+
+   RFC's (Request for Comments) are a publication of the Internet
+   Engineering Task Force (IETF).  RFC's have many purposes including
+   the publication of standards, general information, and best
+   practices.
+
+   The PLAYGROUND experiment, developed by Seth James Nielson, is a
+   pedigogical framework for instructing principles of Internet
+   Security.  The primary goal of the PLAYGROUND framework is to provide
+   a network system that allows students and researchers to develop
+   security mechanisms as well as attacks against them.  The PLAYGROUND
+   system is designed to provide a complex enough system to enable kinds
+   of attacks and defenses one finds in the real Internet but with a
+   much reduced complexity.
+
+   Not only does PLAYGROUND provide a reduced complexity, but it also
+   allows a student to think in terms of principles instead of just in
+   raw implementation.  Cross-site scripting attacks may disappear in
+   the future, but the principles of colliding security spaces will not.
+   PLAYGROUND allows the students to try out principles in a new
+   environment and with new concrete instantiations.
+
+   Standards and other publications, such as RFC's, are a critical part
+   of the security process.  Open standards allow design flaws to be
+   captured early in the development of an Internet protocol or system.
+   Discovered flaws can be reported and fixed quickly and effectively.
+
+   Accordingly, as part of the PLAYGROUND experiment, collaborating
+   participants, such as the students in a class, can practice and
+   experiment with a publication process similar to RFC's.  These
+   publications are called Playground RFC's and follow the same formats
+   and serve the same purposes insofar as possible.
+
+   This memo describes the PRFC standards, largely pointing to the
+   corresponding standards for RFCs.  Differences, where they exist, are
+   noted.  Also included is a description of a modified xml2rfc tool
+   that can help to produce PRFC's with the proper formatting.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
+
+
+
+
+
+
+
+Nielson                      Standards Track                    [Page 3]
+
+RFC 1                            PRFC's                   September 2018
+
+
+2.  General Authoring Guidelines
+
+   The most important aspect of a PRFC is the clarity and correctness of
+   the writing.  The next most important component is the completeness
+   of the technical document in describing all relevant information.
+   The last and least important element is the formatting according to
+   RFC guidelines.
+
+   In terms of writing clearly and correctly, consider the following
+   suggestions.
+
+   1.  Use formal English grammar and use it correctly
+
+   2.  Prefer conciseness and simplicity
+
+   3.  Get to the point
+
+   Although the formatting is the least important element, authors
+   SHOULD learn and employ the correct formatting as much as possible.
+   Most of this document will focus on these elements
+
+   Authors MUST, after reading this PRFC, review any RFC's that are
+   referenced.  Authors SHOULD search for other RFC's that provide RFC-
+   authoring guidelines or instructions as well as for other RFC-
+   authoring guides and tutorials that can be found on the Internet.
+
+   Astute readers will observe that this document is also not perfectly
+   aligned with RFC standards and even technical writing guidelines.
+   Similarly, it is not expected that other PRFC's will be perfect
+   either.  Nevertheless, authors MUST make good-faith efforts to
+   understand the principles behind RFC documents and demonstrate them
+   in crafting their own PRFC's.
+
+2.1.  Meta Data
+
+   At the top of all PRFC's is meta-data analogous to the meta-data at
+   the top of an RFC.
+
+   o  The PRFC SHOULD include the author's name.
+
+   o  The PRFC MUST identify "JHU Network Security Fall 2018" as the
+      organization
+
+   o  The PRFC MUST NOT identify a student's actual address.  Use,
+      instead, a John Hopkins office number or laboratory name.
+
+   o  The PRFC MUST identify the month and year of writing.
+
+
+
+
+Nielson                      Standards Track                    [Page 4]
+
+RFC 1                            PRFC's                   September 2018
+
+
+   Additional meta data includes the "References" and "Author's Address"
+   sections.  These elements MUST conform to RFC specifications.
+
+2.2.  Copyright Information
+
+   The PLAYGROUND experiment is still new and has not yet developed a
+   policy that has been reviewed by legal counsel.  However, at present,
+   the following text MUST be used in the PRFC's.
+
+   The copyright notice on the front page of the PRFC should read:
+   "Copyright (c) 2018 SETH JAMES NIELSON.  All rights reserved.
+
+   This document is used solely for educational purposes.  Any citations
+   within this document are also for educational purposes and also for
+   technical reference.  If any of these cited elements are protected
+   under copyright, their inclusion here falls under Fair Use
+   provisions."
+
+   Student authors MUST grant copyrights to SETH JAMES NIELSON.
+   However, they may also retain copyrights for themselves and add their
+   names to the copyright notice accordingly.
+
+   The final page of the PRFC MUST include a section entitled "Full
+   Copyright Statement" that reads:
+
+   "Copyright (C) Seth James Nielson (2018).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the PLAYGROUND experiment or
+   other associated organizations, except by explicit permission.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by SETH JAMES NIELSON or his successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and SETH JAMES NIELSON and associated academic
+   institutions DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE."
+
+   After the "Full Copyright Statement" the PRFC MUST include a section
+
+
+
+Nielson                      Standards Track                    [Page 5]
+
+RFC 1                            PRFC's                   September 2018
+
+
+   entitled "Intellectual Property" that reads:
+
+   The PLAYGROUND framework and student submissions for PLAYGROUND are
+   intended to be free of any intellectual property conflicts.  All
+   submitting parties, especially students, are not allowed to submit
+   source code, specifications, or other components that are known to be
+   protected by copyright, patents, or other IP mechanisms.  Students
+   submitting creative content grant shared rights and ownership of
+   their content to the PLAYGROUND project.  Specifically, any
+   submission can be used in future educational settings including
+   subsequent PLAYGROUND experiments.
+
+   Any interested party is invited to bring to the experiment director's
+   attention any copyrights, patents or patent applications, or other
+   proprietary rights which may cover technology that may be currently
+   in use without permission.
+
+   It should be noted that these statements have not been reviewed by
+   legal counsel.  Moreover, the academic institutions at which
+   PLAYGROUND experiments take place may have additional or even
+   conflicting copyright and intellectual property rules.  Accordingly,
+   concerned parties may need to contact their own lawyer and/or
+   resources at their institution to understand the rights and
+   limitations associated with code donated to a PLAYGROUND experiment."
+
+   As with the initial copyright notice, the Copyright assignment to
+   Seth James Nielson can be agumented the the names of the authors.
+
+2.3.  Guidelines for Writing Standards
+
+   Most of the guidelines for writing standards are the same as they are
+   for RFC's.  In particular, RFC 2360 [RFC2360] provides the current
+   best practices for writing Internet Standards.  In general, RFC 2360
+   will provide the basic template for evaluating PRFC's that specify a
+   standard.
+
+   Perhaps the most important section of RFC 2360 is "2.1 Discussion of
+   Security."  Authors MUST read and understand this information.
+   PRFC's without an adequate discussion of security will be rejected.
+
+   Certain sections of RFC 2360 do not apply to writing PRFC's.  These
+   include:
+
+      2.5 Change Logs
+
+      2.13 IANA Considerations
+
+
+
+
+
+Nielson                      Standards Track                    [Page 6]
+
+RFC 1                            PRFC's                   September 2018
+
+
+      2.14 Network Management Considerations
+
+      2.17 Internationalization
+
+   For PRFC's that will serve as standards, the status MUST read: " This
+   document specifies a Playgrounds standards track protocol for the
+   Playground Experiment, and requests discussion and suggestions for
+   improvements.  Distribution of this memo is unlimited."
+
+2.4.  Guidlines for Writing Non-Standards
+
+   PRFC's that are not standards track will not be held to the same
+   requirements.  In particular, while it would be great if these PRFC's
+   tracked RFC guidelines, it is not required.
+
+   For documents that comprise "best current practices," the status of
+   the PRFC MUST read: "This document specifies an Playground Best
+   Current Practices for the Playground Experiment, and requests
+   discussion and suggestions for improvements.  Distribution of this
+   memo is unlimited."
+
+   For documents that are for information purposes only, the status of
+   the PRFC MUST read: "This memo provides information for the
+   Playground Experiment.  It does not specify an Playground standard of
+   any kind.  Distribution of this memo is unlimited."
+
+   For documents that specify experimental protocols, the status of the
+   PRFC MUST read: "This memo defines an Experimental Protocol for the
+   Playground Experiment.  It does not specify a Playground standard of
+   any kind.  Discussion and suggestions for improvement are requested.
+   Distribution of this memo is unlimited."
+
+   For documents that specify information that is kept for historical
+   reasons the status of the PRFC must read: "This memo describes a
+   historic protocol for the Playground Experiment.  It does not specify
+   a Playground standard of any kind.  Distribution of this memo is
+   unlimited."
+
+
+3.  PRFC Submission Process
+
+   PRFC's are required whenever PLAYGROUND groups need to interoperate.
+   Some specifications will be mandated as part of PLAYGROUND
+   development.  Under these circumstances, the PETF will be responsible
+   for approving the standards.
+
+   In creating these mandated standards, the PETF can either draft the
+   standards and a reference implementation themselves or accept
+
+
+
+Nielson                      Standards Track                    [Page 7]
+
+RFC 1                            PRFC's                   September 2018
+
+
+   submissions from individual groups.  In either case, the final
+   standard must be approved by a majority of the PETF before the PRFC
+   will be officially published.
+
+   Any group can draft a standard that defines protocols and
+   technologies that are specific to their own PLAYGROUND nodes.
+   Publishing PRFC's is the only acceptable way for two groups to
+   interact with each other.  Thus, if a group wishes to make their
+   optional mechanisms available to other groups, they must create a
+   PRFC publication.  These PRFC's do not need the approval of the PETF
+   if they are given "experimental" status.  Otherwise, a majority of
+   the PETF must approve the standard in order for it to be given
+   "standards-track" status.
+
+   PRFC's seeking "informational" status also do not require PETF
+   approval.
+
+   PRFC's seeking "best current practice" status do require PETF
+   approval.
+
+
+4.  PRFC Revision Process
+
+   Once a PRFC is officially published by the PETF, it cannot be
+   modified further for any reason.  A new PRFC must be submitted that
+   identifies the errors and proposes to "update" or "supercede" the
+   previous document.
+
+   A PRFC MUST use the "update" reference if the changes do not result
+   in an incompatible protocol and the old protocol is not shown to be
+   insecure.  Changes to PRFC's that are "updates" include:
+
+   1.  Corrections to spelling, grammar, and other wording in the
+       document
+
+   2.  Additional details about operations and operational
+       considerations
+
+   3.  Additional parameters or interactions to the existing protocol
+
+   A PRFC MUST use the "supercede" reference if the changes result in an
+   incompatible protocol OR if the previous protocol is demonstrated to
+   be insecure.
+
+   Approval from the PETF MUST be obtained if approval was required for
+   the original PRFC.
+
+   A PRFC submitted without PETF approval MUST be revised only by the
+
+
+
+Nielson                      Standards Track                    [Page 8]
+
+RFC 1                            PRFC's                   September 2018
+
+
+   same PLAYGROUND group that submitted the original.
+
+
+5.  Security Considerations
+
+   This specification is a documentation standard and not directly
+   related to the technical security of any protocol.
+
+
+6.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, DOI 10.17487/
+              RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC2360]  Scott, G., "Guide for Internet Standards Writers", BCP 22,
+              RFC 2360, DOI 10.17487/RFC2360, June 1998,
+              <https://www.rfc-editor.org/info/rfc2360>.
+
+
+Author's Address
+
+   Seth James Nielson (editor)
+   JHU Network Security Fall 2017
+   JHU 160 Malone Hall/3400 North Charles St.
+   Baltimore, MD  21218
+   USA
+
+   Phone: +1 410-497-7384
+   Email: sethjn@cs.jhu.edu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nielson                      Standards Track                    [Page 9]
+
+RFC 1                            PRFC's                   September 2018
+
+
+Full Copyright Statement
+
+   Copyright (C) Seth James Nielson (2018).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the PLAYGROUND experiment or
+   other associated organizations, except by explicit permission.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by SETH JAMES NIELSON or his successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and SETH JAMES NIELSON and associated academic
+   institutions DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+Intellectual Property
+
+   The PLAYGROUND framework and student submissions for PLAYGROUND are
+   intended to be free of any intellectual property conflicts.  All
+   submitting parties, especially students, are not allowed to submit
+   source code, specifications, or other components that are known to be
+   protected by copyright, patents, or other IP mechanisms.  Students
+   submitting creative content grant shared rights and ownership of
+   their content to the PLAYGROUND project.  Specifically, any
+   submission can be used in future educational settings including
+   subsequent PLAYGROUND experiments.
+
+   Any interested party is invited to bring to the experiment director's
+   attention any copyrights, patents or patent applications, or other
+   proprietary rights which may cover technology that may be currently
+   in use without permission.
+
+   It should be noted that these statements have not been reviewed by
+   legal counsel.  Moreover, the academic institutions at which
+   PLAYGROUND experiments take place may have additional or even
+   conflicting copyright and intellectual property rules.  Accordingly,
+   concerned parties may need to contact their own lawyer and/or
+   resources at their institution to understand the rights and
+
+
+
+Nielson                      Standards Track                   [Page 10]
+
+RFC 1                            PRFC's                   September 2018
+
+
+   limitations associated with code donated to a PLAYGROUND experiment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nielson                      Standards Track                   [Page 11]
+
