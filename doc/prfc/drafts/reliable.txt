@@ -71,9 +71,9 @@ Table of Contents
      4.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . .  9
      4.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 10
      4.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 10
-   5.  Normative References . . . . . . . . . . . . . . . . . . . . . 12
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 12
-   Intellectual Property and Copyright Statements . . . . . . . . . . 13
+   5.  Normative References . . . . . . . . . . . . . . . . . . . . . 13
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 13
+   Intellectual Property and Copyright Statements . . . . . . . . . . 14
 
 
 
@@ -517,6 +517,59 @@ RFC 1                            PRFC's                   September 2018
 
 4.7.  State Machines
 
+   A connection progresses through a series of states during its
+   lifetime.  The states are: LISTEN, SYN-SENT, SYN-RECEIVED,
+   ESTABLISHED, FIN-WAIT-1, FIN-WAIT-2, CLOSE-WAIT, CLOSING, LAST-ACK,
+   TIME-WAIT, and the fictional state CLOSED.  CLOSED is fictional
+   because it represents the state when there is no TCB, and therefore,
+   no connection.  Briefly the meanings of the states are:
+
+   a.  LISTEN - represents waiting for a connection request from any
+       remote TCP and port.
+
+   b.  SYN-SENT - represents waiting for a matching connection request
+       after having sent a connection request.
+
+   c.  SYN-RECEIVED - represents waiting for a confirming connection
+       request acknowledgment after having both received and sent a
+       connection request.
+
+   d.  ESTABLISHED - represents an open connection, data received can be
+       delivered to the user.  The normal state for the data transfer
+       phase of the connection.
+
+   e.  FIN-WAIT-1 - represents waiting for a connection termination
+       request from the remote TCP, or an acknowledgment of the
+       connection termination request previously sent.
+
+   f.  FIN-WAIT-2 - represents waiting for a connection termination
+       request from the remote TCP.
+
+   g.  CLOSE-WAIT - represents waiting for a connection termination
+       request from the local user.
+
+   h.  CLOSING - represents waiting for a connection termination request
+       acknowledgment from the remote TCP.
+
+   i.  LAST-ACK - represents waiting for an acknowledgment of the
+       connection termination request previously sent to the remote TCP
+
+
+
+Khandwala                    Standards Track                   [Page 10]
+
+RFC 1                            PRFC's                   September 2018
+
+
+       (which includes an acknowledgment of its connection termination
+       request).
+
+   j.  TIME-WAIT - represents waiting for enough time to pass to be sure
+       the remote TCP received the acknowledgment of its connection
+       termination request.
+
+   k.  CLOSED - represents no connection state at all.
+
    Figure 3 below specifies the state diagram for the RIPP protocol.
 
 
@@ -556,7 +609,10 @@ RFC 1                            PRFC's                   September 2018
 
 
 
-Khandwala                    Standards Track                   [Page 10]
+
+
+
+Khandwala                    Standards Track                   [Page 11]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -606,13 +662,13 @@ RFC 1                            PRFC's                   September 2018
       ------------------------>|TIME WAIT|------------------>| CLOSED  |
                                +---------+                   +---------+
 
-                       TCP Connection State Diagram
+                       RIPP Connection State Diagram
                                 Figure 3.
 
 
 
 
-Khandwala                    Standards Track                   [Page 11]
+Khandwala                    Standards Track                   [Page 12]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -668,7 +724,7 @@ Author's Address
 
 
 
-Khandwala                    Standards Track                   [Page 12]
+Khandwala                    Standards Track                   [Page 13]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -724,7 +780,7 @@ Intellectual Property
 
 
 
-Khandwala                    Standards Track                   [Page 13]
+Khandwala                    Standards Track                   [Page 14]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -780,5 +836,5 @@ RFC 1                            PRFC's                   September 2018
 
 
 
-Khandwala                    Standards Track                   [Page 14]
+Khandwala                    Standards Track                   [Page 15]
 

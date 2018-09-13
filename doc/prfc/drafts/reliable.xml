@@ -486,7 +486,51 @@ class RIPPPacket(PacketType):
    </section>
 
    <section title="State Machines">
-     <t>Figure 3 below specifies the state diagram for the RIPP protocol.</t>
+     <t>A connection progresses through a series of states during its
+  lifetime.  The states are:  LISTEN, SYN-SENT, SYN-RECEIVED,
+  ESTABLISHED, FIN-WAIT-1, FIN-WAIT-2, CLOSE-WAIT, CLOSING, LAST-ACK,
+  TIME-WAIT, and the fictional state CLOSED.  CLOSED is fictional
+  because it represents the state when there is no TCB, and therefore,
+  no connection.  Briefly the meanings of the states are:
+  <list style="letters">
+    <t>LISTEN - represents waiting for a connection request from any remote
+    TCP and port.</t>
+    <t>SYN-SENT - represents waiting for a matching connection request
+    after having sent a connection request.</t>
+    <t>SYN-RECEIVED - represents waiting for a confirming connection
+    request acknowledgment after having both received and sent a
+    connection request.</t>
+
+    <t>ESTABLISHED - represents an open connection, data received can be
+    delivered to the user.  The normal state for the data transfer phase
+    of the connection.</t>
+
+    <t>FIN-WAIT-1 - represents waiting for a connection termination request
+    from the remote TCP, or an acknowledgment of the connection
+    termination request previously sent.</t>
+
+    <t>FIN-WAIT-2 - represents waiting for a connection termination request
+    from the remote TCP.</t>
+
+    <t>CLOSE-WAIT - represents waiting for a connection termination request
+    from the local user.</t>
+
+    <t>CLOSING - represents waiting for a connection termination request
+    acknowledgment from the remote TCP.</t>
+
+    <t>LAST-ACK - represents waiting for an acknowledgment of the
+    connection termination request previously sent to the remote TCP
+    (which includes an acknowledgment of its connection termination
+    request).</t>
+
+    <t>TIME-WAIT - represents waiting for enough time to pass to be sure
+    the remote TCP received the acknowledgment of its connection
+    termination request.</t>
+
+    <t>CLOSED - represents no connection state at all.</t>
+  </list>
+
+  Figure 3 below specifies the state diagram for the RIPP protocol.</t>
      <t>
       <figure>
       <artwork>
@@ -571,7 +615,7 @@ class RIPPPacket(PacketType):
      &RFC2119;
      
      &RFC2360;
-     
+
    </references>
 
 
