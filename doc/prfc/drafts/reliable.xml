@@ -62,9 +62,9 @@
 
    <!-- Another author who claims to be an editor -->
 
-   <author fullname="Seth James Nielson" initials="S.J." role="editor"
-           surname="Nielson">
-     <organization>JHU Network Security Fall 2017</organization>
+   <author fullname="Kandarp Khandwala" initials="K.K." role="editor"
+           surname="Khandwala">
+     <organization>JHU Network Security Fall 2018</organization>
 
      <address>
        <postal>
@@ -81,9 +81,9 @@
          <country>USA</country>
        </postal>
 
-       <phone>+1 410-497-7384</phone>
+       <phone>+1 443-763-9251</phone>
 
-       <email>sethjn@cs.jhu.edu</email>
+       <email>kck@jhu.edu</email>
 
        <!-- uri and facsimile elements may also be added -->
      </address>
