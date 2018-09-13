@@ -517,8 +517,26 @@ Distribution of this memo is unlimited."</t>
    </section>
 
    <section title="Data Transmission">
-     <t>Approval from the PETF MUST be obtained if approval was required for the original
-   PRFC.</t>
+     <t>After the connection has been established, the sender and receiver can send packets
+      of data to each other and continue communicating with each other. The way that 
+      data flows between these two entities can be percieved as a stream oriented 
+      transfer of data. The RIPP protocol sends chunks of bytes from the sender to the
+      receiver. The RIPP protocol has a maximum payload size of 2048 bytes. In case the
+      payload is greater than 2048, the RIPP protocol should break it down into chunks of 
+      2048 bytes. The data in the payload recevied by the RIPP protocol needs to be 
+      encapsulated into a Buffer.</t>
+
+      <t>On the client side, the SEQ Number header field for the first data packet
+       sent is set equal to the SEQ number of the ACK packet sent during the RIPP handshake.
+       For subsequent data packets, the SEQ number is determined by adding
+       the sequence number of the previous packet with the length of the 
+       previous packet. On the server side, the first data packet sent has
+       the sequence number of the SYN-ACK packet sent during the handshake.
+       And similarly, for the subsequent packets, the sequence number is
+       determined by adding the sequence number and length of the previous packet.
+ 
+      </t>
+
    </section>
 
    <section title="Error Handling">

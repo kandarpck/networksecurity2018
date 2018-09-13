@@ -75,10 +75,10 @@ Table of Contents
      7.2.  Session Termination  . . . . . . . . . . . . . . . . . . . 10
      7.3.  Data Transmission  . . . . . . . . . . . . . . . . . . . . 11
      7.4.  Error Handling . . . . . . . . . . . . . . . . . . . . . . 11
-     7.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . . 11
-     7.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 11
-     7.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 11
-   8.  Normative References . . . . . . . . . . . . . . . . . . . . . 11
+     7.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . . 12
+     7.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 12
+     7.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 12
+   8.  Normative References . . . . . . . . . . . . . . . . . . . . . 12
    Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 12
    Intellectual Property and Copyright Statements . . . . . . . . . . 13
 
@@ -528,12 +528,12 @@ RFC 1                            PRFC's                   September 2018
 
 7.2.  Session Termination
 
-   The RIPP protocol specfic a set of exchanges required to gracefully
+   The RIPP protocol specific a set of exchanges required to gracefully
    shut down the connection between communicating entities.  The "four-
    way handshake" process is used for correctly terminating the
    connection.  The first step for terminating the connection is to send
    a FIN packet to the other client.  There is no restriction on who can
-   inititate the FIN request; any one of the communicating parties can
+   initiate the FIN request; any one of the communicating parties can
    send it to the other one.  Once the other party receives the FIN
    request, it should send back a FIN-ACK packet to acknowledge the RIP
    packet.  Once the acknowledgement is sent out, the data packets left
@@ -576,19 +576,46 @@ RFC 1                            PRFC's                   September 2018
    5.             --> <SEQ=101><ACK=301><CTL=ACK>      -->
 
    6.  CLOSED
+
      Figure 2: Basic 4-Way Handshake for Connection Termination
 
 
 
 7.3.  Data Transmission
 
-   Approval from the PETF MUST be obtained if approval was required for
-   the original PRFC.
+   After the connection has been established, the sender and receiver
+   can send packets of data to each other and continue communicating
+   with each other.  The way that data flows between these two entities
+   can be percieved as a stream oriented transfer of data.  The RIPP
+   protocol sends chunks of bytes from the sender to the receiver.  The
+   RIPP protocol has a maximum payload size of 2048 bytes.  In case the
+   payload is greater than 2048, the RIPP protocol should break it down
+   into chunks of 2048 bytes.  The data in the payload recevied by the
+   RIPP protocol needs to be encapsulated into a Buffer.
+
+   On the client side, the SEQ Number header field for the first data
+   packet sent is set equal to the SEQ number of the ACK packet sent
+   during the RIPP handshake.  For subsequent data packets, the SEQ
+   number is determined by adding the sequence number of the previous
+   packet with the length of the previous packet.  On the server side,
+   the first data packet sent has the sequence number of the SYN-ACK
+   packet sent during the handshake.  And similarly, for the subsequent
+   packets, the sequence number is determined by adding the sequence
+   number and length of the previous packet.
 
 7.4.  Error Handling
 
    Approval from the PETF MUST be obtained if approval was required for
    the original PRFC.
+
+
+
+
+
+Khandwala                    Standards Track                   [Page 11]
+
+RFC 1                            PRFC's                   September 2018
+
 
 7.5.  Packet Descriptions
 
@@ -609,14 +636,6 @@ RFC 1                            PRFC's                   September 2018
 8.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-
-
-
-Khandwala                    Standards Track                   [Page 11]
-
-RFC 1                            PRFC's                   September 2018
-
-
               Requirement Levels", BCP 14, RFC 2119, DOI 10.17487/
               RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
@@ -636,25 +655,6 @@ Author's Address
 
    Phone: +1 443-763-9251
    Email: kck@jhu.edu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
