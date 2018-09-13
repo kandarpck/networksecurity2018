@@ -323,7 +323,7 @@
 		
 	</section>
 	
-	<section title="Guidlines for Writing Non-Standards">
+	<section title="Guidelines for Writing Non-Standards">
 		<t>PRFC's that are not standards track will not be held to the same
 		requirements. In particular, while it would be great if these PRFC's
 		tracked RFC guidelines, it is not required.</t>
@@ -403,6 +403,70 @@ Distribution of this memo is unlimited."</t>
    <t>This specification is a documentation standard and not directly related
    to the technical security of any protocol.</t>
    </section>
+
+   <!--
+   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+   @                            @
+   @ Protocol Definition of TCP @ 
+   @                            @
+   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    -->
+
+
+   <section title="Purpose/Technical Background">
+    <t> The protocol will be named as Reliable Internetwork Playground Protocol (R.I.P.P)
+   </section>
+
+   <section title="Protocol Specifications">
+   <section title="Session Establishment">
+     <t>RIPP protocol consists of a unique Playground IP Address (PIP) which will uniquely 
+     identify the machine connected to the Playground network. RIPP also has port identifiers
+     built in to identify and handle multiplexing and demultiplexing which can handle multiple
+     separate data streams.
+    </t>
+
+    <t>RIPP performs a "three-way handshake" which establishes the session between the communicating 
+      entities which is followed by data transmission. Establishing a session is essential
+      before any transmission of payload can occur. Similarly, no data can be transferred after 
+      the session has been terminated. There is no restriction on who can establish a connection.
+      It can be initiated by either party in the communication channel. Once an entity initiates
+      the connection, the other party should respond with an acknowledgment. 
+    </t>
+
+    <t>A simple "three-way handshake is shown in figure 1 below. "
+    </t>
+   </section>
+
+   <section title="Session Termination">
+     <t>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.</t>
+   </section>
+
+   <section title="Data Transmission">
+     <t>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.</t>
+   </section>
+
+   <section title="Error Handling">
+     <t>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.</t>
+   </section>
+
+   <section title="Packet Descriptions">
+     <t>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.</t>
+   </section>
+
+   <section title="Computational Algorithms">
+     <t>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.</t>
+   </section>
+
+   <section title="State Machines">
+     <t>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.</t>
+   </section>
+  </section>
  </middle>
 
  <!--  *****BACK MATTER ***** -->
