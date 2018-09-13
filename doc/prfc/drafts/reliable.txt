@@ -71,9 +71,9 @@ Table of Contents
      4.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . .  9
      4.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 10
      4.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 10
-   5.  Normative References . . . . . . . . . . . . . . . . . . . . . 10
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 10
-   Intellectual Property and Copyright Statements . . . . . . . . . . 11
+   5.  Normative References . . . . . . . . . . . . . . . . . . . . . 12
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 12
+   Intellectual Property and Copyright Statements . . . . . . . . . . 13
 
 
 
@@ -517,8 +517,104 @@ RFC 1                            PRFC's                   September 2018
 
 4.7.  State Machines
 
-   Approval from the PETF MUST be obtained if approval was required for
-   the original PRFC.
+   Figure 3 below specifies the state diagram for the RIPP protocol.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala                    Standards Track                   [Page 10]
+
+RFC 1                            PRFC's                   September 2018
+
+
+                               +---------+ ---------\      active OPEN
+                               |  CLOSED |            \    -----------
+                               +---------+<---------\   \   create TCB
+                                 |     ^              \   \  snd SYN
+                    passive OPEN |     |   CLOSE        \   \
+                    ------------ |     | ----------       \   \
+                     create TCB  |     | delete TCB         \   \
+                                 V     |                      \   \
+                               +---------+            CLOSE    |    \
+                               |  LISTEN |          ---------- |     |
+                               +---------+          delete TCB |     |
+                    rcv SYN      |     |     SEND              |     |
+                   -----------   |     |    -------            |     V
+  +---------+      snd SYN,ACK  /       \   snd SYN          +---------+
+  |         |<-----------------           ------------------>|         |
+  |   SYN   |                    rcv SYN                     |   SYN   |
+  |   RCVD  |<-----------------------------------------------|   SENT  |
+  |         |                    snd ACK                     |         |
+  |         |------------------           -------------------|         |
+  +---------+   rcv ACK of SYN  \       /  rcv SYN,ACK       +---------+
+    |           --------------   |     |   -----------
+    |                  x         |     |     snd ACK
+    |                            V     V
+    |  CLOSE                   +---------+
+    | -------                  |  ESTAB  |
+    | snd FIN                  +---------+
+    |                   CLOSE    |     |    rcv FIN
+    V                  -------   |     |    -------
+  +---------+          snd FIN  /       \   snd ACK          +---------+
+  |  FIN    |<-----------------           ------------------>|  CLOSE  |
+  | WAIT-1  |------------------                              |   WAIT  |
+  +---------+          rcv FIN  \                            +---------+
+    | rcv ACK of FIN   -------   |                            CLOSE  |
+    | --------------   snd ACK   |                           ------- |
+    V        x                   V                           snd FIN V
+  +---------+                  +---------+                   +---------+
+  |FINWAIT-2|                  | CLOSING |                   | LAST-ACK|
+  +---------+                  +---------+                   +---------+
+    |                rcv ACK of FIN |                 rcv ACK of FIN |
+    |  rcv FIN       -------------- |    Timeout=2MSL -------------- |
+    |  -------              x       V    ------------        x       V
+     \ snd ACK                 +---------+delete TCB         +---------+
+      ------------------------>|TIME WAIT|------------------>| CLOSED  |
+                               +---------+                   +---------+
+
+                       TCP Connection State Diagram
+                                Figure 3.
+
+
+
+
+Khandwala                    Standards Track                   [Page 11]
+
+RFC 1                            PRFC's                   September 2018
 
 
 5.  Normative References
@@ -556,7 +652,23 @@ Author's Address
 
 
 
-Khandwala                    Standards Track                   [Page 10]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala                    Standards Track                   [Page 12]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -612,7 +724,7 @@ Intellectual Property
 
 
 
-Khandwala                    Standards Track                   [Page 11]
+Khandwala                    Standards Track                   [Page 13]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -668,5 +780,5 @@ RFC 1                            PRFC's                   September 2018
 
 
 
-Khandwala                    Standards Track                   [Page 12]
+Khandwala                    Standards Track                   [Page 14]
 
