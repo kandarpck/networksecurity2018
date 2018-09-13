@@ -75,12 +75,12 @@ Table of Contents
      7.2.  Session Termination  . . . . . . . . . . . . . . . . . . . 10
      7.3.  Data Transmission  . . . . . . . . . . . . . . . . . . . . 11
      7.4.  Error Handling . . . . . . . . . . . . . . . . . . . . . . 11
-     7.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . . 12
-     7.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 12
-     7.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 12
-   8.  Normative References . . . . . . . . . . . . . . . . . . . . . 12
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 12
-   Intellectual Property and Copyright Statements . . . . . . . . . . 13
+     7.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . . 13
+     7.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 13
+     7.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 13
+   8.  Normative References . . . . . . . . . . . . . . . . . . . . . 13
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 13
+   Intellectual Property and Copyright Statements . . . . . . . . . . 14
 
 
 
@@ -605,8 +605,8 @@ RFC 1                            PRFC's                   September 2018
 
 7.4.  Error Handling
 
-   Approval from the PETF MUST be obtained if approval was required for
-   the original PRFC.
+   There are several different scenarios that can occur while
+   transmitting data from one RIPP client to the other.
 
 
 
@@ -616,6 +616,68 @@ Khandwala                    Standards Track                   [Page 11]
 
 RFC 1                            PRFC's                   September 2018
 
+
+   a.  Incorrect order of the packets
+
+   b.  Loss of packets
+
+   c.  Corrupt data inside the packet
+
+   d.  Phantom packets (receiver gets packets that have never been sent)
+
+   a.  RIPP takes a simple approach to solving all these scenarios.  In
+       the scenario where there is a loss of packets during handshake
+       transmission or connection establishment, the corresponding party
+       should resend the previous packet with a delay by keeping a
+       timer.
+
+   b.  Both the communicating parties maintain a protocol buffer at
+       their end - a sort of cache which temporarily stores data and
+       waits for the missing packet and out of order data.  As a result,
+       RIPP can gracefully handle out of order packets and missing
+       packets by storing them in the buffer before sending to the upper
+       layers and sending ACK messages to the sender indicating
+       retransmission which the sender can resend.  The sender also
+       maintains a window on its side with the timestamp when it was
+       sent.  If it does not receive an ACK before the timer expiry, it
+       automatically resends the packet.
+
+   c.  RIPP protocol also has a provision for correcting corrupt header
+       as well as data inside the packet.  A checksum field inside the
+       RIPP header provides basic integrity of the message.  RIPP uses
+       the checksum to detect corruption of packet headers. i.e. the
+       source, destination, and other meta-data.  It also includes an
+       extra checksum that protects the packet "payload" as well as the
+       header.  In case of simple scenarios this checksum can just be a
+       simple one's complement or other fast and simple hash functions.
+       The sender computes the hash and appends it in the header as well
+       as the data sent to the receiver.  The receiver verifies it and
+       in case of mismatch in the checksum, simply drops the packet and
+       waits for retransmission.
+
+   d.  In scenarios where the channel may be noisy, the RIPP protocol
+       includes an optional forward error correcting code (ECC) which
+       provides reliability at the expense of redudancy of sending data.
+       The redundancy allows the receiver to detect a limited number of
+       errors that may occur anywhere in the message, and often to
+       correct these errors without re-transmission.  FEC gives the
+       receiver the ability to correct errors without needing a reverse
+       channel to request re-transmission of data, but at the cost of a
+       fixed, higher forward channel bandwidth
+
+
+
+
+Khandwala                    Standards Track                   [Page 12]
+
+RFC 1                            PRFC's                   September 2018
+
+
+   e.  In the sceanrio where duplicate data is received during
+       retransmission, judged by SEQ number of the packet, the receiver
+       simply discards them.  In the case where phantom packets (unknown
+       or radically different SEQ numbers) are received, the receiver
+       simply discards them according to the RIPP protocol.
 
 7.5.  Packet Descriptions
 
@@ -662,13 +724,7 @@ Author's Address
 
 
 
-
-
-
-
-
-
-Khandwala                    Standards Track                   [Page 12]
+Khandwala                    Standards Track                   [Page 13]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -724,7 +780,7 @@ Intellectual Property
 
 
 
-Khandwala                    Standards Track                   [Page 13]
+Khandwala                    Standards Track                   [Page 14]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -780,5 +836,5 @@ RFC 1                            PRFC's                   September 2018
 
 
 
-Khandwala                    Standards Track                   [Page 14]
+Khandwala                    Standards Track                   [Page 15]
 

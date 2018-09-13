@@ -548,7 +548,46 @@ Distribution of this memo is unlimited."</t>
         <t>Corrupt data inside the packet</t>
         <t>Phantom packets (receiver gets packets that have never been sent)</t>
        </list> 
-
+       <list style="letters">
+        <t>RIPP takes a simple approach to solving all these scenarios. In the scenario 
+       where there is a loss of packets during handshake transmission or connection
+       establishment, the corresponding party should resend the previous packet with
+       a delay by keeping a timer.</t>
+       <t>
+        Both the communicating parties maintain a protocol buffer at their end - a sort of
+        cache which temporarily stores data and waits for the missing packet and out
+        of order data. As a result, RIPP can gracefully handle out of order packets and
+        missing packets by storing them in the buffer before sending to the upper layers
+        and sending ACK messages to the sender indicating retransmission which the 
+        sender can resend. The sender also maintains a window on its side with the 
+        timestamp when it was sent. If it does not receive an ACK before the timer expiry,
+        it automatically resends the packet. 
+      </t>
+      <t>RIPP protocol also has a provision for correcting corrupt header as well as data inside the packet.
+        A checksum field inside the RIPP header provides basic integrity of the message.
+        RIPP uses the checksum to detect corruption of packet headers. i.e. the source, destination,
+        and other meta-data.
+        It also includes an extra checksum that protects the packet "payload" as well as the header.
+        In case of simple scenarios this checksum can just be a simple one's complement or other
+        fast and simple hash functions. The sender computes the hash and appends it in the 
+        header as well as the data sent to the receiver. The receiver verifies it and in case
+        of mismatch in the checksum, simply drops the packet and waits for retransmission.
+      </t>
+      <t>In scenarios where the channel may be noisy, the RIPP protocol includes an optional
+        forward error correcting code (ECC) which provides reliability at the expense of 
+        redundancy of sending data. The redundancy allows the receiver to detect a limited
+        number of errors that may occur anywhere in the message, and often to correct 
+        these errors without re-transmission.
+        FEC gives the receiver the ability to correct errors without needing a reverse 
+        channel to request re-transmission of data, but at the cost of a fixed,
+        higher forward channel bandwidth
+      </t>
+      <t>In the scenario where duplicate data is received during retransmission, judged by
+        SEQ number of the packet, the receiver simply discards them. In the case where
+        phantom packets (unknown or radically different SEQ numbers) are received,
+        the receiver simply discards them according to the RIPP protocol.
+      </t>
+    </list>
     </t>
    </section>
 
