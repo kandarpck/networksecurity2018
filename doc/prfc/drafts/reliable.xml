@@ -476,8 +476,13 @@ class RIPPPacket(PacketType):
    </section>
 
    <section title="Computational Algorithms">
-     <t>Approval from the PETF MUST be obtained if approval was required for the original
-   PRFC.</t>
+     <t>The algorithm of choice is left to the user. The RIPP protocol
+      only specifies that the chosen algorithms used for CRC and FRC be 
+      simple, fast and should focus on speed rather than collision resistance
+      or other unnecessary properties of hash functions or error correcting codes.
+      The Forward Error Correcting code should also enable correction up to a
+      certain limit without adding too much bulk to the packet or the header.
+    </t>
    </section>
 
    <section title="State Machines">

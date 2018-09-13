@@ -507,8 +507,13 @@ RFC 1                            PRFC's                   September 2018
 
 4.6.  Computational Algorithms
 
-   Approval from the PETF MUST be obtained if approval was required for
-   the original PRFC.
+   The algorithm of choice is left to the user.  The RIPP protocol only
+   specifies that the chosen algorithms used for CRC and FRC be simple,
+   fast and should focus on speed rather than collision resistance or
+   other unnecessary properties of hash functions or error correcting
+   codes.  The Forward Error Correcting code should also enable
+   correction up to a certain limit without adding too much bulk to the
+   packet or the header.
 
 4.7.  State Machines
 
@@ -538,11 +543,6 @@ Author's Address
 
    Phone: +1 443-763-9251
    Email: kck@jhu.edu
-
-
-
-
-
 
 
 
