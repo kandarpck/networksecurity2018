@@ -10,13 +10,13 @@ Category: Standards Track                                 September 2018
 
 Abstract
 
-   The PLAYGROUND (Poly-Localized Algorithmic Yields Generated Remotely
-   On Unused Network Devices) system is designed to give students and
-   researchers a sandbox in which to develop network security
-   experiments.  For PLAYGROUND experiments that involve a PETF
-   (Playground Engineering Task Force), PRFC's (Playground RFC's) are
-   used in a manner similar to RFC's.  This PRFC specifices the format
-   standards for PRFC's.
+   The Reliable Internetwork Playground Protocol (RIPP) defines the
+   standards used to communicate between entities over the Playground
+   network.  It reliably establishes connections, transmits data with
+   certain degree of error detection and correction and defines a
+   graceful way of terminating the connection.  It also communicates
+   with the upper and lower layers using multiplexing and demultiplexing
+   of data streams.
 
 Status of this Memo
 
@@ -61,26 +61,26 @@ Table of Contents
 
    1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
      1.1.  Requirements Language  . . . . . . . . . . . . . . . . . .  3
-   2.  General Authoring Guidelines . . . . . . . . . . . . . . . . .  4
-     2.1.  Meta Data  . . . . . . . . . . . . . . . . . . . . . . . .  4
-     2.2.  Copyright Information  . . . . . . . . . . . . . . . . . .  5
-     2.3.  Guidelines for Writing Standards . . . . . . . . . . . . .  6
-     2.4.  Guidelines for Writing Non-Standards . . . . . . . . . . .  7
-   3.  PRFC Submission Process  . . . . . . . . . . . . . . . . . . .  7
-   4.  PRFC Revision Process  . . . . . . . . . . . . . . . . . . . .  8
-   5.  Security Considerations  . . . . . . . . . . . . . . . . . . .  9
-   6.  Purpose/Technical Background . . . . . . . . . . . . . . . . .  9
-   7.  Protocol Specifications  . . . . . . . . . . . . . . . . . . .  9
-     7.1.  Session Establishment  . . . . . . . . . . . . . . . . . .  9
-     7.2.  Session Termination  . . . . . . . . . . . . . . . . . . . 10
-     7.3.  Data Transmission  . . . . . . . . . . . . . . . . . . . . 11
-     7.4.  Error Handling . . . . . . . . . . . . . . . . . . . . . . 11
-     7.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . . 13
-     7.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 13
-     7.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 13
-   8.  Normative References . . . . . . . . . . . . . . . . . . . . . 13
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 13
-   Intellectual Property and Copyright Statements . . . . . . . . . . 14
+   2.  Copyright Information  . . . . . . . . . . . . . . . . . . . .  4
+   3.  Purpose/Technical Background . . . . . . . . . . . . . . . . .  5
+   4.  Protocol Specifications  . . . . . . . . . . . . . . . . . . .  5
+     4.1.  Session Establishment  . . . . . . . . . . . . . . . . . .  5
+     4.2.  Session Termination  . . . . . . . . . . . . . . . . . . .  6
+     4.3.  Data Transmission  . . . . . . . . . . . . . . . . . . . .  7
+     4.4.  Error Handling . . . . . . . . . . . . . . . . . . . . . .  8
+     4.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . .  9
+     4.6.  Computational Algorithms . . . . . . . . . . . . . . . . .  9
+     4.7.  State Machines . . . . . . . . . . . . . . . . . . . . . .  9
+   5.  Normative References . . . . . . . . . . . . . . . . . . . . .  9
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 10
+   Intellectual Property and Copyright Statements . . . . . . . . . . 11
+
+
+
+
+
+
+
 
 
 
@@ -169,66 +169,7 @@ Khandwala                    Standards Track                    [Page 3]
 RFC 1                            PRFC's                   September 2018
 
 
-2.  General Authoring Guidelines
-
-   The most important aspect of a PRFC is the clarity and correctness of
-   the writing.  The next most important component is the completeness
-   of the technical document in describing all relevant information.
-   The last and least important element is the formatting according to
-   RFC guidelines.
-
-   In terms of writing clearly and correctly, consider the following
-   suggestions.
-
-   1.  Use formal English grammar and use it correctly
-
-   2.  Prefer conciseness and simplicity
-
-   3.  Get to the point
-
-   Although the formatting is the least important element, authors
-   SHOULD learn and employ the correct formatting as much as possible.
-   Most of this document will focus on these elements
-
-   Authors MUST, after reading this PRFC, review any RFC's that are
-   referenced.  Authors SHOULD search for other RFC's that provide RFC-
-   authoring guidelines or instructions as well as for other RFC-
-   authoring guides and tutorials that can be found on the Internet.
-
-   Astute readers will observe that this document is also not perfectly
-   aligned with RFC standards and even technical writing guidelines.
-   Similarly, it is not expected that other PRFC's will be perfect
-   either.  Nevertheless, authors MUST make good-faith efforts to
-   understand the principles behind RFC documents and demonstrate them
-   in crafting their own PRFC's.
-
-2.1.  Meta Data
-
-   At the top of all PRFC's is meta-data analogous to the meta-data at
-   the top of an RFC.
-
-   o  The PRFC SHOULD include the author's name.
-
-   o  The PRFC MUST identify "JHU Network Security Fall 2018" as the
-      organization
-
-   o  The PRFC MUST NOT identify a student's actual address.  Use,
-      instead, a John Hopkins office number or laboratory name.
-
-   o  The PRFC MUST identify the month and year of writing.
-
-
-
-
-Khandwala                    Standards Track                    [Page 4]
-
-RFC 1                            PRFC's                   September 2018
-
-
-   Additional meta data includes the "References" and "Author's Address"
-   sections.  These elements MUST conform to RFC specifications.
-
-2.2.  Copyright Information
+2.  Copyright Information
 
    The PLAYGROUND experiment is still new and has not yet developed a
    policy that has been reviewed by legal counsel.  However, at present,
@@ -273,17 +214,17 @@ RFC 1                            PRFC's                   September 2018
    MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE."
 
    After the "Full Copyright Statement" the PRFC MUST include a section
+   entitled "Intellectual Property" that reads:
+
+   The PLAYGROUND framework and student submissions for PLAYGROUND are
 
 
 
-Khandwala                    Standards Track                    [Page 5]
+Khandwala                    Standards Track                    [Page 4]
 
 RFC 1                            PRFC's                   September 2018
 
 
-   entitled "Intellectual Property" that reads:
-
-   The PLAYGROUND framework and student submissions for PLAYGROUND are
    intended to be free of any intellectual property conflicts.  All
    submitting parties, especially students, are not allowed to submit
    source code, specifications, or other components that are known to be
@@ -309,164 +250,19 @@ RFC 1                            PRFC's                   September 2018
    As with the initial copyright notice, the Copyright assignment to
    Seth James Nielson can be agumented the the names of the authors.
 
-2.3.  Guidelines for Writing Standards
 
-   Most of the guidelines for writing standards are the same as they are
-   for RFC's.  In particular, RFC 2360 [RFC2360] provides the current
-   best practices for writing Internet Standards.  In general, RFC 2360
-   will provide the basic template for evaluating PRFC's that specify a
-   standard.
+3.  Purpose/Technical Background
 
-   Perhaps the most important section of RFC 2360 is "2.1 Discussion of
-   Security."  Authors MUST read and understand this information.
-   PRFC's without an adequate discussion of security will be rejected.
-
-   Certain sections of RFC 2360 do not apply to writing PRFC's.  These
-   include:
-
-      2.5 Change Logs
-
-      2.13 IANA Considerations
+   In this document, we describe Reliable Internetwork Playground
+   Protocol (R.I.P.P), a protocol which is used for communication over
+   the Playground - a network system that allows students and
+   researchers to develop security mechanisms as well as attacks against
+   them - defined in JHU Network Security class.
 
 
+4.  Protocol Specifications
 
-
-
-Khandwala                    Standards Track                    [Page 6]
-
-RFC 1                            PRFC's                   September 2018
-
-
-      2.14 Network Management Considerations
-
-      2.17 Internationalization
-
-   For PRFC's that will serve as standards, the status MUST read: " This
-   document specifies a Playgrounds standards track protocol for the
-   Playground Experiment, and requests discussion and suggestions for
-   improvements.  Distribution of this memo is unlimited."
-
-2.4.  Guidelines for Writing Non-Standards
-
-   PRFC's that are not standards track will not be held to the same
-   requirements.  In particular, while it would be great if these PRFC's
-   tracked RFC guidelines, it is not required.
-
-   For documents that comprise "best current practices," the status of
-   the PRFC MUST read: "This document specifies an Playground Best
-   Current Practices for the Playground Experiment, and requests
-   discussion and suggestions for improvements.  Distribution of this
-   memo is unlimited."
-
-   For documents that are for information purposes only, the status of
-   the PRFC MUST read: "This memo provides information for the
-   Playground Experiment.  It does not specify an Playground standard of
-   any kind.  Distribution of this memo is unlimited."
-
-   For documents that specify experimental protocols, the status of the
-   PRFC MUST read: "This memo defines an Experimental Protocol for the
-   Playground Experiment.  It does not specify a Playground standard of
-   any kind.  Discussion and suggestions for improvement are requested.
-   Distribution of this memo is unlimited."
-
-   For documents that specify information that is kept for historical
-   reasons the status of the PRFC must read: "This memo describes a
-   historic protocol for the Playground Experiment.  It does not specify
-   a Playground standard of any kind.  Distribution of this memo is
-   unlimited."
-
-
-3.  PRFC Submission Process
-
-   PRFC's are required whenever PLAYGROUND groups need to interoperate.
-   Some specifications will be mandated as part of PLAYGROUND
-   development.  Under these circumstances, the PETF will be responsible
-   for approving the standards.
-
-   In creating these mandated standards, the PETF can either draft the
-   standards and a reference implementation themselves or accept
-
-
-
-Khandwala                    Standards Track                    [Page 7]
-
-RFC 1                            PRFC's                   September 2018
-
-
-   submissions from individual groups.  In either case, the final
-   standard must be approved by a majority of the PETF before the PRFC
-   will be officially published.
-
-   Any group can draft a standard that defines protocols and
-   technologies that are specific to their own PLAYGROUND nodes.
-   Publishing PRFC's is the only acceptable way for two groups to
-   interact with each other.  Thus, if a group wishes to make their
-   optional mechanisms available to other groups, they must create a
-   PRFC publication.  These PRFC's do not need the approval of the PETF
-   if they are given "experimental" status.  Otherwise, a majority of
-   the PETF must approve the standard in order for it to be given
-   "standards-track" status.
-
-   PRFC's seeking "informational" status also do not require PETF
-   approval.
-
-   PRFC's seeking "best current practice" status do require PETF
-   approval.
-
-
-4.  PRFC Revision Process
-
-   Once a PRFC is officially published by the PETF, it cannot be
-   modified further for any reason.  A new PRFC must be submitted that
-   identifies the errors and proposes to "update" or "supercede" the
-   previous document.
-
-   A PRFC MUST use the "update" reference if the changes do not result
-   in an incompatible protocol and the old protocol is not shown to be
-   insecure.  Changes to PRFC's that are "updates" include:
-
-   1.  Corrections to spelling, grammar, and other wording in the
-       document
-
-   2.  Additional details about operations and operational
-       considerations
-
-   3.  Additional parameters or interactions to the existing protocol
-
-   A PRFC MUST use the "supercede" reference if the changes result in an
-   incompatible protocol OR if the previous protocol is demonstrated to
-   be insecure.
-
-   Approval from the PETF MUST be obtained if approval was required for
-   the original PRFC.
-
-   A PRFC submitted without PETF approval MUST be revised only by the
-
-
-
-Khandwala                    Standards Track                    [Page 8]
-
-RFC 1                            PRFC's                   September 2018
-
-
-   same PLAYGROUND group that submitted the original.
-
-
-5.  Security Considerations
-
-   This specification is a documentation standard and not directly
-   related to the technical security of any protocol.
-
-
-6.  Purpose/Technical Background
-
-   The protocol will be named as Reliable Internetwork Playground
-   Protocol (R.I.P.P)
-
-
-7.  Protocol Specifications
-
-7.1.  Session Establishment
+4.1.  Session Establishment
 
    RIPP protocol consists of a unique Playground IP Address (PIP) which
    will uniquely identify the machine connected to the Playground
@@ -477,6 +273,14 @@ RFC 1                            PRFC's                   September 2018
    RIPP performs a "three-way handshake" which establishes the session
    between the communicating entities which is followed by data
    transmission.  Establishing a session is essential before any
+
+
+
+Khandwala                    Standards Track                    [Page 5]
+
+RFC 1                            PRFC's                   September 2018
+
+
    transmission of payload can occur.  Similarly, no data can be
    transferred after the session has been terminated.  There is no
    restriction on who can establish a connection.  It can be initiated
@@ -494,15 +298,6 @@ RFC 1                            PRFC's                   September 2018
    previous sequence number, acknowledging the earlier SYN.  RIPP A
    responds with an empty ACK and then starts sending data from the next
    stage.
-
-
-
-
-
-
-Khandwala                    Standards Track                    [Page 9]
-
-RFC 1                            PRFC's                   September 2018
 
 
       RIPP A                                                 RIPP B
@@ -526,7 +321,7 @@ RFC 1                            PRFC's                   September 2018
    sent out.  No two connections should have the same sequence number.
    Further, RIPP B does not need to ACK every SYN packet sent to it.
 
-7.2.  Session Termination
+4.2.  Session Termination
 
    The RIPP protocol specific a set of exchanges required to gracefully
    shut down the connection between communicating entities.  The "four-
@@ -534,6 +329,14 @@ RFC 1                            PRFC's                   September 2018
    connection.  The first step for terminating the connection is to send
    a FIN packet to the other client.  There is no restriction on who can
    initiate the FIN request; any one of the communicating parties can
+
+
+
+Khandwala                    Standards Track                    [Page 6]
+
+RFC 1                            PRFC's                   September 2018
+
+
    send it to the other one.  Once the other party receives the FIN
    request, it should send back a FIN-ACK packet to acknowledge the RIP
    packet.  Once the acknowledgement is sent out, the data packets left
@@ -546,19 +349,6 @@ RFC 1                            PRFC's                   September 2018
    A simple version of the above "four-way handshake" to terminate the
    connection is shown below in figure 2.
 
-
-
-
-
-
-
-
-
-
-
-Khandwala                    Standards Track                   [Page 10]
-
-RFC 1                            PRFC's                   September 2018
 
 
        RIPP A                                                 RIPP B
@@ -581,20 +371,28 @@ RFC 1                            PRFC's                   September 2018
 
 
 
-7.3.  Data Transmission
+4.3.  Data Transmission
 
    After the connection has been established, the sender and receiver
    can send packets of data to each other and continue communicating
    with each other.  The way that data flows between these two entities
-   can be percieved as a stream oriented transfer of data.  The RIPP
+   can be perceived as a stream oriented transfer of data.  The RIPP
    protocol sends chunks of bytes from the sender to the receiver.  The
    RIPP protocol has a maximum payload size of 2048 bytes.  In case the
    payload is greater than 2048, the RIPP protocol should break it down
-   into chunks of 2048 bytes.  The data in the payload recevied by the
+   into chunks of 2048 bytes.  The data in the payload received by the
    RIPP protocol needs to be encapsulated into a Buffer.
 
    On the client side, the SEQ Number header field for the first data
    packet sent is set equal to the SEQ number of the ACK packet sent
+
+
+
+Khandwala                    Standards Track                    [Page 7]
+
+RFC 1                            PRFC's                   September 2018
+
+
    during the RIPP handshake.  For subsequent data packets, the SEQ
    number is determined by adding the sequence number of the previous
    packet with the length of the previous packet.  On the server side,
@@ -603,27 +401,18 @@ RFC 1                            PRFC's                   September 2018
    packets, the sequence number is determined by adding the sequence
    number and length of the previous packet.
 
-7.4.  Error Handling
+4.4.  Error Handling
 
    There are several different scenarios that can occur while
    transmitting data from one RIPP client to the other.
 
+   1.  Incorrect order of the packets
 
+   2.  Loss of packets
 
+   3.  Corrupt data inside the packet
 
-
-Khandwala                    Standards Track                   [Page 11]
-
-RFC 1                            PRFC's                   September 2018
-
-
-   a.  Incorrect order of the packets
-
-   b.  Loss of packets
-
-   c.  Corrupt data inside the packet
-
-   d.  Phantom packets (receiver gets packets that have never been sent)
+   4.  Phantom packets (receiver gets packets that have never been sent)
 
    a.  RIPP takes a simple approach to solving all these scenarios.  In
        the scenario where there is a loss of packets during handshake
@@ -652,50 +441,50 @@ RFC 1                            PRFC's                   September 2018
        simple one's complement or other fast and simple hash functions.
        The sender computes the hash and appends it in the header as well
        as the data sent to the receiver.  The receiver verifies it and
+
+
+
+Khandwala                    Standards Track                    [Page 8]
+
+RFC 1                            PRFC's                   September 2018
+
+
        in case of mismatch in the checksum, simply drops the packet and
        waits for retransmission.
 
    d.  In scenarios where the channel may be noisy, the RIPP protocol
        includes an optional forward error correcting code (ECC) which
-       provides reliability at the expense of redudancy of sending data.
-       The redundancy allows the receiver to detect a limited number of
-       errors that may occur anywhere in the message, and often to
-       correct these errors without re-transmission.  FEC gives the
-       receiver the ability to correct errors without needing a reverse
-       channel to request re-transmission of data, but at the cost of a
-       fixed, higher forward channel bandwidth
+       provides reliability at the expense of redundancy of sending
+       data.  The redundancy allows the receiver to detect a limited
+       number of errors that may occur anywhere in the message, and
+       often to correct these errors without re-transmission.  FEC gives
+       the receiver the ability to correct errors without needing a
+       reverse channel to request re-transmission of data, but at the
+       cost of a fixed, higher forward channel bandwidth
 
-
-
-
-Khandwala                    Standards Track                   [Page 12]
-
-RFC 1                            PRFC's                   September 2018
-
-
-   e.  In the sceanrio where duplicate data is received during
+   e.  In the scenario where duplicate data is received during
        retransmission, judged by SEQ number of the packet, the receiver
        simply discards them.  In the case where phantom packets (unknown
        or radically different SEQ numbers) are received, the receiver
        simply discards them according to the RIPP protocol.
 
-7.5.  Packet Descriptions
+4.5.  Packet Descriptions
 
    Approval from the PETF MUST be obtained if approval was required for
    the original PRFC.
 
-7.6.  Computational Algorithms
+4.6.  Computational Algorithms
 
    Approval from the PETF MUST be obtained if approval was required for
    the original PRFC.
 
-7.7.  State Machines
+4.7.  State Machines
 
    Approval from the PETF MUST be obtained if approval was required for
    the original PRFC.
 
 
-8.  Normative References
+5.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, DOI 10.17487/
@@ -705,6 +494,15 @@ RFC 1                            PRFC's                   September 2018
    [RFC2360]  Scott, G., "Guide for Internet Standards Writers", BCP 22,
               RFC 2360, DOI 10.17487/RFC2360, June 1998,
               <https://www.rfc-editor.org/info/rfc2360>.
+
+
+
+
+
+
+Khandwala                    Standards Track                    [Page 9]
+
+RFC 1                            PRFC's                   September 2018
 
 
 Author's Address
@@ -724,7 +522,41 @@ Author's Address
 
 
 
-Khandwala                    Standards Track                   [Page 13]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala                    Standards Track                   [Page 10]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -780,7 +612,7 @@ Intellectual Property
 
 
 
-Khandwala                    Standards Track                   [Page 14]
+Khandwala                    Standards Track                   [Page 11]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -836,5 +668,5 @@ RFC 1                            PRFC's                   September 2018
 
 
 
-Khandwala                    Standards Track                   [Page 15]
+Khandwala                    Standards Track                   [Page 12]
 

@@ -117,14 +117,12 @@
         keywords will be used for the search engine. -->
 
    <abstract>
-     <t>The PLAYGROUND (Poly-Localized Algorithmic Yields
-     Generated Remotely On Unused Network Devices) system is
-     designed to give students and researchers a sandbox in which to develop
-     network security experiments. For PLAYGROUND experiments
-     that involve a PETF (Playground Engineering Task Force),
-     PRFC's (Playground RFC's) are used in a manner similar
-     to RFC's. This PRFC specifices the format standards
-     for PRFC's.</t>
+     <t>The Reliable Internetwork Playground Protocol (RIPP) defines
+      the standards used to communicate between entities over the Playground
+      network. It reliably establishes connections, transmits data with certain
+      degree of error detection and correction and defines a graceful way of
+      terminating the connection. It also communicates with the upper and lower
+      layers using multiplexing and demultiplexing of data streams.</t>
    </abstract>
  </front>
 
@@ -176,52 +174,7 @@
      </section>
    </section>
    
-   <section title="General Authoring Guidelines">
-    <t>The most important aspect of a PRFC is the clarity and correctness of
-    the writing. The next most important component is the completeness of the
-    technical document in describing all relevant information. The last and
-    least important element is the formatting according to RFC guidelines.</t>
-    
-    <t>In terms of writing clearly and correctly, consider the following suggestions.</t>
-    
-    <t><list style="numbers">
-    	<t>Use formal English grammar and use it correctly</t>
-    	<t>Prefer conciseness and simplicity</t>
-    	<t>Get to the point</t>
-    </list></t>
-    
-    <t>Although the formatting is the least important element, authors SHOULD 
-    learn and employ the correct formatting as much as possible. Most of this
-    document will focus on these elements</t>
-    
-    <t>Authors MUST, after reading this PRFC, review any RFC's that are
-    referenced. Authors SHOULD search for other RFC's that provide RFC-authoring
-    guidelines or instructions as well as for other RFC-authoring guides and
-    tutorials that can be found on the Internet.</t>
-    
-    <t>Astute readers will observe that this document is also not perfectly
-    aligned with RFC standards and even technical writing guidelines. Similarly,
-    it is not expected that other PRFC's will be perfect either. Nevertheless,
-    authors MUST make good-faith efforts to understand the principles behind
-    RFC documents and demonstrate them in crafting their own PRFC's.</t>
-    
-    <section title="Meta Data">
-    <t>At the top of all PRFC's is meta-data analogous to the meta-data at the
-    top of an RFC.</t>
-    
-    <t><list style="symbols">
-    	<t>The PRFC SHOULD include the author's name.</t>
-    	<t>The PRFC MUST identify "JHU Network Security Fall 2018" as the
-    	organization</t>
-    	<t>The PRFC MUST NOT identify a student's actual address. Use, instead,
-    	a John Hopkins office number or laboratory name.</t>
-    	<t>The PRFC MUST identify the month and year of writing.</t>
-    </list></t>
-    
-    <t>Additional meta data includes the "References" and "Author's Address"
-    sections. These elements MUST conform to RFC specifications.</t>
-    </section>
-    
+   
     <section title="Copyright Information">
     <t>The PLAYGROUND experiment is still new and has not yet developed
     a policy that has been reviewed by legal counsel. However, at present,
@@ -294,115 +247,7 @@
    <t>As with the initial copyright notice, the Copyright assignment to
    Seth James Nielson can be agumented the the names of the authors.</t>
     </section>
-    
-	<section title="Guidelines for Writing Standards">
-		<t>Most of the guidelines for writing standards are the same as they
-		are for RFC's. In particular, <xref target="RFC2360">RFC 2360</xref>
-		provides the current best practices for writing Internet Standards.
-		In general, RFC 2360 will provide the basic template for evaluating 
-		PRFC's that specify a standard.</t>
-		
-		<t>Perhaps the most important section of RFC 2360 is "2.1 Discussion of
-		Security." Authors MUST read and understand this information. PRFC's without
-		an adequate discussion of security will be rejected.</t>
-		
-		<t>Certain sections of RFC 2360 do not apply to writing PRFC's. These
-		include:</t>
-		
-		<t><list style="empty">
-			<t>2.5 Change Logs</t>
-			<t>2.13 IANA Considerations</t>
-			<t>2.14 Network Management Considerations</t>
-			<t>2.17 Internationalization</t>
-		</list></t>
-		
-		<t>For PRFC's that will serve as standards, the status MUST read: "
-		This document specifies a Playgrounds standards track protocol for
-   the Playground Experiment, and requests discussion and suggestions
-   for improvements.  Distribution of this memo is unlimited."</t>
-		
-	</section>
-	
-	<section title="Guidelines for Writing Non-Standards">
-		<t>PRFC's that are not standards track will not be held to the same
-		requirements. In particular, while it would be great if these PRFC's
-		tracked RFC guidelines, it is not required.</t>
-		
-		<t>For documents that comprise "best current practices," the status
-		of the PRFC MUST read: "This document specifies an Playground Best Current Practices for the Playground
-Experiment, and requests discussion and suggestions for improvements.
-Distribution of this memo is unlimited."</t>
-
-		<t>For documents that are for information purposes only, the status
-		of the PRFC MUST read: "This memo provides information for the Playground Experiment.
-It does not specify an Playground standard of any kind.
-Distribution of this memo is unlimited."</t>
-
-		<t>For documents that specify experimental protocols, 
-		the status of the PRFC MUST read: "This memo defines an Experimental Protocol for the Playground Experiment.
-It does not specify a Playground standard of any kind.
-Discussion and suggestions for improvement are requested.
-Distribution of this memo is unlimited."</t>
-
-		<t>For documents that specify information that is kept for historical reasons
-		the status of the PRFC must read: "This memo describes a historic protocol for the Playground Experiment.
-It does not specify a Playground standard of any kind.
-Distribution of this memo is unlimited."</t>
-	</section>
-   </section>
-   
-   <section title="PRFC Submission Process">
-   <t>PRFC's are required whenever PLAYGROUND groups need to interoperate. Some 
-   specifications will be mandated as part of PLAYGROUND development. Under these 
-   circumstances, the PETF will be responsible for approving the standards.</t>
-   
-   <t>In creating these mandated standards, the PETF can either draft the standards
-   and a reference implementation themselves or accept submissions from individual
-   groups. In either case, the final standard must be approved by a majority of the
-   PETF before the PRFC will be officially published.</t>
-   
-   <t>Any group can draft a standard that defines protocols and technologies that
-   are specific to their own PLAYGROUND nodes. Publishing PRFC's is the only acceptable
-   way for two groups to interact with each other. Thus, if a group wishes to make
-   their optional mechanisms available to other groups, they must create a PRFC 
-   publication. These PRFC's do not need the approval of the PETF if they are given
-   "experimental" status. Otherwise, a majority of the PETF must approve the standard
-   in order for it to be given "standards-track" status.</t>
-   
-   <t>PRFC's seeking "informational" status also do not require PETF approval.</t>
-   
-   <t>PRFC's seeking "best current practice" status do require PETF approval.</t>
-   </section>
-   
-   <section title="PRFC Revision Process">
-   <t>Once a PRFC is officially published by the PETF, it cannot be modified further
-   for any reason. A new PRFC must be submitted that identifies the errors and 
-   proposes to "update" or "supercede" the previous document.</t>
-   
-   <t>A PRFC MUST use the "update" reference if the changes do not result in an
-   incompatible protocol and the old protocol is not shown to be insecure. 
-   Changes to PRFC's that are "updates" include:</t>
-   
-   <t><list style="numbers">
-   	<t>Corrections to spelling, grammar, and other wording in the document</t>
-   	<t>Additional details about operations and operational considerations</t>
-   	<t>Additional parameters or interactions to the existing protocol</t>
-   </list></t>
-   
-   <t>A PRFC MUST use the "supercede" reference if the changes result in an incompatible
-   protocol OR if the previous protocol is demonstrated to be insecure.</t>
-   
-   <t>Approval from the PETF MUST be obtained if approval was required for the original
-   PRFC.</t>
-   
-   <t>A PRFC submitted without PETF approval MUST be revised only by the same PLAYGROUND
-   group that submitted the original.</t>
-   </section>
-   
-   <section title="Security Considerations">
-   <t>This specification is a documentation standard and not directly related
-   to the technical security of any protocol.</t>
-   </section>
+  
 
    <!--
    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -414,7 +259,11 @@ Distribution of this memo is unlimited."</t>
 
 
    <section title="Purpose/Technical Background">
-    <t> The protocol will be named as Reliable Internetwork Playground Protocol (R.I.P.P) </t>
+    <t> In this document, we describe Reliable Internetwork Playground Protocol (R.I.P.P),
+      a protocol which is used for communication over the Playground -
+      a network system that allows students and researchers to develop
+      security mechanisms as well as attacks against them - defined in 
+      JHU Network Security class. </t>
    </section>
 
    <section title="Protocol Specifications">
@@ -519,11 +368,11 @@ Distribution of this memo is unlimited."</t>
    <section title="Data Transmission">
      <t>After the connection has been established, the sender and receiver can send packets
       of data to each other and continue communicating with each other. The way that 
-      data flows between these two entities can be percieved as a stream oriented 
+      data flows between these two entities can be perceived as a stream oriented 
       transfer of data. The RIPP protocol sends chunks of bytes from the sender to the
       receiver. The RIPP protocol has a maximum payload size of 2048 bytes. In case the
       payload is greater than 2048, the RIPP protocol should break it down into chunks of 
-      2048 bytes. The data in the payload recevied by the RIPP protocol needs to be 
+      2048 bytes. The data in the payload received by the RIPP protocol needs to be 
       encapsulated into a Buffer.</t>
 
       <t>On the client side, the SEQ Number header field for the first data packet
@@ -542,7 +391,7 @@ Distribution of this memo is unlimited."</t>
    <section title="Error Handling">
      <t>There are several different scenarios that can occur while transmitting 
       data from one RIPP client to the other.
-      <list style="letters">
+      <list style="numbers">
         <t>Incorrect order of the packets</t>
         <t>Loss of packets</t>
         <t>Corrupt data inside the packet</t>
