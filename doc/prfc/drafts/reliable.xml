@@ -414,7 +414,7 @@ Distribution of this memo is unlimited."</t>
 
 
    <section title="Purpose/Technical Background">
-    <t> The protocol will be named as Reliable Internetwork Playground Protocol (R.I.P.P)
+    <t> The protocol will be named as Reliable Internetwork Playground Protocol (R.I.P.P) </t>
    </section>
 
    <section title="Protocol Specifications">
@@ -433,13 +433,45 @@ Distribution of this memo is unlimited."</t>
       the connection, the other party should respond with an acknowledgment. 
     </t>
 
-    <t>A simple "three-way handshake is shown in figure 1 below. "
+    <t>A simple "three-way handshake" is shown in figure 1 below. 
+      The figure shows 2 parties RIPP A and RIPP B performing the handshake.
+      In this scenario, RIPP A initiates the connection and RIPP B is 
+      responding to the handshake. RIPP A sends a SYN packet indicating that it will use 
+      a certain sequence number. RIPP B send back a SYN and acknowledges the SYN it 
+      received from RIPP A. The ACK sent by RIPP B states that it is expecting to hear sequence
+      which follows the previous sequence number, acknowledging the earlier SYN.
+      RIPP A responds with an empty ACK and then starts sending data from the next stage.
+    </t>
+    <t>
+      <figure>
+        <artwork><![CDATA[
+    RIPP A                                                 RIPP B
+
+1.  CLOSED                                                LISTEN
+  
+2.  SYN-SENT    -->     (SEQ=100)(CTL=SYN)            --> SYN-RECEIVED
+
+3.  ESTABLISHED --> (SEQ=300)(ACK=101)(CTL=SYN,ACK)   <-- SYN-RECEIVED
+
+4.  ESTABLISHED -->  (SEQ=101)(ACK=301)(CTL=ACK)      --> ESTABLISHED
+
+5.  ESTABLISHED --> (SEQ=101)(ACK=301)(CTL=ACK)(DATA) --> ESTABLISHED
+
+       Basic 3-Way Handshake for Connection Synchronization
+      ]]>
+        
+      </artwork>
+    </figure>
+    </t>
+
+    <t>The sequence number of the SYN packet can be based on any number generation system but 
+       should be different for all the SYN packets sent out. No two connections should have
+       the same sequence number. Further, RIPP B does not need to ACK every SYN packet sent to it.
     </t>
    </section>
 
    <section title="Session Termination">
-     <t>Approval from the PETF MUST be obtained if approval was required for the original
-   PRFC.</t>
+     <t></t>
    </section>
 
    <section title="Data Transmission">
