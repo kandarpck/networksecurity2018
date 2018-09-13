@@ -73,14 +73,14 @@ Table of Contents
    7.  Protocol Specifications  . . . . . . . . . . . . . . . . . . .  9
      7.1.  Session Establishment  . . . . . . . . . . . . . . . . . .  9
      7.2.  Session Termination  . . . . . . . . . . . . . . . . . . . 10
-     7.3.  Data Transmission  . . . . . . . . . . . . . . . . . . . . 10
-     7.4.  Error Handling . . . . . . . . . . . . . . . . . . . . . . 10
-     7.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . . 10
-     7.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 10
-     7.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 10
+     7.3.  Data Transmission  . . . . . . . . . . . . . . . . . . . . 11
+     7.4.  Error Handling . . . . . . . . . . . . . . . . . . . . . . 11
+     7.5.  Packet Descriptions  . . . . . . . . . . . . . . . . . . . 11
+     7.6.  Computational Algorithms . . . . . . . . . . . . . . . . . 11
+     7.7.  State Machines . . . . . . . . . . . . . . . . . . . . . . 11
    8.  Normative References . . . . . . . . . . . . . . . . . . . . . 11
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 11
-   Intellectual Property and Copyright Statements . . . . . . . . . . 12
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 12
+   Intellectual Property and Copyright Statements . . . . . . . . . . 13
 
 
 
@@ -517,7 +517,7 @@ RFC 1                            PRFC's                   September 2018
 
   5.  ESTABLISHED --> (SEQ=101)(ACK=301)(CTL=ACK)(DATA) --> ESTABLISHED
 
-         Basic 3-Way Handshake for Connection Synchronization
+    Figure 1: Basic 3-Way Handshake for Connection Synchronization
 
 
 
@@ -527,6 +527,58 @@ RFC 1                            PRFC's                   September 2018
    Further, RIPP B does not need to ACK every SYN packet sent to it.
 
 7.2.  Session Termination
+
+   The RIPP protocol specfic a set of exchanges required to gracefully
+   shut down the connection between communicating entities.  The "four-
+   way handshake" process is used for correctly terminating the
+   connection.  The first step for terminating the connection is to send
+   a FIN packet to the other client.  There is no restriction on who can
+   inititate the FIN request; any one of the communicating parties can
+   send it to the other one.  Once the other party receives the FIN
+   request, it should send back a FIN-ACK packet to acknowledge the RIP
+   packet.  Once the acknowledgement is sent out, the data packets left
+   in the buffer are cleared out and an acknowledgment for them is
+   awaited.  When the sender receiver the ACK for all the packets, it
+   sends out a FIN message and waits for a FIN-ACK from the other party.
+   The connection can then close gracefully after the FIN-ACK packet is
+   sent out.
+
+   A simple version of the above "four-way handshake" to terminate the
+   connection is shown below in figure 2.
+
+
+
+
+
+
+
+
+
+
+
+Khandwala                    Standards Track                   [Page 10]
+
+RFC 1                            PRFC's                   September 2018
+
+
+       RIPP A                                                 RIPP B
+
+   1.  ESTABLISHED                                          ESTABLISHED
+
+   2.  (Close)
+                  --> <SEQ=100><ACK=300><CTL=FIN,ACK>  -->
+
+   3.             <-- <SEQ=300><ACK=101><CTL=ACK>      <--
+                                                           Clear Buffer
+   4.                                                       (Close)
+                  <-- <SEQ=300><ACK=101><CTL=FIN,ACK>  <--
+
+   5.             --> <SEQ=101><ACK=301><CTL=ACK>      -->
+
+   6.  CLOSED
+     Figure 2: Basic 4-Way Handshake for Connection Termination
+
+
 
 7.3.  Data Transmission
 
@@ -554,16 +606,17 @@ RFC 1                            PRFC's                   September 2018
    the original PRFC.
 
 
+8.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
 
 
-Khandwala                    Standards Track                   [Page 10]
+
+Khandwala                    Standards Track                   [Page 11]
 
 RFC 1                            PRFC's                   September 2018
 
 
-8.  Normative References
-
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, DOI 10.17487/
               RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
@@ -612,7 +665,10 @@ Author's Address
 
 
 
-Khandwala                    Standards Track                   [Page 11]
+
+
+
+Khandwala                    Standards Track                   [Page 12]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -668,7 +724,7 @@ Intellectual Property
 
 
 
-Khandwala                    Standards Track                   [Page 12]
+Khandwala                    Standards Track                   [Page 13]
 
 RFC 1                            PRFC's                   September 2018
 
@@ -724,5 +780,5 @@ RFC 1                            PRFC's                   September 2018
 
 
 
-Khandwala                    Standards Track                   [Page 13]
+Khandwala                    Standards Track                   [Page 14]
 
