@@ -540,8 +540,16 @@ Distribution of this memo is unlimited."</t>
    </section>
 
    <section title="Error Handling">
-     <t>Approval from the PETF MUST be obtained if approval was required for the original
-   PRFC.</t>
+     <t>There are several different scenarios that can occur while transmitting 
+      data from one RIPP client to the other.
+      <list style="letters">
+        <t>Incorrect order of the packets</t>
+        <t>Loss of packets</t>
+        <t>Corrupt data inside the packet</t>
+        <t>Phantom packets (receiver gets packets that have never been sent)</t>
+       </list> 
+
+    </t>
    </section>
 
    <section title="Packet Descriptions">
