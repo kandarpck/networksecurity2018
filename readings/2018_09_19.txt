@@ -1,1 +1,7 @@
-Readings for 17th September
+Readings for 19th September
+
+1. It would be good to discuss of IAAA is implemented in practice. Like the practice of using AAA server in enterprise?
+
+2.  AAA servers in practice help reduce labor costs and wasted time. The AAA service frees up time for the tasks at hand and should be essential for large organizations
+
+3. How does it control access to network devices and services in practice?
