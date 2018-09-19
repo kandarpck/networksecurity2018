@@ -4,6 +4,7 @@ from playground.network.packet.fieldtypes.attributes import Optional
 import asyncio
 
 
+
 class RIPPPacket(PacketType):
     DEFINITION_IDENTIFIER = "RIPP.kandarp.packet"
     DEFINITION_VERSION = "1.0"
