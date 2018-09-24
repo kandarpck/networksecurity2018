@@ -1,7 +1,7 @@
 Readings for 24th September
 
-1. It would be good to discuss of IAAA is implemented in practice. Like the practice of using AAA server in enterprise?
+1. It would be good to talk about DNSSEC, DNSCrypt and other newer protocols
 
-2.  AAA servers in practice help reduce labor costs and wasted time. The AAA service frees up time for the tasks at hand and should be essential for large organizations
+2. I once met with the Hopkins CISO and he in all seriousness talked about how the Hopkins network enables him and he can MITM every single connection if he wants to.
 
-3. How does it control access to network devices and services in practice?
+3. Talk more about TLS 1.3, the new features like 0-RTT and how they should only be used for non state changing events
