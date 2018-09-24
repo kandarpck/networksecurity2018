@@ -5,3 +5,6 @@ Readings for 24th September
 2. I once met with the Hopkins CISO and he in all seriousness talked about how the Hopkins network enables him and he can MITM every single connection if he wants to.
 
 3. Talk more about TLS 1.3, the new features like 0-RTT and how they should only be used for non state changing events
+
+4. Merkle Trees in CAs, similarity with Blockchain verification.
+
