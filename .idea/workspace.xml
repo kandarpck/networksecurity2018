@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9c6a3c7-34e8-4b7f-8b9b-ff871671830f" name="Default Changelist" comment="8 ball client and server done. Store request and responses">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/networksecurity2018.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/networksecurity2018.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Playground3/src/playground/network/packet/encoders/PlaygroundStandardPacketEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Playground3/src/playground/network/packet/encoders/PlaygroundStandardPacketEncoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +35,7 @@
         <counts>
           <entry key="ini" value="1" />
           <entry key="md" value="21" />
-          <entry key="py" value="31" />
+          <entry key="py" value="33" />
           <entry key="txt" value="5" />
         </counts>
       </usages-collector>
@@ -46,34 +44,51 @@
           <entry key="Ini" value="1" />
           <entry key="Markdown" value="21" />
           <entry key="PLAIN_TEXT" value="5" />
-          <entry key="Python" value="31" />
+          <entry key="Python" value="33" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="407" />
           <entry key="dummy" value="13" />
-          <entry key="py" value="3225" />
-          <entry key="txt" value="457" />
+          <entry key="py" value="3365" />
+          <entry key="txt" value="520" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="470" />
-          <entry key="Python" value="3632" />
+          <entry key="PLAIN_TEXT" value="533" />
+          <entry key="Python" value="3772" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="38" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
+            <state relative-caret-position="390">
+              <caret line="26" column="22" lean-forward="true" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughClientProtocol.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+              <folding>
+                <marker date="1538284548004" expanded="true" signature="107:108" ph="..." />
               </folding>
             </state>
           </provider>
@@ -122,6 +137,8 @@
         <option value="$PROJECT_DIR$/labs/__init__.py" />
         <option value="$PROJECT_DIR$/labs/lab1/__init__.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughClientProtocol.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py" />
       </list>
     </option>
   </component>
@@ -423,19 +440,33 @@
       <option name="project" value="LOCAL" />
       <updated>1537387460649</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Clean up the RIPPPacket class">
+      <created>1538281963840</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1538281963840</updated>
+    </task>
+    <task id="LOCAL-00013" summary="PassThrough layer skeleton">
+      <created>1538284337051</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1538284337051</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1057" width="960" height="1057" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31263617" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31263617" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32921812" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3284974" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3284974" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39855072" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -470,7 +501,9 @@
     <MESSAGE value="Added options" />
     <MESSAGE value="8 ball client and server done. Store request and responses" />
     <MESSAGE value="Lab 1 protocol testing defined for the RIPPPacket" />
-    <option name="LAST_COMMIT_MESSAGE" value="Lab 1 protocol testing defined for the RIPPPacket" />
+    <MESSAGE value="Clean up the RIPPPacket class" />
+    <MESSAGE value="PassThrough layer skeleton" />
+    <option name="LAST_COMMIT_MESSAGE" value="PassThrough layer skeleton" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/NetworkSecurityFall2018.wiki/Hello-TA.md">
@@ -671,10 +704,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="38" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
+        <state relative-caret-position="390">
+          <caret line="26" column="22" lean-forward="true" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughClientProtocol.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <marker date="1538284548004" expanded="true" signature="107:108" ph="..." />
           </folding>
         </state>
       </provider>
