@@ -43,6 +43,7 @@ class RIPPClientProtocol(StackingProtocol):
             elif pkt.Type == RIPPPacketType.ACK.value:
                 self.receive_ack_packet(pkt)
             elif pkt.Type == RIPPPacketType.FIN.value:
+                print("Received FIN")
                 self.receive_fin_packet(pkt)
             elif pkt.Type == RIPPPacketType.FIN_ACK.value:
                 self.receive_fin_ack_packet(pkt)
@@ -63,6 +64,12 @@ class RIPPClientProtocol(StackingProtocol):
         self.transport.write(ack.__serialize__())
         print("ACK Sent")
 
+    def send_fin_ack_packet(self, fin):
+        print("Sending FIN-ACK")
+        fin_ack = RIPPPacket().fin_ack_packet(seq_no=fin.AckNo, ack_no=fin.SeqNo + 1)
+        self.transport.write(fin_ack.__serialize__())
+        print("FIN-ACK Sent")
+
     def receive_data(self, pkt):
         pass
 
@@ -76,8 +83,12 @@ class RIPPClientProtocol(StackingProtocol):
     def receive_ack_packet(self, pkt):
         pass
 
-    def receive_fin_packet(self, pkt):
-        pass
+    def receive_fin_packet(self, fin):
+        if fin.validate(fin):
+            # TODO: take care of the buffer here
+            self.send_fin_ack_packet(fin)
+        else:
+            self.connection_lost("Invalid FIN Packet received from the server")
 
     def receive_fin_ack_packet(self, pkt):
         pass
