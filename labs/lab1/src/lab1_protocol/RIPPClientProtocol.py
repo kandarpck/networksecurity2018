@@ -27,9 +27,7 @@ class RIPPClientProtocol(StackingProtocol):
             datetime.now()
 
         ))
-        print("Sending SYN")
         self.send_syn_packet()
-        print("SYN Sent")
 
     def connection_lost(self, exc):
         self.higherProtocol().connection_lost(exc)
@@ -52,18 +50,26 @@ class RIPPClientProtocol(StackingProtocol):
     # ---------- Custom methods ---------------- #
 
     def send_syn_packet(self):
+        print("Sending SYN")
         seq = random.randrange(100)
         syn = RIPPPacket().syn_packet(seq_no=seq)
         self.sliding_window[seq] = syn
         self.transport.write(syn.__serialize__())
+        print("SYN Sent")
+
+    def send_ack_packet(self, syn_ack):
+        print("Sending ACK")
+        ack = RIPPPacket().ack_packet(seq_no=syn_ack.AckNo, ack_no=syn_ack.SeqNo + 1)
+        self.transport.write(ack.__serialize__())
+        print("ACK Sent")
 
     def receive_data(self, pkt):
         pass
 
-    def receive_syn_ack_packet(self, pkt):
-        if pkt.validate(pkt) and pkt.AckNo in self.sliding_window:
-            self.sliding_window.pop(pkt.AckNo)
-            self.send_ack_packet()
+    def receive_syn_ack_packet(self, syn_ack):
+        if syn_ack.validate(syn_ack) and syn_ack.AckNo in self.sliding_window:
+            self.sliding_window.pop(syn_ack.AckNo)
+            self.send_ack_packet(syn_ack)
         else:
             self.connection_lost("Invalid SYN ACK Packet received from the server")
 
