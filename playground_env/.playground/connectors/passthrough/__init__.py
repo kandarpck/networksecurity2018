@@ -1,8 +1,8 @@
 import playground
-from .passthrough import PassThroughClientProtocol, PassThroughServerProtocol
+from .passthrough import pt_client, pt_server
 
 passthrough_connector = playground.Connector(protocolStack=(
-    PassThroughClientProtocol,
-    PassThroughServerProtocol))
+    pt_client,
+    pt_server))
 
 playground.setConnector('passthrough', passthrough_connector)
