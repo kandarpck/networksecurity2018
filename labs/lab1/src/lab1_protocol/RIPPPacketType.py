@@ -16,3 +16,7 @@ class RIPPPacketType(Enum):
     DATA = 3
     FIN = 4
     FIN_ACK = 5
+
+
+packet_type_mapping = {RIPPPacketType.SYN: 'SYN', RIPPPacketType.ACK: 'ACK', RIPPPacketType.SYN_ACK: 'SYN-ACK',
+                       RIPPPacketType.DATA: 'Data', RIPPPacketType.FIN: 'FIN', RIPPPacketType.FIN_ACK: 'FIN-ACK'}

@@ -1,6 +1,7 @@
 from playground.network.packet import PacketType
 from playground.network.packet.fieldtypes import UINT32, UINT8, UINT16, BUFFER
 from playground.network.packet.fieldtypes.attributes import Optional
+from .RIPPPacketType import RIPPPacketType, packet_type_mapping
 
 
 class RIPPPacket(PacketType):
@@ -17,6 +18,38 @@ class RIPPPacket(PacketType):
         ("Data", BUFFER({Optional: True}))
 
     ]
+
+    def packet_type(self, type_no):
+        if type_no in range(6):
+            return packet_type_mapping.get(type_no)
+        else:
+            raise ValueError('Unknown Type {}'.format(type_no))
+
+    def syn_packet(self, seq_no):
+        pass
+
+    def ack_packet(self, ack_no):
+        pass
+
+    def syn_ack_packet(self, seq_no, ack_no):
+        pass
+
+    def fin_packet(self, seq_no):
+        pass
+
+    def fin_ack_packet(self, ack_no):
+        pass
+
+    def data_packet(self, seq_no, ack_no, data):
+        pass
+
+    def __repr__(self):
+        return super(RIPPPacket, self).__repr__() + \
+               ". Type = " + self.packet_type(self.Type) + \
+               ". SEQ = " + str(self.SeqNo) + \
+               ". ACK = " + str(self.AckNo) + \
+               ". CRC = " + str(self.CRC) + \
+               ". FRC = " + str(self.FRC)
 
 
 if __name__ == "__main__":
