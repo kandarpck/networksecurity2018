@@ -1,8 +1,6 @@
 from playground.network.packet import PacketType
 from playground.network.packet.fieldtypes import UINT32, UINT8, UINT16, BUFFER
 from playground.network.packet.fieldtypes.attributes import Optional
-import asyncio
-
 
 
 class RIPPPacket(PacketType):
@@ -21,35 +19,19 @@ class RIPPPacket(PacketType):
     ]
 
 
-class MyProtocol(asyncio.Protocol):
-    def __init__(self):
-        self.transport = None
-        self.deserializer = None
-
-    def connection_made(self, transport):
-        self.transport = transport
-        self.deserializer = PacketType.Deserializer()
-
-    def data_received(self, data):
-        self._deserializer.update(data)
-        for pkt in self._deserializer.nextPackets():
-            print(pkt)
-
-    def connection_lost(self, exc):
-        self.transport = None
-
-
 if __name__ == "__main__":
-    test_packet = RIPPPacket()
-    test_packet.Type = 1
-    test_packet.SeqNo = 1
-    test_packet.AckNo = 100
-    test_packet.CRC = 5000
-    test_packet.Data = b'Kandarp sends his regards'
+    packet1 = RIPPPacket()
+    packet1.Type = 1
+    packet1.SeqNo = 1
+    packet1.AckNo = 100
+    packet1.CRC = 5000
+    packet1.Data = b'Kandarp Khandwala'
 
-    packetBytes = test_packet.__serialize__()
+    packetBytes = packet1.__serialize__()
 
     packet2 = PacketType.Deserialize(packetBytes)
 
-    if test_packet == packet2:
+    if packet1 == packet2:
         print("These two packets are the same!")
+    else:
+        print("Mismatched packets {} {}".format(packet1, packet2))
