@@ -8,10 +8,18 @@ class PassThroughServerProtocol(StackingProtocol):
         super(PassThroughServerProtocol, self).__init__()
 
     def connection_made(self, transport):
-        pass
+        print("Connected via passthrough layer")
+        self.transport = transport
+        self.higherProtocol().connection_made(self.transport)
 
     def connection_lost(self, exc):
-        pass
+        print("Disconnected from passthrough layer")
+        if not exc:
+            print("Terminating connection gracefully")
+        else:
+            print("Terminating connection with execption {}".format(exc))
+        self.higherProtocol().connection_lost(exc)
 
     def data_received(self, data):
-        pass
+        print("Passthrough layer received data of size {}".format(len(data)))
+        self.higherProtocol().data_received(data)
