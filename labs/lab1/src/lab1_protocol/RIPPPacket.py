@@ -1,7 +1,7 @@
 from playground.network.packet import PacketType
 from playground.network.packet.fieldtypes import UINT32, UINT8, UINT16, BUFFER
 from playground.network.packet.fieldtypes.attributes import Optional
-from .RIPPPacketType import RIPPPacketType, packet_type_mapping
+from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, packet_type_mapping
 
 
 class RIPPPacket(PacketType):
@@ -43,14 +43,6 @@ class RIPPPacket(PacketType):
     def data_packet(self, seq_no, ack_no, data):
         pass
 
-    def __repr__(self):
-        return super(RIPPPacket, self).__repr__() + \
-               ". Type = " + self.packet_type(self.Type) + \
-               ". SEQ = " + str(self.SeqNo) + \
-               ". ACK = " + str(self.AckNo) + \
-               ". CRC = " + str(self.CRC) + \
-               ". FRC = " + str(self.FRC)
-
 
 if __name__ == "__main__":
     packet1 = RIPPPacket()
@@ -65,6 +57,6 @@ if __name__ == "__main__":
     packet2 = PacketType.Deserialize(packetBytes)
 
     if packet1 == packet2:
-        print("These two packets are the same!")
+        print("These two packets are the same! {} {}".format(packet1, packet2))
     else:
         print("Mismatched packets {} {}".format(packet1, packet2))
