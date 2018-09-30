@@ -5,6 +5,7 @@ from playground.network.common import StackingProtocol
 
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
 from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType
+from labs.lab1.src.lab1_protocol.RIPPClientTransport import RIPPClientTransport
 
 
 class RIPPClientProtocol(StackingProtocol):
@@ -35,18 +36,19 @@ class RIPPClientProtocol(StackingProtocol):
     def data_received(self, data):
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
-            if pkt.Type == RIPPPacketType.DATA.value:
-                self.receive_data(pkt)
-            elif pkt.Type == RIPPPacketType.SYN_ACK.value:
-                print("Received SYN ACK")
-                self.receive_syn_ack_packet(pkt)
-            elif pkt.Type == RIPPPacketType.ACK.value:
-                self.receive_ack_packet(pkt)
-            elif pkt.Type == RIPPPacketType.FIN.value:
-                print("Received FIN")
-                self.receive_fin_packet(pkt)
-            elif pkt.Type == RIPPPacketType.FIN_ACK.value:
-                self.receive_fin_ack_packet(pkt)
+            if isinstance(pkt, RIPPPacket) and pkt.validate(pkt):
+                if pkt.Type == RIPPPacketType.DATA.value:
+                    self.receive_data(pkt)
+                elif pkt.Type == RIPPPacketType.SYN_ACK.value:
+                    print("Received SYN ACK")
+                    self.receive_syn_ack_packet(pkt)
+                elif pkt.Type == RIPPPacketType.ACK.value:
+                    self.receive_ack_packet(pkt)
+                elif pkt.Type == RIPPPacketType.FIN.value:
+                    print("Received FIN")
+                    self.receive_fin_packet(pkt)
+                elif pkt.Type == RIPPPacketType.FIN_ACK.value:
+                    self.receive_fin_ack_packet(pkt)
 
     # ---------- Custom methods ---------------- #
 
@@ -77,6 +79,7 @@ class RIPPClientProtocol(StackingProtocol):
         if syn_ack.validate(syn_ack) and syn_ack.AckNo in self.sliding_window:
             self.sliding_window.pop(syn_ack.AckNo)
             self.send_ack_packet(syn_ack)
+            self.higherProtocol().connection_made(RIPPClientTransport(self, self.transport))
         else:
             self.connection_lost("Invalid SYN ACK Packet received from the server")
 
@@ -91,4 +94,7 @@ class RIPPClientProtocol(StackingProtocol):
             self.connection_lost("Invalid FIN Packet received from the server")
 
     def receive_fin_ack_packet(self, pkt):
-        pass
+        if pkt.validate(pkt):
+            self.transport.close()
+        else:
+            self.connection_lost("Invalid FIN-ACK Packet received from the server")
