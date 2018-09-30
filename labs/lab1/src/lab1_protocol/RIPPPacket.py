@@ -25,6 +25,12 @@ class RIPPPacket(PacketType):
     def calculate_checksum(self, pkt):
         return hashlib.sha1(pkt.__serialize__()).hexdigest()
 
+    def validate(self, pkt):
+        # consider adding other checks here
+        tmp = pkt.CRC
+        pkt.CRC = b''
+        return self.calculate_checksum(pkt) == tmp
+
     def packet_type(self, type_no):
         if type_no in range(6):
             return packet_type_mapping[type_no]
