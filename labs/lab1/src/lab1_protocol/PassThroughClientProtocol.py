@@ -8,7 +8,7 @@ class PassThroughClientProtocol(StackingProtocol):
         super(PassThroughClientProtocol, self).__init__()
 
     def connection_made(self, transport):
-        pass
+        print("Connected to {}".format(transport.get_extra_info("peername")))
 
     def connection_lost(self, exc):
         pass
