@@ -89,6 +89,14 @@ class RIPPPacket(PacketType):
         data.CRC = data.calculate_checksum(data)
         return data
 
+    def __repr__(self):
+        return super(RIPPPacket, self).__repr__() + \
+               ". Type: " + str(self.Type) + \
+               ". SeqNo: " + str(self.SeqNo) + \
+               ". AckNo: " + str(self.AckNo) + \
+               ". Data: " + str(self.Data) + \
+               ". CRC: " + str(self.CRC)
+
 
 if __name__ == "__main__":
     packet1 = RIPPPacket()
@@ -108,8 +116,7 @@ if __name__ == "__main__":
         print("Mismatched packets {} {}".format(packet1, packet2))
 
     pkt3 = RIPPPacket().syn_packet(1)
-    print(pkt3.CRC)
     pkt4 = RIPPPacket().ack_packet(2, 3)
     pkt5 = RIPPPacket().syn_ack_packet(1, 2)
     pkt6 = RIPPPacket().data_packet(1, b'abc')
-    print(pkt6.Data, pkt6.SeqNo, pkt6.CRC)
+    print(pkt3, pkt4, pkt5, pkt6)
