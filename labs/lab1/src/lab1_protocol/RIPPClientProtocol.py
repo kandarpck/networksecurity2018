@@ -1,4 +1,6 @@
 import random
+import textwrap
+from collections import OrderedDict
 from datetime import datetime
 
 from playground.network.common import StackingProtocol
@@ -13,7 +15,8 @@ class RIPPClientProtocol(StackingProtocol):
     def __init__(self):
         self.transport = None
         self.deserializer = None
-        self.sliding_window = dict()
+        self.receive_window = dict()
+        self.sending_window = OrderedDict()
         super(RIPPClientProtocol, self).__init__()
 
     # ---------- Overridden methods ---------------- #
@@ -61,7 +64,7 @@ class RIPPClientProtocol(StackingProtocol):
         print("Sending SYN")
         seq = random.randrange(100)
         syn = RIPPPacket().syn_packet(seq_no=seq)
-        self.sliding_window[seq] = syn
+        self.receive_window[seq] = syn
         self.transport.write(syn.__serialize__())
         print("SYN Sent")
 
@@ -77,7 +80,7 @@ class RIPPClientProtocol(StackingProtocol):
         self.transport.write(data_ack.__serialize__())
         print("ACK sent for data. Sending upstream")
         self.higherProtocol().data_received(pkt.Data)
-        self.sliding_window.pop(pkt.SeqNo)
+        self.receive_window.pop(pkt.SeqNo)
 
     def send_fin_ack_packet(self, fin):
         print("Sending FIN-ACK")
@@ -85,28 +88,43 @@ class RIPPClientProtocol(StackingProtocol):
         self.transport.write(fin_ack.__serialize__())
         print("FIN-ACK Sent")
 
+    def chunk_data_packets(self, seq_no, pkt):
+        print("Chunking data packet {}".format(pkt.SeqNo))
+        for pkt_chunk in textwrap.wrap(pkt, 2048):
+            self.sending_window[seq_no] = pkt_chunk
+            seq_no += len(pkt_chunk)
+        return seq_no
+
+    def send_data_packets(self):
+        print("Sending Data down the wire")
+        for seq_no, data_chunk in self.sending_window.copy().items():
+            data = RIPPPacket().data_packet(seq_no=seq_no, data_content=data_chunk)
+            self.transport.write(data.__serialize__())
+            self.sending_window.pop(seq_no)
+
     # ---------- Receive Packets ---------------- #
 
     def receive_data_packet(self, pkt):
         if pkt.validate(pkt):
             # TODO: Add SeqNo check
             print("Data {} received with len {}".format(pkt.SeqNo, len(pkt.Data)))
-            self.sliding_window[pkt.SeqNo] = pkt
+            self.receive_window[pkt.SeqNo] = pkt
             self.send_data_ack_packet(pkt)  # TODO: run in seprate thread
         else:
             self.connection_lost("Invalid Data Packet received from the server {}".format(pkt.SeqNo))
 
     def receive_syn_ack_packet(self, syn_ack):
-        if syn_ack.validate(syn_ack) and syn_ack.AckNo in self.sliding_window:
-            self.sliding_window.pop(syn_ack.AckNo)
+        if syn_ack.validate(syn_ack) and syn_ack.AckNo in self.receive_window:
+            self.receive_window.pop(syn_ack.AckNo)
             self.send_ack_packet(syn_ack)
+            self.transport.start_seq(syn_ack.AckNo)
             self.higherProtocol().connection_made(RIPPClientTransport(self, self.transport))
         else:
             self.connection_lost("Invalid SYN ACK Packet received from the server")
 
     def receive_ack_packet(self, pkt):
-        if pkt.validate(pkt) and pkt.AckNo in self.sliding_window:
-            self.sliding_window.pop(pkt.AckNo)
+        if pkt.validate(pkt) and pkt.AckNo in self.receive_window:
+            self.receive_window.pop(pkt.AckNo)
         else:
             self.connection_lost("Invalid ACK Packet received from the server")
 
