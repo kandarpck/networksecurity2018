@@ -61,9 +61,9 @@ class RIPPClientProtocol(StackingProtocol):
     # ---------- Send Packets ---------------- #
 
     def send_syn_packet(self):
-        print("Sending SYN")
         seq = random.randrange(100)
         syn = RIPPPacket().syn_packet(seq_no=seq)
+        print("Sending SYN {}".format(syn))
         self.receive_window[seq] = syn
         self.transport.write(syn.__serialize__())
         print("SYN Sent")

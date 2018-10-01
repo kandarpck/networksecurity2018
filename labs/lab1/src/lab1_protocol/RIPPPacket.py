@@ -29,7 +29,9 @@ class RIPPPacket(PacketType):
         # consider adding other checks here
         tmp = pkt.CRC
         pkt.CRC = b''
-        return self.calculate_checksum(pkt) == tmp
+        valid = self.calculate_checksum(pkt) == tmp
+        pkt.CRC = tmp
+        return valid
 
     def packet_type(self, type_no):
         if type_no in range(6):

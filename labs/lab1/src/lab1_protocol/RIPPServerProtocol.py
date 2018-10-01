@@ -25,12 +25,6 @@ class RIPPServerProtocol(StackingProtocol):
         self.transport = transport
         self.deserializer = RIPPPacket.Deserializer()
 
-        # Start three-way handshake
-        print('Starting three-way handshake with {} at {}'.format(
-            transport.get_extra_info("peername"),
-            datetime.now()
-        ))
-        
     def connection_lost(self, exc):
         self.higherProtocol().connection_lost(exc)
 
@@ -54,7 +48,7 @@ class RIPPServerProtocol(StackingProtocol):
                     print("Received FIN-ACK")
                     self.receive_fin_ack_packet(pkt)
                 elif pkt.Type == RIPPPacketType.SYN.value:
-                    print("Received SYN")
+                    print("Received SYN {}".format(pkt))
                     self.receive_syn_packet(pkt)
 
     # ---------- Custom methods ---------------- #
