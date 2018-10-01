@@ -29,10 +29,8 @@ class RIPPServerProtocol(StackingProtocol):
         print('Starting three-way handshake with {} at {}'.format(
             transport.get_extra_info("peername"),
             datetime.now()
-
         ))
-        self.send_syn_packet()
-
+        
     def connection_lost(self, exc):
         self.higherProtocol().connection_lost(exc)
 
