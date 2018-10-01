@@ -3,11 +3,10 @@ from playground.network.common import StackingTransport
 
 class RIPPServerTransport(StackingTransport):
 
-    def __init__(self, protocol, transport):
+    def __init__(self, protocol, lower_transport):
         self.protocol = protocol
-        self.transport = transport
         self.seq_no = None
-        super(RIPPServerTransport, self).__init__(self.transport)
+        super(RIPPServerTransport, self).__init__(lower_transport)
 
     def write(self, data):
         self.seq_no = self.protocol.chunk_data_packets(self.seq_no, data)
