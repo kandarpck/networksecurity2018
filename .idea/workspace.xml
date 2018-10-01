@@ -4,7 +4,6 @@
     <list default="true" id="e9c6a3c7-34e8-4b7f-8b9b-ff871671830f" name="Default Changelist" comment="Session termination part 1 and 2 - FIN, FIN-ACK">
       <change afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +16,7 @@
     <SUITE FILE_PATH="coverage/networksecurity2018$first_day_quiz.coverage" NAME="first_day_quiz Coverage Results" MODIFIED="1536172225728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_simplewebclient.coverage" NAME="pytest_simplewebclient Coverage Results" MODIFIED="1536177918128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_echoclient.coverage" NAME="pytest_echoclient Coverage Results" MODIFIED="1536178564017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
-    <SUITE FILE_PATH="coverage/networksecurity2018$PacketType.coverage" NAME="RIPPPacket Coverage Results" MODIFIED="1538340035047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/labs/lab1/src/lab1_protocol" />
+    <SUITE FILE_PATH="coverage/networksecurity2018$PacketType.coverage" NAME="RIPPPacket Coverage Results" MODIFIED="1538374662210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/labs/lab1/src/lab1_protocol" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_simplewebserver.coverage" NAME="pytest_simplewebserver Coverage Results" MODIFIED="1536177312301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
     <SUITE FILE_PATH="coverage/networksecurity2018$echotest.coverage" NAME="echotest server Coverage Results" MODIFIED="1538290567013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_echoserver.coverage" NAME="pytest_echoserver Coverage Results" MODIFIED="1536178591114" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
@@ -56,17 +55,17 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="453" />
+          <entry key="Python Console" value="585" />
           <entry key="dummy" value="13" />
           <entry key="gitignore" value="61" />
-          <entry key="py" value="8891" />
-          <entry key="txt" value="1228" />
+          <entry key="py" value="9662" />
+          <entry key="txt" value="1295" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="1302" />
-          <entry key="Python" value="9344" />
+          <entry key="PLAIN_TEXT" value="1369" />
+          <entry key="Python" value="10247" />
         </counts>
       </usages-collector>
     </session>
@@ -89,14 +88,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="87" column="4" selection-start-line="87" selection-start-column="4" selection-end-line="87" selection-end-column="4" />
+            <state relative-caret-position="1515">
+              <caret line="101" column="54" lean-forward="true" selection-start-line="101" selection-start-column="54" selection-end-line="101" selection-end-column="54" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <marker date="1538370691494" expanded="true" signature="1070:2008" ph="..." />
-                <marker date="1538370691494" expanded="true" signature="2407:3302" ph="..." />
-                <marker date="1538370691494" expanded="true" signature="2640:3000" ph="..." />
-                <marker date="1538370691494" expanded="true" signature="3773:4142" ph="..." />
+                <marker date="1538375377259" expanded="true" signature="1166:2104" ph="..." />
+                <marker date="1538375377259" expanded="true" signature="2503:3993" ph="..." />
+                <marker date="1538375377259" expanded="true" signature="2736:3096" ph="..." />
+                <marker date="1538375377259" expanded="true" signature="3637:3646" ph="..." />
+                <marker date="1538375377259" expanded="true" signature="3637:3940" ph="..." />
+                <marker date="1538375377259" expanded="true" signature="4464:4885" ph="..." />
               </folding>
             </state>
           </provider>
@@ -141,8 +142,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="255">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
             </state>
           </provider>
         </entry>
@@ -159,14 +160,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1215">
-              <caret line="81" selection-start-line="81" selection-end-line="81" />
+            <state relative-caret-position="500">
+              <caret line="95" column="21" lean-forward="true" selection-start-line="95" selection-start-column="21" selection-end-line="95" selection-end-column="21" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
-                <marker date="1538346081293" expanded="true" signature="798:807" ph="..." />
-                <marker date="1538346081293" expanded="true" signature="798:943" ph="..." />
-                <marker date="1538346081293" expanded="true" signature="974:983" ph="..." />
-                <marker date="1538346081293" expanded="true" signature="974:1138" ph="..." />
+                <marker date="1538374656002" expanded="true" signature="798:807" ph="..." />
+                <marker date="1538374656002" expanded="true" signature="798:943" ph="..." />
+                <marker date="1538374656002" expanded="true" signature="974:983" ph="..." />
+                <marker date="1538374656002" expanded="true" signature="974:1138" ph="..." />
               </folding>
             </state>
           </provider>
@@ -211,6 +212,7 @@
       <find>Configure</find>
       <find>current</find>
       <find>curre</find>
+      <find>receive_window</find>
       <find>stack</find>
     </findStrings>
   </component>
@@ -254,8 +256,8 @@
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py" />
-        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" />
       </list>
     </option>
@@ -762,7 +764,21 @@
       <option name="project" value="LOCAL" />
       <updated>1538347955987</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Receive Data and send ACK">
+      <created>1538370751266</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1538370751267</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Send data down the wire in chunks">
+      <created>1538375404246</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1538375404246</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TodoView">
@@ -778,7 +794,7 @@
     <frame x="0" y="-1057" width="1920" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18903089" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18903089" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Messages" />
@@ -794,7 +810,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32831737" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32746115" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -809,8 +825,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Client to access the server contents" />
-    <MESSAGE value="Save response in a file" />
     <MESSAGE value="Echo client and server" />
     <MESSAGE value="Added options" />
     <MESSAGE value="8 ball client and server done. Store request and responses" />
@@ -834,14 +848,16 @@
     <MESSAGE value="3 way handshake part 2 and 3 - ACK" />
     <MESSAGE value="Session termination part 1 and 2 - FIN, FIN-ACK" />
     <MESSAGE value="Session termination part 3 - FIN-ACK" />
-    <option name="LAST_COMMIT_MESSAGE" value="Session termination part 3 - FIN-ACK" />
+    <MESSAGE value="Receive Data and send ACK" />
+    <MESSAGE value="Send data down the wire in chunks" />
+    <option name="LAST_COMMIT_MESSAGE" value="Send data down the wire in chunks" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py</url>
-          <line>110</line>
+          <line>109</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
@@ -1146,13 +1162,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1165,28 +1174,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1215">
-          <caret line="81" selection-start-line="81" selection-end-line="81" />
+        <state relative-caret-position="500">
+          <caret line="95" column="21" lean-forward="true" selection-start-line="95" selection-start-column="21" selection-end-line="95" selection-end-column="21" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
-            <marker date="1538346081293" expanded="true" signature="798:807" ph="..." />
-            <marker date="1538346081293" expanded="true" signature="798:943" ph="..." />
-            <marker date="1538346081293" expanded="true" signature="974:983" ph="..." />
-            <marker date="1538346081293" expanded="true" signature="974:1138" ph="..." />
+            <marker date="1538374656002" expanded="true" signature="798:807" ph="..." />
+            <marker date="1538374656002" expanded="true" signature="798:943" ph="..." />
+            <marker date="1538374656002" expanded="true" signature="974:983" ph="..." />
+            <marker date="1538374656002" expanded="true" signature="974:1138" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="87" column="4" selection-start-line="87" selection-start-column="4" selection-end-line="87" selection-end-column="4" />
+        <state relative-caret-position="1515">
+          <caret line="101" column="54" lean-forward="true" selection-start-line="101" selection-start-column="54" selection-end-line="101" selection-end-column="54" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <marker date="1538370691494" expanded="true" signature="1070:2008" ph="..." />
-            <marker date="1538370691494" expanded="true" signature="2407:3302" ph="..." />
-            <marker date="1538370691494" expanded="true" signature="2640:3000" ph="..." />
-            <marker date="1538370691494" expanded="true" signature="3773:4142" ph="..." />
+            <marker date="1538375377259" expanded="true" signature="1166:2104" ph="..." />
+            <marker date="1538375377259" expanded="true" signature="2503:3993" ph="..." />
+            <marker date="1538375377259" expanded="true" signature="2736:3096" ph="..." />
+            <marker date="1538375377259" expanded="true" signature="3637:3646" ph="..." />
+            <marker date="1538375377259" expanded="true" signature="3637:3940" ph="..." />
+            <marker date="1538375377259" expanded="true" signature="4464:4885" ph="..." />
           </folding>
         </state>
       </provider>
