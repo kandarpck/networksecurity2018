@@ -57,7 +57,7 @@ class RIPPServerProtocol(StackingProtocol):
 
     def send_syn_ack_packet(self, pkt):
         print("Sending SYN ACK")
-        seq = random.randrange(100, max_seq_no)
+        seq = random.randrange(100, max_seq_no // 100)
         syn_ack = RIPPPacket().syn_ack_packet(seq_no=seq, ack_no=pkt.SeqNo + 1)
         self.receive_window[seq] = syn_ack
         self.transport.write(syn_ack.__serialize__())
@@ -93,15 +93,15 @@ class RIPPServerProtocol(StackingProtocol):
 
     def chunk_data_packets(self, seq_no, pkt):
         print("Chunking data packet {}".format(pkt))
-        for pkt_chunk in [pkt[i:i + 2048] for i in range(0, len(pkt), 2048)]:
+        for pkt_chunk in [pkt[i:i + 1500] for i in range(0, len(pkt), 1500)]:
             self.sending_window[seq_no] = pkt_chunk
             seq_no += len(pkt_chunk)
         return seq_no
 
     def send_data_packets(self):
-        print("Sending Data down the wire")
         for seq_no, data_chunk in self.sending_window.copy().items():
             data = RIPPPacket().data_packet(seq_no=seq_no, data_content=data_chunk)
+            print("Sending Data down the wire {}".format(data))
             self.transport.write(data.__serialize__())
             self.sending_window.pop(seq_no)
 
