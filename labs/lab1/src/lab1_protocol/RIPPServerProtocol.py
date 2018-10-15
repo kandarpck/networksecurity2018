@@ -36,7 +36,7 @@ class RIPPServerProtocol(StackingProtocol):
                         print("Received SYN ACK {}".format(pkt))
                         self.receive_syn_ack_packet(pkt)
                     elif pkt.Type == RIPPPacketType.ACK.value:
-                        print("Received ACK {}".format(pkt))
+                        print("Received SYN ACK ACK {}".format(pkt))
                         self.receive_syn_ack_ack_packet(pkt)
                     elif pkt.Type == RIPPPacketType.SYN.value:
                         print("Received SYN {}".format(pkt))
@@ -63,6 +63,7 @@ class RIPPServerProtocol(StackingProtocol):
         higher_protocol.start_seq(pkt.AckNo)
         self.higherProtocol().connection_made(higher_protocol)
         self.state = StateType.OPEN.value
+        print("----> Connection Established")
         # self.transport.start_seq(pkt.AckNo)
 
     # ---------- Send Packets ---------------- #
@@ -105,17 +106,18 @@ class RIPPServerProtocol(StackingProtocol):
 
     def chunk_data_packets(self, seq_no, pkt):
         print("Chunking data packet {}".format(pkt))
+        seq_no_len = seq_no
         for pkt_chunk in [pkt[i:i + 1500] for i in range(0, len(pkt), 1500)]:
-            self.sending_window[seq_no] = pkt_chunk
-            seq_no += len(pkt_chunk)
-        return seq_no
+            data = RIPPPacket().data_packet(seq_no=seq_no, data_content=pkt_chunk)
+            seq_no_len = seq_no + len(pkt_chunk)
+            seq_no += 1
+            self.sending_window[seq_no_len] = data
+        return seq_no_len
 
     def send_data_packets(self):
         for seq_no, data_chunk in self.sending_window.copy().items():
-            data = RIPPPacket().data_packet(seq_no=seq_no, data_content=data_chunk)
-            print("Sending Data down the wire {}".format(data))
-            self.transport.write(data.__serialize__())
-            self.sending_window.pop(seq_no)
+            print("Sending Data down the wire {}".format(data_chunk))
+            self.transport.write(data_chunk.__serialize__())
 
     # ---------- Receive Packets ---------------- #
 
@@ -144,14 +146,14 @@ class RIPPServerProtocol(StackingProtocol):
 
     def receive_ack_packet(self, pkt):
         if pkt.validate(pkt) and pkt.AckNo in self.sending_window:
-            print("Popping from window")
+            print("Popping from ACK window")
             self.sending_window.pop(pkt.AckNo)
         else:
             self.connection_lost("Invalid Data ACK Packet received from the client")
 
     def receive_syn_ack_ack_packet(self, pkt):
         if pkt.validate(pkt) and pkt.AckNo - 1 in self.receive_window:
-            print("Popping from window")
+            print("Popping from SYNACKACK window")
             self.receive_window.pop(pkt.AckNo - 1)
             self.establish_connection(pkt)
         else:
