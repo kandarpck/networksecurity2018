@@ -19,3 +19,5 @@ class RIPPPacketType(Enum):
 
 
 packet_type_mapping = ['SYN', 'ACK', 'SYN-ACK', 'Data', 'FIN', 'FIN-ACK']
+
+max_seq_no = 2147483647

@@ -1,11 +1,11 @@
 import random
-import textwrap
+import sys
 from collections import OrderedDict
 
 from playground.network.common import StackingProtocol
 
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType
+from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, max_seq_no
 from labs.lab1.src.lab1_protocol.RIPPServerTransport import RIPPServerTransport
 
 
@@ -58,7 +58,7 @@ class RIPPServerProtocol(StackingProtocol):
 
     def send_syn_ack_packet(self, pkt):
         print("Sending SYN ACK")
-        seq = random.randrange(100, 10000)
+        seq = random.randrange(100, max_seq_no)
         syn_ack = RIPPPacket().syn_ack_packet(seq_no=seq, ack_no=pkt.SeqNo + 1)
         self.receive_window[seq] = syn_ack
         self.transport.write(syn_ack.__serialize__())

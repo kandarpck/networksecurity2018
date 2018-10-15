@@ -1,5 +1,4 @@
 import random
-import textwrap
 from collections import OrderedDict
 from datetime import datetime
 
@@ -7,7 +6,7 @@ from playground.network.common import StackingProtocol
 
 from labs.lab1.src.lab1_protocol.RIPPClientTransport import RIPPClientTransport
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType
+from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, max_seq_no
 
 
 class RIPPClientProtocol(StackingProtocol):
@@ -55,13 +54,15 @@ class RIPPClientProtocol(StackingProtocol):
                 elif pkt.Type == RIPPPacketType.FIN_ACK.value:
                     print("Received FIN-ACK {}".format(pkt))
                     self.receive_fin_ack_packet(pkt)
+            else:
+                self.connection_lost("---> Found error in packet {}".format(pkt))
 
     # ---------- Custom methods ---------------- #
 
     # ---------- Send Packets ---------------- #
 
     def send_syn_packet(self):
-        seq = random.randrange(100, 10000)
+        seq = random.randrange(100, max_seq_no)
         syn = RIPPPacket().syn_packet(seq_no=seq)
         print("Sending SYN {}".format(syn))
         self.receive_window[seq] = syn
