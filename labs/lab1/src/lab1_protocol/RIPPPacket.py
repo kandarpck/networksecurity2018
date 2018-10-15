@@ -15,13 +15,13 @@ class RIPPPacket(PacketType):
         ("Type", STRING),
         ("SeqNo", UINT32),
         ("AckNo", UINT32),
-        ("CRC", STRING),
+        ("CRC", BUFFER),
         ("Data", BUFFER)
 
     ]
 
     def calculate_checksum(self, pkt):
-        return hashlib.sha256(pkt.__serialize__()).hexdigest()
+        return hashlib.sha256(pkt.__serialize__()).digest()
 
     def validate(self, pkt):
         # consider adding other checks here

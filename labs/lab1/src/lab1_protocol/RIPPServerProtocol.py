@@ -1,5 +1,4 @@
 import random
-import sys
 from collections import OrderedDict
 
 from playground.network.common import StackingProtocol
