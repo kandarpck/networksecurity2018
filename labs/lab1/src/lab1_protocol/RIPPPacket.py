@@ -1,8 +1,7 @@
 import hashlib
 
 from playground.network.packet import PacketType
-from playground.network.packet.fieldtypes import UINT32, UINT8, BUFFER, STRING
-from playground.network.packet.fieldtypes.attributes import Optional
+from playground.network.packet.fieldtypes import UINT32, BUFFER, STRING
 
 from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, packet_type_mapping
 
@@ -13,17 +12,16 @@ class RIPPPacket(PacketType):
 
     FIELDS = [
 
-        ("Type", UINT8),
-        ("SeqNo", UINT32({Optional: True})),
-        ("AckNo", UINT32({Optional: True})),
+        ("Type", STRING),
+        ("SeqNo", UINT32),
+        ("AckNo", UINT32),
         ("CRC", STRING),
-        ("FRC", UINT32({Optional: True})),
-        ("Data", BUFFER({Optional: True}))
+        ("Data", BUFFER)
 
     ]
 
     def calculate_checksum(self, pkt):
-        return hashlib.sha1(pkt.__serialize__()).hexdigest()
+        return hashlib.sha256(pkt.__serialize__()).hexdigest()
 
     def validate(self, pkt):
         # consider adding other checks here
@@ -43,7 +41,9 @@ class RIPPPacket(PacketType):
         syn = RIPPPacket()
         syn.Type = RIPPPacketType.SYN.value
         syn.SeqNo = seq_no
+        syn.AckNo = 0
         syn.CRC = b''
+        syn.Data = b''
         syn.CRC = syn.calculate_checksum(syn)
         return syn
 
@@ -53,6 +53,7 @@ class RIPPPacket(PacketType):
         ack.SeqNo = seq_no  # TODO: verify if this is correct
         ack.AckNo = ack_no
         ack.CRC = b''
+        ack.Data = b''
         ack.CRC = ack.calculate_checksum(ack)
         return ack
 
@@ -62,6 +63,7 @@ class RIPPPacket(PacketType):
         syn_ack.SeqNo = seq_no
         syn_ack.AckNo = ack_no
         syn_ack.CRC = b''
+        syn_ack.Data = b''
         syn_ack.CRC = syn_ack.calculate_checksum(syn_ack)
         return syn_ack
 
@@ -69,7 +71,9 @@ class RIPPPacket(PacketType):
         fin = RIPPPacket()
         fin.Type = RIPPPacketType.FIN.value
         fin.SeqNo = seq_no
+        fin.AckNo = 0
         fin.CRC = b''
+        fin.Data = b''
         fin.CRC = fin.calculate_checksum(fin)
         return fin
 
@@ -79,6 +83,7 @@ class RIPPPacket(PacketType):
         fin_ack.SeqNo = seq_no  # TODO: verify if this is correct
         fin_ack.AckNo = ack_no
         fin_ack.CRC = b''
+        fin_ack.Data = b''
         fin_ack.CRC = fin_ack.calculate_checksum(fin_ack)
         return fin_ack
 
@@ -86,6 +91,7 @@ class RIPPPacket(PacketType):
         data = RIPPPacket()
         data.Type = RIPPPacketType.DATA.value
         data.SeqNo = seq_no
+        data.AckNo = 0
         data.Data = data_content
         data.CRC = b''
         data.CRC = data.calculate_checksum(data)

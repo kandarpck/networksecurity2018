@@ -10,14 +10,14 @@ from enum import Enum, unique
 
 @unique
 class RIPPPacketType(Enum):
-    SYN = 0
-    ACK = 1
-    SYN_ACK = 2
-    DATA = 3
-    FIN = 4
-    FIN_ACK = 5
+    SYN = 'SYN'
+    ACK = 'ACK'
+    SYN_ACK = 'SYNACK'
+    DATA = 'Data'
+    FIN = 'FIN'
+    FIN_ACK = 'FINACK'
 
 
-packet_type_mapping = ['SYN', 'ACK', 'SYN-ACK', 'Data', 'FIN', 'FIN-ACK']
+packet_type_mapping = ['SYN', 'ACK', 'SYNACK', 'Data', 'FIN', 'FINACK']
 
 max_seq_no = 2147483647
