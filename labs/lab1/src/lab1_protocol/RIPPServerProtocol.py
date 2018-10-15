@@ -4,7 +4,7 @@ from collections import OrderedDict
 from playground.network.common import StackingProtocol
 
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, max_seq_no
+from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, max_seq_no, StateType
 from labs.lab1.src.lab1_protocol.RIPPServerTransport import RIPPServerTransport
 
 
@@ -13,8 +13,9 @@ class RIPPServerProtocol(StackingProtocol):
     def __init__(self):
         self.transport = None
         self.deserializer = None
-        self.receive_window = dict()
+        self.receive_window = OrderedDict()
         self.sending_window = OrderedDict()
+        self.state = StateType.CLOSED.value
         super(RIPPServerProtocol, self).__init__()
 
     # ---------- Overridden methods ---------------- #
@@ -30,24 +31,29 @@ class RIPPServerProtocol(StackingProtocol):
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
             if isinstance(pkt, RIPPPacket) and pkt.validate(pkt):
-                if pkt.Type == RIPPPacketType.DATA.value:
-                    print("Received Data {}".format(pkt))
-                    self.receive_data_packet(pkt)
-                elif pkt.Type == RIPPPacketType.SYN_ACK.value:
-                    print("Received SYN ACK {}".format(pkt))
-                    self.receive_syn_ack_packet(pkt)
-                elif pkt.Type == RIPPPacketType.ACK.value:
-                    print("Received ACK {}".format(pkt))
-                    self.receive_ack_packet(pkt)
-                elif pkt.Type == RIPPPacketType.FIN.value:
-                    print("Received FIN {}".format(pkt))
-                    self.receive_fin_packet(pkt)
-                elif pkt.Type == RIPPPacketType.FIN_ACK.value:
-                    print("Received FIN-ACK {}".format(pkt))
-                    self.receive_fin_ack_packet(pkt)
-                elif pkt.Type == RIPPPacketType.SYN.value:
-                    print("Received SYN {}".format(pkt))
-                    self.receive_syn_packet(pkt)
+                if self.state == StateType.CLOSED.value:
+                    if pkt.Type == RIPPPacketType.SYN_ACK.value:
+                        print("Received SYN ACK {}".format(pkt))
+                        self.receive_syn_ack_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.ACK.value:
+                        print("Received ACK {}".format(pkt))
+                        self.receive_syn_ack_ack_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.SYN.value:
+                        print("Received SYN {}".format(pkt))
+                        self.receive_syn_packet(pkt)
+                elif self.state == StateType.OPEN.value:
+                    if pkt.Type == RIPPPacketType.DATA.value:
+                        print("Received Data {}".format(pkt))
+                        self.receive_data_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.ACK.value:
+                        print("Received ACK {}".format(pkt))
+                        self.receive_ack_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.FIN.value:
+                        print("Received FIN {}".format(pkt))
+                        self.receive_fin_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.FIN_ACK.value:
+                        print("Received FIN-ACK {}".format(pkt))
+                        self.receive_fin_ack_packet(pkt)
             else:
                 self.connection_lost("---> Found error in packet {}".format(pkt))
 
@@ -65,7 +71,7 @@ class RIPPServerProtocol(StackingProtocol):
 
     def send_syn_packet(self):
         print("Sending SYN")
-        seq = random.randrange(100)
+        seq = random.randrange(100, max_seq_no // 100)
         syn = RIPPPacket().syn_packet(seq_no=seq)
         self.receive_window[seq] = syn
         self.transport.write(syn.__serialize__())
@@ -78,8 +84,8 @@ class RIPPServerProtocol(StackingProtocol):
         print("ACK Sent")
 
     def send_data_ack_packet(self, pkt):
-        print("Sending ACK for {}".format(pkt))
-        data_ack = RIPPPacket().ack_packet(seq_no=pkt.SeqNo, ack_no=pkt.SeqNo + len(pkt.Data))
+        data_ack = RIPPPacket().ack_packet(ack_no=pkt.SeqNo + len(pkt.Data))
+        print("Sending ACK for {}".format(data_ack))
         self.transport.write(data_ack.__serialize__())
         print("ACK sent for data. Sending upstream")
         self.higherProtocol().data_received(pkt.Data)
@@ -116,7 +122,7 @@ class RIPPServerProtocol(StackingProtocol):
     def receive_data_packet(self, pkt):
         if pkt.validate(pkt):
             # TODO: Add SeqNo check
-            print("Data {} received with len {}".format(pkt, len(pkt.Data)))
+            print("Data received with len {} {}".format(len(pkt.Data), pkt))
             self.receive_window[pkt.SeqNo] = pkt
             self.send_data_ack_packet(pkt)  # TODO: run in seprate thread
         else:
@@ -134,6 +140,13 @@ class RIPPServerProtocol(StackingProtocol):
             self.connection_lost("Invalid SYN ACK Packet received from the client")
 
     def receive_ack_packet(self, pkt):
+        if pkt.validate(pkt) and pkt.AckNo in self.sending_window:
+            print("Popping from window")
+            self.sending_window.pop(pkt.AckNo)
+        else:
+            self.connection_lost("Invalid Data ACK Packet received from the client")
+
+    def receive_syn_ack_ack_packet(self, pkt):
         if pkt.validate(pkt) and pkt.AckNo - 1 in self.receive_window:
             print("Popping from window")
             self.receive_window.pop(pkt.AckNo - 1)
@@ -142,7 +155,7 @@ class RIPPServerProtocol(StackingProtocol):
             self.higherProtocol().connection_made(higher_protocol)
             # self.transport.start_seq(pkt.AckNo)
         else:
-            self.connection_lost("Invalid ACK Packet received from the client")
+            self.connection_lost("Invalid SYN ACK ACK Packet received from the client")
 
     def receive_fin_packet(self, fin):
         if fin.validate(fin):

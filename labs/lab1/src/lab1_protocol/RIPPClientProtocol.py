@@ -6,7 +6,7 @@ from playground.network.common import StackingProtocol
 
 from labs.lab1.src.lab1_protocol.RIPPClientTransport import RIPPClientTransport
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, max_seq_no
+from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, max_seq_no, StateType
 
 
 class RIPPClientProtocol(StackingProtocol):
@@ -14,8 +14,9 @@ class RIPPClientProtocol(StackingProtocol):
     def __init__(self):
         self.transport = None
         self.deserializer = None
-        self.receive_window = dict()
+        self.receive_window = OrderedDict()
         self.sending_window = OrderedDict()
+        self.state = StateType.CLOSED.value
         super(RIPPClientProtocol, self).__init__()
 
     # ---------- Overridden methods ---------------- #
@@ -39,27 +40,43 @@ class RIPPClientProtocol(StackingProtocol):
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
             if isinstance(pkt, RIPPPacket) and pkt.validate(pkt):
-                if pkt.Type == RIPPPacketType.DATA.value:
-                    print("Received Data {}".format(pkt))
-                    self.receive_data_packet(pkt)
-                elif pkt.Type == RIPPPacketType.SYN_ACK.value:
-                    print("Received SYN ACK {}".format(pkt))
-                    self.receive_syn_ack_packet(pkt)
-                elif pkt.Type == RIPPPacketType.ACK.value:
-                    print("Received ACK {}".format(pkt))
-                    self.receive_ack_packet(pkt)
-                elif pkt.Type == RIPPPacketType.FIN.value:
-                    print("Received FIN {}".format(pkt))
-                    self.receive_fin_packet(pkt)
-                elif pkt.Type == RIPPPacketType.FIN_ACK.value:
-                    print("Received FIN-ACK {}".format(pkt))
-                    self.receive_fin_ack_packet(pkt)
+                if self.state == StateType.CLOSED.value:
+                    if pkt.Type == RIPPPacketType.SYN_ACK.value:
+                        print("Received SYN ACK {}".format(pkt))
+                        self.receive_syn_ack_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.ACK.value:
+                        print("Received ACK {}".format(pkt))
+                        self.receive_syn_ack_ack_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.SYN.value:
+                        print("Received SYN {}".format(pkt))
+                        self.receive_syn_packet(pkt)
+                elif self.state == StateType.OPEN.value:
+                    if pkt.Type == RIPPPacketType.DATA.value:
+                        print("Received Data {}".format(pkt))
+                        self.receive_data_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.ACK.value:
+                        print("Received ACK {}".format(pkt))
+                        self.receive_ack_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.FIN.value:
+                        print("Received FIN {}".format(pkt))
+                        self.receive_fin_packet(pkt)
+                    elif pkt.Type == RIPPPacketType.FIN_ACK.value:
+                        print("Received FIN-ACK {}".format(pkt))
+                        self.receive_fin_ack_packet(pkt)
             else:
                 self.connection_lost("---> Found error in packet {}".format(pkt))
 
     # ---------- Custom methods ---------------- #
 
     # ---------- Send Packets ---------------- #
+
+    def send_syn_ack_packet(self, pkt):
+        print("Sending SYN ACK")
+        seq = random.randrange(100, max_seq_no // 100)
+        syn_ack = RIPPPacket().syn_ack_packet(seq_no=seq, ack_no=pkt.SeqNo + 1)
+        self.receive_window[seq] = syn_ack
+        self.transport.write(syn_ack.__serialize__())
+        print("SYN-ACK Sent")
 
     def send_syn_packet(self):
         seq = random.randrange(100, max_seq_no // 100)
@@ -76,7 +93,7 @@ class RIPPClientProtocol(StackingProtocol):
         print("ACK Sent")
 
     def send_data_ack_packet(self, pkt):
-        data_ack = RIPPPacket().ack_packet(seq_no=pkt.SeqNo, ack_no=pkt.SeqNo + len(pkt.Data))
+        data_ack = RIPPPacket().ack_packet(ack_no=pkt.SeqNo + len(pkt.Data))
         print("Sending Data ACK {}".format(data_ack))
         self.transport.write(data_ack.__serialize__())
         print("ACK sent for data. Sending upstream")
@@ -92,8 +109,8 @@ class RIPPClientProtocol(StackingProtocol):
     def chunk_data_packets(self, seq_no, pkt):
         print("Chunking data packet {}".format(pkt))
         for pkt_chunk in [pkt[i:i + 1500] for i in range(0, len(pkt), 1500)]:
-            self.sending_window[seq_no] = pkt_chunk
             seq_no += len(pkt_chunk)
+            self.sending_window[seq_no] = pkt_chunk
         return seq_no
 
     def send_data_packets(self):
@@ -101,9 +118,14 @@ class RIPPClientProtocol(StackingProtocol):
             data = RIPPPacket().data_packet(seq_no=seq_no, data_content=data_chunk)
             print("Sending Data down the wire {}".format(data))
             self.transport.write(data.__serialize__())
-            self.sending_window.pop(seq_no)
 
     # ---------- Receive Packets ---------------- #
+
+    def receive_syn_packet(self, syn):
+        if syn.validate(syn):
+            self.send_syn_ack_packet(syn)
+        else:
+            self.connection_lost("Invalid SYN Packet received from the client")
 
     def receive_data_packet(self, pkt):
         if pkt.validate(pkt):
@@ -126,10 +148,22 @@ class RIPPClientProtocol(StackingProtocol):
             self.connection_lost("Invalid SYN ACK Packet received from the server")
 
     def receive_ack_packet(self, pkt):
-        if pkt.validate(pkt) and pkt.AckNo in self.receive_window:
-            self.receive_window.pop(pkt.AckNo)
+        if pkt.validate(pkt) and pkt.AckNo in self.sending_window:
+            print("Popping from window")
+            self.sending_window.pop(pkt.AckNo)
         else:
-            self.connection_lost("Invalid ACK Packet received from the server")
+            self.connection_lost("Invalid Data ACK Packet received from the client")
+
+    def receive_syn_ack_ack_packet(self, pkt):
+        if pkt.validate(pkt) and pkt.AckNo - 1 in self.receive_window:
+            print("Popping from window")
+            self.receive_window.pop(pkt.AckNo - 1)
+            higher_protocol = RIPPClientTransport(self, self.transport)
+            higher_protocol.start_seq(pkt.AckNo)
+            self.higherProtocol().connection_made(higher_protocol)
+            # self.transport.start_seq(pkt.AckNo)
+        else:
+            self.connection_lost("Invalid SYN ACK ACK Packet received from the client")
 
     def receive_fin_packet(self, fin):
         if fin.validate(fin):

@@ -18,6 +18,12 @@ class RIPPPacketType(Enum):
     FIN_ACK = 'FINACK'
 
 
+@unique
+class StateType(Enum):
+    OPEN = 'OPEN'
+    CLOSED = 'CLOSED'
+
+
 packet_type_mapping = ['SYN', 'ACK', 'SYNACK', 'Data', 'FIN', 'FINACK']
 
 max_seq_no = 2147483647

@@ -47,10 +47,10 @@ class RIPPPacket(PacketType):
         syn.CRC = syn.calculate_checksum(syn)
         return syn
 
-    def ack_packet(self, seq_no, ack_no):
+    def ack_packet(self, seq_no=0, ack_no=0):
         ack = RIPPPacket()
         ack.Type = RIPPPacketType.ACK.value
-        ack.SeqNo = seq_no  # TODO: verify if this is correct
+        ack.SeqNo = seq_no
         ack.AckNo = ack_no
         ack.CRC = b''
         ack.Data = b''
