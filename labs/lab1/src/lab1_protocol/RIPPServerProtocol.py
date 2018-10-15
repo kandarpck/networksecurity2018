@@ -58,6 +58,12 @@ class RIPPServerProtocol(StackingProtocol):
                 self.connection_lost("---> Found error in packet {}".format(pkt))
 
     # ---------- Custom methods ---------------- #
+    def establish_connection(self, pkt):
+        higher_protocol = RIPPServerTransport(self, self.transport)
+        higher_protocol.start_seq(pkt.AckNo)
+        self.higherProtocol().connection_made(higher_protocol)
+        self.state = StateType.OPEN.value
+        # self.transport.start_seq(pkt.AckNo)
 
     # ---------- Send Packets ---------------- #
 
@@ -132,10 +138,7 @@ class RIPPServerProtocol(StackingProtocol):
         if syn_ack.validate(syn_ack) and syn_ack.AckNo in self.receive_window:
             self.receive_window.pop(syn_ack.AckNo)
             self.send_ack_packet(syn_ack)
-            higher_protocol = RIPPServerTransport(self, self.transport)
-            higher_protocol.start_seq(syn_ack.AckNo)
-            self.higherProtocol().connection_made(higher_protocol)
-            # self.transport.start_seq(syn_ack.AckNo)
+            self.establish_connection(syn_ack)
         else:
             self.connection_lost("Invalid SYN ACK Packet received from the client")
 
@@ -150,10 +153,7 @@ class RIPPServerProtocol(StackingProtocol):
         if pkt.validate(pkt) and pkt.AckNo - 1 in self.receive_window:
             print("Popping from window")
             self.receive_window.pop(pkt.AckNo - 1)
-            higher_protocol = RIPPServerTransport(self, self.transport)
-            higher_protocol.start_seq(pkt.AckNo)
-            self.higherProtocol().connection_made(higher_protocol)
-            # self.transport.start_seq(pkt.AckNo)
+            self.establish_connection(pkt)
         else:
             self.connection_lost("Invalid SYN ACK ACK Packet received from the client")
 
