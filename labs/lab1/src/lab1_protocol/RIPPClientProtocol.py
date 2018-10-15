@@ -136,7 +136,7 @@ class RIPPClientProtocol(StackingProtocol):
     def receive_data_packet(self, pkt):
         if pkt.validate(pkt):
             # TODO: Add SeqNo check
-            print("Data {} received with len {}".format(pkt, len(pkt.Data)))
+            print("Data received with len {} {}".format(len(pkt.Data), pkt))
             self.receive_window[pkt.SeqNo] = pkt
             self.send_data_ack_packet(pkt)  # TODO: run in seprate thread
         else:
