@@ -49,6 +49,8 @@ class RIPPServerProtocol(StackingProtocol):
                 elif pkt.Type == RIPPPacketType.SYN.value:
                     print("Received SYN {}".format(pkt))
                     self.receive_syn_packet(pkt)
+            else:
+                self.connection_lost("---> Found error in packet {}".format(pkt))
 
     # ---------- Custom methods ---------------- #
 

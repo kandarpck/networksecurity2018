@@ -105,7 +105,7 @@ if __name__ == "__main__":
     packet1.Type = 1
     packet1.SeqNo = 1
     packet1.AckNo = 100
-    packet1.CRC = 5000
+    packet1.CRC = b'5000'
     packet1.Data = b'Kandarp Khandwala'
 
     packetBytes = packet1.__serialize__()
