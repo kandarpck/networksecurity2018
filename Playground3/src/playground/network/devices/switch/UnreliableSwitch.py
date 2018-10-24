@@ -38,14 +38,17 @@ class ConstantErrorTransport(StackingTransport):
             if nextBadByte not in self.bytesToCorrupt:
                 self.bytesToCorrupt.append(nextBadByte)
         self.bytesToCorrupt.sort()
+        self.curSettings = (self.ErrorsPerHorizon, self.ErrorHorizon)
     
     
     def write(self, data):
+        if self.curSettings != (self.ErrorsPerHorizon, self.ErrorHorizon):
+            self.resetBytesToCorrupt()
         dataRange = len(data) + self.byteIndex
         while self.bytesToCorrupt and self.bytesToCorrupt[0] < dataRange:
             nextByte = self.bytesToCorrupt.pop(0)
             relativeByte = nextByte - self.byteIndex
-            data = data[:relativeByte] + (data[relativeByte] ^ 0xFF) + data[relativeByte+1:]
+            data = data[:relativeByte] + bytes([data[relativeByte] ^ 0xFF]) + data[relativeByte+1:]
         self.byteIndex += len(data)
         if self.byteIndex > self.ErrorHorizon:
             self.byteIndex = 0
