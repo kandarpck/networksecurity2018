@@ -14,7 +14,7 @@ class RippServerProtocol(StackingProtocol):
         self.transport = None
         self.deserializer = RIPPPacket.Deserializer()
         self.pktHdlr = PacketHandler(self)
-        self.state = StateType.LISTEN
+        self.state = StateType.LISTEN.value
         self.seqID = randint(0, 2 ** 32)
         self.ackID = 0
         self.finSent = False
@@ -28,9 +28,9 @@ class RippServerProtocol(StackingProtocol):
         for pkt in self.deserializer.nextPackets():
             print('\n RIPP Server: {} received\n'.format(pkt))
 
-            if self.state == StateType.LISTEN:
+            if self.state == StateType.LISTEN.value:
                 # Handshake Initiated
-                if 'syn' in pkt.Type.lower():
+                if RIPPPacketType.SYN.value.lower() in pkt.Type.lower():
                     print('\n RIPP SERVER: SYN RECEIVED S:{}\n'.format(pkt.SeqNo))
                     seq = self.seqID
                     synackPkt = RIPPPacket(Type='SYNACK', SeqNo=seq, AckNo=pkt.SeqNo + 1, CRC=b"", Data=b"")
@@ -38,43 +38,43 @@ class RippServerProtocol(StackingProtocol):
                     print(
                         '\n RIPP SERVER: RESPONDING WITH SYNACK S:{}, A:{}\n'.format(synackPkt.SeqNo, synackPkt.AckNo))
                     self.transport.write(synackPkt.__serialize__())
-                    self.state = 'SYN-RECEIVED'
+                    self.state = StateType.SYN_RECEIVED.value
                 else:
                     print('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
                     self.transport.close()
 
-            elif self.state == StateType.SYN_RECEIVED:
+            elif self.state == StateType.SYN_RECEIVED.value:
                 # Complete handshake
-                if 'ack' in pkt.Type.lower() and pkt.SeqNo == self.ackID and pkt.AckNo == self.seqID + 1:
+                if RIPPPacketType.ACK.value.lower() in pkt.Type.lower() and pkt.SeqNo == self.ackID and pkt.AckNo == self.seqID + 1:
                     # Check ACK
                     print('\n RIPP SERVER: ACK RECEIVED S:{}, A:{}\n'.format(pkt.SeqNo, pkt.AckNo))
                     # Make connection
                     print('\n RIPP SERVER MAKING CONNECTION \n')
                     self.RippTransport = RippTransport(self)
                     self.higherProtocol().connection_made(self.RippTransport)
-                    self.state = 'ESTABLISHED'
+                    self.state = StateType.ESTABLISHED.value
                 else:
                     print('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
                     self.transport.close()
 
-            elif self.state == StateType.ESTABLISHED:
+            elif self.state == StateType.ESTABLISHED.value:
                 # Error-check
                 if self.pktHdlr.checkHash(pkt) == True:
 
-                    if 'data' in pkt.Type.lower():  # type Data
+                    if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():  # type Data
                         print('\n RIPP SERVER: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                         # Process Data Packet and send ACK
                         self.pktHdlr.processData(pkt)
 
-                    elif 'ack' in pkt.Type.lower():  # type ACK
+                    elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():  # type ACK
                         print('\n RIPP SERVER: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                         # Check ACK Number in Data Storage
                         # Cancel timer.
                         self.pktHdlr.checkAck(pkt)
 
-                    elif 'fin' in pkt.Type.lower():  # type FIN
+                    elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():  # type FIN
                         print('\n RIPP SERVER: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
-                        self.state = 'CLOSING'
+                        self.state = StateType.CLOSING.value
                         # Process as data packet
                         self.pktHdlr.processData(pkt)
 
@@ -84,28 +84,28 @@ class RippServerProtocol(StackingProtocol):
                     print('\n RIPP SERVER: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
                     continue  # if hashes do not match do nothing with pkt.
 
-            elif self.state == StateType.CLOSING:
+            elif self.state == StateType.CLOSING.value:
                 # If higherProtocol().con_lost() was called, no longer process data. Just send ACKs.
                 # else continue handling data until FIN packet is processed in the data buffer.
                 # Error Check
                 if self.pktHdlr.checkHash(pkt) == True:
                     if self.finSent == True:  # If this protocol has sent a FIN request
-                        if 'data' in pkt.Type.lower():
+                        if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():
                             # Send an ACK. Do not process packet.
                             dataAckNo = pkt.SeqNo + len(pkt.Data)
                             dataAck = RIPPPacket(Type='ACK', SeqNo=0, AckNo=dataAckNo, CRC=b'', Data=b'')
                             dataAck.CRC = hashlib.sha256(dataAck.__serialize__()).digest()
                             self.transport.write(dataAck.__serialize__())
-                        elif 'ack' in pkt.Type.lower():
+                        elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():
                             self.pktHdlr.checkAck(pkt)
                             # Check for final ACK
                             if pkt.AckNo >= self.pktHdlr.finalACK:
                                 self.pktHdlr.cancelTimers()
                                 self.pktHdlr.ackTimers.clear()
                                 self.pktHdlr.sentDataPkts.clear()
-                                self.state = 'CLOSED'
+                                self.state = StateType.CLOSED.value
                                 self.transport.close()
-                        elif 'fin' in pkt.Type.lower():
+                        elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():
                             # Send a FIN ACK. Then shutdown.
                             finAck = RIPPPacket(Type='ACK', SeqNo=0, AckNo=pkt.SeqNo + 1, CRC=b'', Data=b'')
                             finAck.CRC = hashlib.sha256(finAck.__serialize__()).digest()
@@ -114,19 +114,19 @@ class RippServerProtocol(StackingProtocol):
                             self.pktHdlr.cancelTimers()
                             self.pktHdlr.ackTimers.clear()
                             self.pktHdlr.sentDataPkts.clear()
-                            self.state = 'CLOSED'
+                            self.state = StateType.CLOSED.value
                             self.transport.close()
                     else:  # In a CLOSING state by receiving a FIN request
-                        if 'data' in pkt.Type.lower():  # type Data
+                        if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():  # type Data
                             print('\n RIPP SERVER: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                             # Process Data Packet and send ACK
                             self.pktHdlr.processData(pkt)
-                        elif 'ack' in pkt.Type.lower():  # type ACK
+                        elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():  # type ACK
                             print('\n RIPP SERVER: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                             # Check ACK Number in Data Storage
                             # Cancel timer.
                             self.pktHdlr.checkAck(pkt)
-                        elif 'fin' in pkt.Type.lower():  # type FIN
+                        elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():  # type FIN
                             print('\n RIPP SERVER: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                             # Process as data packet
                             self.pktHdlr.processData(pkt)
@@ -150,7 +150,7 @@ class RippClientProtocol(StackingProtocol):
         self.transport = None
         self.deserializer = RIPPPacket.Deserializer()
         self.pktHdlr = PacketHandler(self)
-        self.state = StateType.LISTEN
+        self.state = StateType.LISTEN.value
         self.seqID = randint(0, 2 ** 32)
         self.ackID = 0
         self.finSent = False
@@ -160,22 +160,22 @@ class RippClientProtocol(StackingProtocol):
         self.transport = transport
 
         # Make SYN packet to initiate session
-        if self.state == 'LISTEN':
+        if self.state == StateType.LISTEN.value:
             seq = self.seqID
             syn = RIPPPacket(Type='SYN', SeqNo=seq, AckNo=0, CRC=b"", Data=b"")
             print('\n RIPP CLIENT: SENDING SYN PACKET S:{}\n'.format(syn.SeqNo))
             self.transport.write(syn.__serialize__())
-            self.state = 'SYN-SENT'
+            self.state = StateType.SYN_SENT.value
 
     def data_received(self, data):
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
             print('\n RIPP Client: {} received\n'.format(pkt))
 
-            if self.state == 'SYN-SENT':
+            if self.state == StateType.SYN_SENT.value:
                 # look for SYNACK for handshake
                 ack = self.seqID + 1
-                if 'syn' in pkt.Type.lower() and 'ack' in pkt.Type.lower() and pkt.AckNo == ack:
+                if RIPPPacketType.SYN.value.lower() in pkt.Type.lower() and RIPPPacketType.ACK.value.lower() in pkt.Type.lower() and pkt.AckNo == ack:
                     print('\n RIPP CLIENT: SYNACK RECEIVED S:{}, A:{}\n'.format(pkt.SeqNo, pkt.AckNo))
                     # Process SYNACK packet; Send ACK
                     ackPkt = RIPPPacket(Type='ACK', SeqNo=pkt.AckNo, AckNo=pkt.SeqNo + 1, CRC=b"", Data=b"")
@@ -186,30 +186,30 @@ class RippClientProtocol(StackingProtocol):
                     print('\n RIPP CLIENT MAKING CONNECTION \n')
                     self.RippTransport = RippTransport(self)
                     self.higherProtocol().connection_made(self.RippTransport)
-                    self.state = 'ESTABLISHED'
+                    self.state = StateType.ESTABLISHED.value
                 else:
                     print('\n RIPP Client:  RECEIVED WRONG PACKET DURING HANDSHAKE. CLOSING\n')
                     self.transport.close()
 
-            elif self.state == 'ESTABLISHED':
+            elif self.state == StateType.ESTABLISHED.value:
                 # Error-check
                 if self.pktHdlr.checkHash(pkt) == True:
 
-                    if 'data' in pkt.Type.lower():  # type Data
+                    if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():  # type Data
                         print('\n RIPP CLIENT: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
 
                         # Process Data Packet and send ACK
                         self.pktHdlr.processData(pkt)
 
-                    elif 'ack' in pkt.Type.lower():  # type ACK
+                    elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():  # type ACK
                         print('\n RIPP CLIENT: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                         # Check ACK Number in Data Storage
                         # Cancel timer.
                         self.pktHdlr.checkAck(pkt)
 
-                    elif 'fin' in pkt.Type.lower():  # type FIN
+                    elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():  # type FIN
                         print('\n RIPP CLIENT: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
-                        self.state = 'CLOSING'
+                        self.state = StateType.CLOSING.value
                         # Process as data packet
                         self.pktHdlr.processData(pkt)
 
@@ -219,28 +219,28 @@ class RippClientProtocol(StackingProtocol):
                     print('\n RIPP CLIENT: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
                     continue  # if hashes do not match do nothing with pkt.
 
-            elif self.state == 'CLOSING':
+            elif self.state == StateType.CLOSING.value:
                 # If higherProtocol().con_lost() was called, no longer process data. Just send ACKs.
                 # else continue handling data until FIN packet is processed in the data buffer.
                 # Error Check
                 if self.pktHdlr.checkHash(pkt) == True:
                     if self.finSent == True:  # If this protocol has sent a FIN request
-                        if 'data' in pkt.Type.lower():
+                        if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():
                             # Send an ACK. Do not process packet.
                             dataAckNo = pkt.SeqNo + len(pkt.Data)
                             dataAck = RIPPPacket(Type='ACK', SeqNo=0, AckNo=dataAckNo, CRC=b'', Data=b'')
                             dataAck.CRC = hashlib.sha256(dataAck.__serialize__()).digest()
                             self.transport.write(dataAck.__serialize__())
-                        elif 'ack' in pkt.Type.lower():
+                        elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():
                             self.pktHdlr.checkAck(pkt)
                             # Check for final ACK
                             if pkt.AckNo >= self.pktHdlr.finalACK:
                                 self.pktHdlr.cancelTimers()
                                 self.pktHdlr.ackTimers.clear()
                                 self.pktHdlr.sentDataPkts.clear()
-                                self.state = 'CLOSED'
+                                self.state = StateType.CLOSED.value
                                 self.transport.close()
-                        elif 'fin' in pkt.Type.lower():
+                        elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():
                             # Send a FIN ACK. Then shutdown.
                             finAck = RIPPPacket(Type='ACK', SeqNo=0, AckNo=pkt.SeqNo + 1, CRC=b'', Data=b'')
                             finAck.CRC = hashlib.sha256(finAck.__serialize__()).digest()
@@ -249,19 +249,19 @@ class RippClientProtocol(StackingProtocol):
                             self.pktHdlr.cancelTimers()
                             self.pktHdlr.ackTimers.clear()
                             self.pktHdlr.sentDataPkts.clear()
-                            self.state = 'CLOSED'
+                            self.state = StateType.CLOSED.value
                             self.transport.close()
                     else:  # In a CLOSING state by receiving a FIN request
-                        if 'data' in pkt.Type.lower():  # type Data
+                        if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():  # type Data
                             print('\n RIPP CLIENT CLOSING: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                             # Process Data Packet and send ACK
                             self.pktHdlr.processData(pkt)
-                        elif 'ack' in pkt.Type.lower():  # type ACK
+                        elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():  # type ACK
                             print('\n RIPP CLIENT CLOSING: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                             # Check ACK Number in Data Storage
                             # Cancel timer.
                             self.pktHdlr.checkAck(pkt)
-                        elif 'fin' in pkt.Type.lower():  # type FIN
+                        elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():  # type FIN
                             print('\n RIPP CLIENT CLOSING: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                             # Process as data packet
                             self.pktHdlr.processData(pkt)
@@ -334,7 +334,7 @@ class RippTransport(StackingTransport):
 
         # Send FIN through PacketHandler to also delete data buffers
         self.Protocol.pktHdlr.sendFIN(self.Protocol.seqID)
-        self.Protocol.state = 'CLOSING'
+        self.Protocol.state = StateType.CLOSING.value
 
 
 # PacketHandler will store sent packets for each protocol.  It will also handle
@@ -440,7 +440,7 @@ class PacketHandler:
                 self.Protocol.transport.close()
                 self.backlog.clear()
                 self.dataBuffer.clear()
-                self.Protocol.state = 'CLOSED'
+                self.Protocol.state = StateType.CLOSED.value
                 break
             else:
                 stripData = pkt.Data

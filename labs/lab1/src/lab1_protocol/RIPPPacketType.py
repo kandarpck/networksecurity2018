@@ -22,6 +22,7 @@ class RIPPPacketType(Enum):
 class StateType(Enum):
     OPEN = 'OPEN'
     LISTEN = 'LISTEN'
+    SYN_SENT = 'SYN-SENT'
     SYN_RECEIVED = 'SYN-RECEIVED'
     ESTABLISHED = 'ESTABLISHED'
     CLOSING = 'CLOSING'
