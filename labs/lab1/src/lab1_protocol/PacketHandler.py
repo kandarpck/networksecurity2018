@@ -1,9 +1,10 @@
 import asyncio
 import hashlib
 import logging
+import bisect
 
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import StateType
+from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, StateType
 
 logger = logging.getLogger('playground.' + __name__)
 logger.setLevel(logging.WARNING)
@@ -23,30 +24,29 @@ class PacketHandler:
         self.finalACK = 0
         self.timeout = None
 
-    def storePkt(self, packet):
+    def store_packet(self, pkt):
         # Store sent packets in order by SeqNo.
-        if packet not in self.sentDataPkts:
-            self.sentDataPkts.append(packet)
-            self.sentDataPkts.sort(key=lambda x: x.SeqNo, reverse=False)
+        if pkt not in self.sentDataPkts:
+            bisect.insort(self.sentDataPkts, pkt)
 
         # Start timer for stored packet. Stored as key:value pairs (SeqNo:timer)
-        timer = asyncio.get_event_loop().call_later(0.3, self.resend, packet)
-        self.ackTimers.update({packet.SeqNo: timer})
+        timer = asyncio.get_event_loop().call_later(1, self.resend, pkt)
+        self.ackTimers.update({pkt.SeqNo: timer})
 
     # Set up timer to send up a single packet. Must be less than ACK Timers
     def addToBuffer(self, packet):
         # Check for FIN packets.  Send Final ACK. ClearBuffer. Close Tranport.
-        if packet.Type == 'FIN':
+        if packet.Type == RIPPPacketType.FIN.value:
             self.ackTotal = packet.SeqNo + 1
             self.nextSeqNo = packet.SeqNo + 1
-            self.dataBuffer.append(packet)
+            bisect.insort(self.dataBuffer, packet)
 
             self.sendACK()
             self.clearBuffer()
         else:
             self.ackTotal = packet.SeqNo + len(packet.Data)
             self.nextSeqNo = packet.SeqNo + len(packet.Data)
-            self.dataBuffer.append(packet)
+            bisect.insort(self.dataBuffer, packet)
 
         # Check backlog for self.nextSeqNo.
         if len(self.backlog) > 0:
@@ -58,11 +58,11 @@ class PacketHandler:
                         logger.warning('\n RIPP {}:  Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
                         self.sendACK()
                         self.clearBuffer()
-                    elif pkt.Type == 'FIN':
+                    elif pkt.Type == RIPPPacketType.FIN.value:
                         self.ackTotal = pkt.SeqNo + 1
                         self.nextSeqNo = pkt.SeqNo + 1
                         self.dataBuffer.append(pkt)
-                        self.sendAck()
+                        self.sendACK()
                         self.clearBuffer()
                         index += 1
                         break
@@ -76,39 +76,31 @@ class PacketHandler:
                     index += 1
 
         # Check size of buffer
-        if len(self.dataBuffer) == 16:
-            logger.warning('\n RIPP {}:  Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
+        if len(self.dataBuffer) >= 100:
+            logger.warning('\n RIPP {}: Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
             self.sendACK()
             self.clearBuffer()
 
-        # Sort Buffers
-        self.dataBuffer.sort(key=lambda x: x.SeqNo, reverse=False)
-        self.backlog.sort(key=lambda x: x.SeqNo, reverse=False)
         # start Timeout timer.  When it reaches zero, clear buffer.  timeout < resend
         self.timeout = asyncio.get_event_loop().call_later(0.2, self.Timeout)
 
     def cleanBacklog(self):
         # Deletes all packets with seqNO that are < the current ack total.
         # Implying that these packets would just be redundant data.
-        tempList = []
-        for pkt in self.backlog:
-            if pkt.SeqNo >= self.ackTotal:
-                tempList.append(pkt)
-            else:
-                continue
-        self.backlog = tempList
+        self.backlog = self.backlog[bisect.bisect_right(self.backlog, self.ackTotal) - 1:] if bisect.bisect_right(
+            self.backlog, self.ackTotal) else self.backlog
 
     def clearBuffer(self):
         # Cancel timer
         self.timeout.cancel()
-        self.dataBuffer.sort(key=lambda x: x.SeqNo, reverse=False)  # make sure Buffer is sorted
+        # self.dataBuffer.sort(key=lambda x: x.SeqNo, reverse=False)  # make sure Buffer is sorted
 
         logger.warning(
             '\n RIPP {}: CLEARING DATA BUFFER. SENDING DATA TO HIGHER PROTOCOL.\n'.format(self.Protocol.ProtocolID))
 
         # Add check for FIN packet type. Call higherProtocol().connection_lost(None)
         for pkt in self.dataBuffer:
-            if pkt.Type == 'FIN':
+            if pkt.Type == RIPPPacketType.FIN.value:
                 self.Protocol.higherProtocol().connection_lost(None)
                 self.Protocol.transport.close()
                 self.backlog.clear()
@@ -124,10 +116,9 @@ class PacketHandler:
 
     def sendACK(self):
         # Send ACK for data in buffer
-        ackPkt = RIPPPacket(Type='ACK', SeqNo=0, AckNo=self.ackTotal, CRC=b'', Data=b'')
-        ackPkt.CRC = hashlib.sha256(ackPkt.__serialize__()).digest()
+        ack_pkt = RIPPPacket().ack_packet(ack_no=self.ackTotal)
         logger.debug('\n RIPP {} Transport: SENDING ACK A:{}\n'.format(self.Protocol.ProtocolID, self.ackTotal))
-        self.Protocol.transport.write(ackPkt.__serialize__())
+        self.Protocol.transport.write(ack_pkt.__serialize__())
 
         # Clean backlog of excess packets with SeqNo < ackTotal
         self.cleanBacklog()
@@ -155,7 +146,7 @@ class PacketHandler:
 
     def resend(self, packet):
         logger.debug('\n RIPP {}: RESENDING PACKET S:{}\n'.format(self.Protocol.ProtocolID, packet.SeqNo))
-        self.storePkt(packet)  # reset ACK timer
+        self.store_packet(packet)  # reset ACK timer
         self.Protocol.transport.write(packet.__serialize__())
 
     def process_data(self, pkt):
@@ -188,10 +179,9 @@ class PacketHandler:
         self.dataBuffer.clear()
         self.backlog.clear()
 
-        finPkt = RIPPPacket(Type='FIN', SeqNo=seqno, AckNo=0, CRC=b'', Data=b'')
-        finPkt.CRC = hashlib.sha256(finPkt.__serialize__()).digest()
-        self.storePkt(finPkt)
-        self.Protocol.transport.write(finPkt.__serialize__())
+        fin_pkt = RIPPPacket().fin_packet(seq_no=seqno)
+        self.store_packet(fin_pkt)
+        self.Protocol.transport.write(fin_pkt.__serialize__())
 
         self.finalACK = seqno + 1
         self.Protocol.finSent = True

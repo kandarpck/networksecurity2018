@@ -97,6 +97,9 @@ class RIPPPacket(PacketType):
         data.CRC = data.calculate_checksum(data)
         return data
 
+    def __lt__(self, other):
+        return self.SeqNo < other.SeqNo
+
     def __repr__(self):
         return super(RIPPPacket, self).__repr__() + \
                ". Type: " + str(self.Type) + \
