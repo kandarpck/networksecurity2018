@@ -1,5 +1,5 @@
 import hashlib
-import logging
+from logging import getLogger, WARNING
 from random import randint
 
 from playground.network.common import StackingProtocol
@@ -9,8 +9,8 @@ from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
 from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, StateType
 from labs.lab1.src.lab1_protocol.lab1_protocol import RippTransport
 
-logger = logging.getLogger('playground.' + __name__)
-logger.setLevel(logging.WARNING)
+logger = getLogger('playground.' + __name__)
+logger.setLevel(WARNING)
 
 
 class RippClientProtocol(StackingProtocol):

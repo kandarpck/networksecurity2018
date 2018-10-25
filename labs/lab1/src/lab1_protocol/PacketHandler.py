@@ -158,15 +158,6 @@ class PacketHandler:
         self.storePkt(packet)  # reset ACK timer
         self.Protocol.transport.write(packet.__serialize__())
 
-    def checkHash(self, packet):
-        hash = packet.CRC
-        packet.CRC = b""
-        rehash = hashlib.sha256(packet.__serialize__()).digest()
-        if hash == rehash:
-            return True
-        else:
-            return False
-
     def process_data(self, pkt):
         # Build dataBuffer with subsequent packets.  Send a single 'total' ACK
         # for all packets received.  If packet received out of order, build
