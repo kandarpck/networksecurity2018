@@ -58,19 +58,19 @@ class RippClientProtocol(StackingProtocol):
                     logger.debug('\n RIPP CLIENT: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
 
                     # Process Data Packet and send ACK
-                    self.pktHdlr.processData(pkt)
+                    self.pktHdlr.process_data(pkt)
 
                 elif RIPPPacketType.ACK.value.upper() in pkt.Type.upper():  # type ACK
                     logger.debug('\n RIPP CLIENT: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                     # Check ACK Number in Data Storage
                     # Cancel timer.
-                    self.pktHdlr.checkAck(pkt)
+                    self.pktHdlr.check_ack(pkt)
 
                 elif RIPPPacketType.FIN.value.upper() in pkt.Type.upper():  # type FIN
                     logger.debug('\n RIPP CLIENT: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                     self.state = StateType.CLOSING.value
                     # Process as data packet
-                    self.pktHdlr.processData(pkt)
+                    self.pktHdlr.process_data(pkt)
 
                 else:
                     logger.error('\n RIPP CLIENT: INVALID PACKET TYPE RECEIVED \n')
@@ -107,7 +107,7 @@ class RippClientProtocol(StackingProtocol):
                         dataAck.CRC = hashlib.sha256(dataAck.__serialize__()).digest()
                         self.transport.write(dataAck.__serialize__())
                     elif RIPPPacketType.ACK.value.upper() in pkt.Type.upper():
-                        self.pktHdlr.checkAck(pkt)
+                        self.pktHdlr.check_ack(pkt)
                         # Check for final ACK
                         if pkt.AckNo >= self.pktHdlr.finalACK:
                             self.pktHdlr.cancelTimers()
@@ -130,16 +130,16 @@ class RippClientProtocol(StackingProtocol):
                     if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():  # type Data
                         logger.debug('\n RIPP CLIENT CLOSING: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                         # Process Data Packet and send ACK
-                        self.pktHdlr.processData(pkt)
+                        self.pktHdlr.process_data(pkt)
                     elif RIPPPacketType.ACK.value.upper() in pkt.Type.upper():  # type ACK
                         logger.debug('\n RIPP CLIENT CLOSING: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                         # Check ACK Number in Data Storage
                         # Cancel timer.
-                        self.pktHdlr.checkAck(pkt)
+                        self.pktHdlr.check_ack(pkt)
                     elif RIPPPacketType.FIN.value.upper() in pkt.Type.upper():  # type FIN
                         logger.debug('\n RIPP CLIENT CLOSING: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                         # Process as data packet
-                        self.pktHdlr.processData(pkt)
+                        self.pktHdlr.process_data(pkt)
                     else:
                         logger.error('\n RIPP CLIENT: INVALID PACKET TYPE RECEIVED \n')
 

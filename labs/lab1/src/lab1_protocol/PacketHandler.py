@@ -132,7 +132,7 @@ class PacketHandler:
         # Clean backlog of excess packets with SeqNo < ackTotal
         self.cleanBacklog()
 
-    def checkAck(self, packet):
+    def check_ack(self, packet):
         # When ack is received cancel all timers with SeqNo < AckNo.
         tempList = []
         for pkt in self.sentDataPkts:
@@ -167,7 +167,7 @@ class PacketHandler:
         else:
             return False
 
-    def processData(self, pkt):
+    def process_data(self, pkt):
         # Build dataBuffer with subsequent packets.  Send a single 'total' ACK
         # for all packets received.  If packet received out of order, build
         # backlog, wait for proper packet.
