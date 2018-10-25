@@ -50,25 +50,6 @@ class RippClientProtocol(StackingProtocol):
             if not isinstance(pkt, RIPPPacket) and pkt.validate(pkt):
                 logger.error('\n RIPP Client: INVALID PACKET TYPE RECEIVED \n')
                 self.transport.close()
-            if self.state == StateType.SYN_SENT.value:
-                # look for SYNACK for handshake
-                ack = self.seqID + 1
-                if RIPPPacketType.SYN.value.upper() in pkt.Type.upper() and \
-                        RIPPPacketType.ACK.value.upper() in pkt.Type.upper() and pkt.AckNo == ack:
-                    logger.debug('\n RIPP CLIENT: SYNACK RECEIVED S:{}, A:{}\n'.format(pkt.SeqNo, pkt.AckNo))
-                    # Process SYNACK packet; Send ACK
-                    ackPkt = RIPPPacket(Type='ACK', SeqNo=pkt.AckNo, AckNo=pkt.SeqNo + 1, CRC=b"", Data=b"")
-                    logger.debug('\n RIPP CLIENT RESPONDING WITH ACK S:{}, A:{} \n'.format(ackPkt.SeqNo, ackPkt.AckNo))
-                    self.transport.write(ackPkt.__serialize__())
-                    self.seqID = ackPkt.SeqNo
-                    # make connection
-                    logger.debug('\n RIPP CLIENT MAKING CONNECTION \n')
-                    self.RippTransport = RippTransport(self)
-                    self.higherProtocol().connection_made(self.RippTransport)
-                    self.state = StateType.ESTABLISHED.value
-                else:
-                    logger.debug('\n RIPP Client:  RECEIVED WRONG PACKET DURING HANDSHAKE. CLOSING\n')
-                    self.transport.close()
 
             elif self.state == StateType.ESTABLISHED.value:
                 # Error-check
@@ -93,6 +74,26 @@ class RippClientProtocol(StackingProtocol):
 
                 else:
                     logger.error('\n RIPP CLIENT: INVALID PACKET TYPE RECEIVED \n')
+
+            elif self.state == StateType.SYN_SENT.value:
+                # look for SYNACK for handshake
+                ack = self.seqID + 1
+                if RIPPPacketType.SYN.value.upper() in pkt.Type.upper() and \
+                        RIPPPacketType.ACK.value.upper() in pkt.Type.upper() and pkt.AckNo == ack:
+                    logger.debug('\n RIPP CLIENT: SYNACK RECEIVED S:{}, A:{}\n'.format(pkt.SeqNo, pkt.AckNo))
+                    # Process SYNACK packet; Send ACK
+                    ackPkt = RIPPPacket(Type='ACK', SeqNo=pkt.AckNo, AckNo=pkt.SeqNo + 1, CRC=b"", Data=b"")
+                    logger.debug('\n RIPP CLIENT RESPONDING WITH ACK S:{}, A:{} \n'.format(ackPkt.SeqNo, ackPkt.AckNo))
+                    self.transport.write(ackPkt.__serialize__())
+                    self.seqID = ackPkt.SeqNo
+                    # make connection
+                    logger.debug('\n RIPP CLIENT MAKING CONNECTION \n')
+                    self.RippTransport = RippTransport(self)
+                    self.higherProtocol().connection_made(self.RippTransport)
+                    self.state = StateType.ESTABLISHED.value
+                else:
+                    logger.debug('\n RIPP Client:  RECEIVED WRONG PACKET DURING HANDSHAKE. CLOSING\n')
+                    self.transport.close()
 
             elif self.state == StateType.CLOSING.value:
                 # If higherProtocol().con_lost() was called, no longer process data. Just send ACKs.

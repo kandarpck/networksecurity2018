@@ -43,22 +43,8 @@ class RippServerProtocol(StackingProtocol):
             if not isinstance(pkt, RIPPPacket) and pkt.validate(pkt):
                 logger.error('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
                 self.transport.close()
-            if self.state == StateType.LISTEN.value:
-                if RIPPPacketType.SYN.value.upper() in pkt.Type.upper():
-                    self.initiate_handshake(pkt)
-                else:
-                    logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
-                    self.transport.close()
-            elif self.state == StateType.SYN_RECEIVED.value:
-                if RIPPPacketType.ACK.value.upper() in pkt.Type.upper() and \
-                        pkt.SeqNo == self.ackID and pkt.AckNo == self.seqID + 1:
-                    self.establish_connection(pkt)
-                else:
-                    logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
-                    self.transport.close()
 
             elif self.state == StateType.ESTABLISHED.value:
-
                 if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():  # type Data
                     logger.debug('\n RIPP SERVER: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                     # Process Data Packet and send ACK
@@ -78,6 +64,20 @@ class RippServerProtocol(StackingProtocol):
 
                 else:
                     logger.error('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
+
+            elif self.state == StateType.LISTEN.value:
+                if RIPPPacketType.SYN.value.upper() in pkt.Type.upper():
+                    self.initiate_handshake(pkt)
+                else:
+                    logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
+                    self.transport.close()
+            elif self.state == StateType.SYN_RECEIVED.value:
+                if RIPPPacketType.ACK.value.upper() in pkt.Type.upper() and \
+                        pkt.SeqNo == self.ackID and pkt.AckNo == self.seqID + 1:
+                    self.establish_connection(pkt)
+                else:
+                    logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
+                    self.transport.close()
 
             elif self.state == StateType.CLOSING.value:
                 # If higherProtocol().con_lost() was called, no longer process data. Just send ACKs.
