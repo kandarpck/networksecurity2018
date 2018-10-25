@@ -2,12 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9c6a3c7-34e8-4b7f-8b9b-ff871671830f" name="Default Changelist" comment="Session termination part 1 and 2 - FIN, FIN-ACK">
-      <change afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Playground3/src/playground/network/protocols/vsockets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Playground3/src/playground/network/protocols/vsockets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py" beforeDir="false" afterPath="$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/Kandarps-MacBook-Pro.local-1438a5c0.18020-7473905588149986909" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/Kandarps-MacBook-Pro.local-d33f5c0.180147483125513590096102" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_p_eth0.pid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_p_eth0.pid.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_p_eth0.status" beforeDir="false" afterPath="$PROJECT_DIR$/playground_env/.playground/device_p_eth0.status" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_test_switch.pid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_test_switch.pid.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/networking.ini" beforeDir="false" afterPath="$PROJECT_DIR$/playground_env/.playground/networking.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/networking.ini" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,135 +30,138 @@
     <SUITE FILE_PATH="coverage/networksecurity2018$ThroughputTester.coverage" NAME="ThroughputTester server Coverage Results" MODIFIED="1538512381953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_echoclient.coverage" NAME="pytest_echoclient Coverage Results" MODIFIED="1536178564017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
     <SUITE FILE_PATH="coverage/networksecurity2018$PacketType.coverage" NAME="RIPPPacket Coverage Results" MODIFIED="1538380296369" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/labs/lab1/src/lab1_protocol" />
-    <SUITE FILE_PATH="coverage/networksecurity2018$echotest_server.coverage" NAME="echotest server Coverage Results" MODIFIED="1539594649759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
+    <SUITE FILE_PATH="coverage/networksecurity2018$echotest_server.coverage" NAME="echotest server Coverage Results" MODIFIED="1540409477315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_simplewebserver.coverage" NAME="pytest_simplewebserver Coverage Results" MODIFIED="1536177312301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
+    <SUITE FILE_PATH="coverage/networksecurity2018$echotest_server_rb.coverage" NAME="echotest server rb Coverage Results" MODIFIED="1540413742610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_echoserver.coverage" NAME="pytest_echoserver Coverage Results" MODIFIED="1536178591114" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
-    <SUITE FILE_PATH="coverage/networksecurity2018$echotest_client.coverage" NAME="echotest client Coverage Results" MODIFIED="1539594653974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
+    <SUITE FILE_PATH="coverage/networksecurity2018$echotest_client.coverage" NAME="echotest client Coverage Results" MODIFIED="1540409501567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$ThroughputTester_client.coverage" NAME="ThroughputTester client Coverage Results" MODIFIED="1539595039735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$first_day_quiz.coverage" NAME="first_day_quiz Coverage Results" MODIFIED="1536172225728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_simplewebclient.coverage" NAME="pytest_simplewebclient Coverage Results" MODIFIED="1536177918128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
     <SUITE FILE_PATH="coverage/networksecurity2018$echotest.coverage" NAME="echotest server Coverage Results" MODIFIED="1538384737037" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
-    <SUITE FILE_PATH="coverage/networksecurity2018$ThroughputTester_server.coverage" NAME="ThroughputTester server Coverage Results" MODIFIED="1539595113198" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
+    <SUITE FILE_PATH="coverage/networksecurity2018$ThroughputTester_server.coverage" NAME="ThroughputTester server Coverage Results" MODIFIED="1540432975948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
+    <SUITE FILE_PATH="coverage/networksecurity2018$echotest_client_rb.coverage" NAME="echotest client rb Coverage Results" MODIFIED="1540413756008" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-1828349253">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="3" />
           <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.4" value="2" />
+          <entry key="project.open.time.6" value="2" />
+          <entry key="project.opened" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="2018-09-17_16" value="1" />
+          <entry key="23892661728968110081530" value="1" />
           <entry key="gitignore" value="1" />
-          <entry key="ini" value="2" />
+          <entry key="ini" value="9" />
           <entry key="log" value="1" />
           <entry key="md" value="21" />
-          <entry key="pid" value="1" />
-          <entry key="py" value="139" />
+          <entry key="pid" value="7" />
+          <entry key="py" value="159" />
+          <entry key="status" value="4" />
           <entry key="txt" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Ini" value="2" />
+          <entry key="Ini" value="9" />
           <entry key="Markdown" value="21" />
-          <entry key="PLAIN_TEXT" value="9" />
-          <entry key="Python" value="139" />
+          <entry key="PLAIN_TEXT" value="20" />
+          <entry key="Python" value="159" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="700" />
-          <entry key="dummy" value="13" />
+          <entry key="Python Console" value="711" />
+          <entry key="dummy" value="16" />
           <entry key="gitignore" value="61" />
-          <entry key="py" value="11565" />
-          <entry key="txt" value="1927" />
+          <entry key="py" value="11712" />
+          <entry key="txt" value="1966" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="2001" />
-          <entry key="Python" value="12265" />
+          <entry key="PLAIN_TEXT" value="2043" />
+          <entry key="Python" value="12423" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py">
+        <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="438">
-              <caret line="147" selection-start-line="147" selection-end-line="147" />
+            <state relative-caret-position="105">
+              <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <marker date="1539594646126" expanded="true" signature="387:388" ph="..." />
-                <marker date="1539594646126" expanded="true" signature="3022:3028" ph="..." />
-                <marker date="1539594646126" expanded="true" signature="3113:3414" ph="..." />
+                <element signature="e#0#17#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/protocols/vsockets.py">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="402" selection-start-line="402" selection-end-line="402" />
+            <state relative-caret-position="624">
+              <caret line="93" column="65" selection-start-line="93" selection-start-column="65" selection-end-line="93" selection-end-column="65" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/selector_events.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="733" selection-start-line="733" selection-end-line="733" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="212" column="42" selection-start-line="212" selection-start-column="42" selection-end-line="212" selection-end-column="42" />
+            <state relative-caret-position="235">
+              <caret line="211" column="45" selection-start-line="211" selection-start-column="45" selection-end-line="211" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/events.py">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughClientProtocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="156" selection-start-line="156" selection-end-line="156" />
+            <state relative-caret-position="240">
+              <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/base_events.py">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="1434" selection-start-line="1434" selection-end-line="1434" />
+            <state relative-caret-position="180">
+              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="17" lean-forward="true" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+            <state relative-caret-position="-1532">
+              <caret line="40" selection-start-line="40" selection-end-line="40" />
               <folding>
-                <marker date="1539591716299" expanded="true" signature="137:250" ph="..." />
-                <marker date="1539591716299" expanded="true" signature="282:325" ph="..." />
+                <element signature="e#0#13#0" expanded="true" />
+                <marker date="1539594646123" expanded="true" signature="1224:2879" ph="..." />
+                <marker date="1539594646123" expanded="true" signature="2966:3282" ph="..." />
+                <marker date="1539594646123" expanded="true" signature="3999:5786" ph="..." />
+                <marker date="1539594646123" expanded="true" signature="4247:4589" ph="..." />
+                <marker date="1539594646123" expanded="true" signature="5320:5329" ph="..." />
+                <marker date="1539594646123" expanded="true" signature="5320:5527" ph="..." />
+                <marker date="1539594646123" expanded="true" signature="6251:6582" ph="..." />
               </folding>
             </state>
           </provider>
@@ -157,7 +170,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
+            <state relative-caret-position="-572">
               <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
@@ -170,30 +183,34 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="345">
+              <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="40" selection-start-line="40" selection-end-line="40" />
+            <state relative-caret-position="75">
+              <caret line="5" selection-start-line="5" selection-end-line="6" selection-end-column="92" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <marker date="1539594646123" expanded="true" signature="1224:2879" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="2966:3282" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="3999:5786" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="4247:4589" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="5320:5329" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="5320:5527" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="6251:6582" ph="..." />
+                <marker date="1539594646126" expanded="true" signature="387:388" ph="..." />
+                <marker date="1539594646126" expanded="true" signature="3022:3028" ph="..." />
+                <marker date="1539594646126" expanded="true" signature="3113:3414" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerTransport.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
@@ -224,13 +241,15 @@
       <find>data_rece</find>
       <find>start</find>
       <find>RIPPClientTransport</find>
+      <find>RippPacket</find>
     </findStrings>
     <replaceStrings>
       <replace>client</replace>
+      <replace>RIPPPacket</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Playground3" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -271,10 +290,13 @@
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerTransport.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py" />
-        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py" />
+        <option value="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py" />
+        <option value="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py" />
         <option value="$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py" />
       </list>
     </option>
   </component>
@@ -344,7 +366,48 @@
               <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
               <item name="Playground3" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="Playground3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="playground_env" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="playground_env" type="462c0819:PsiDirectoryNode" />
+              <item name=".playground" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="playground_env" type="462c0819:PsiDirectoryNode" />
+              <item name=".playground" type="462c0819:PsiDirectoryNode" />
+              <item name="connectors" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="playground_env" type="462c0819:PsiDirectoryNode" />
+              <item name=".playground" type="462c0819:PsiDirectoryNode" />
+              <item name="connectors" type="462c0819:PsiDirectoryNode" />
+              <item name="ripp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="playground_env" type="462c0819:PsiDirectoryNode" />
+              <item name=".playground" type="462c0819:PsiDirectoryNode" />
+              <item name="connectors" type="462c0819:PsiDirectoryNode" />
+              <item name="ripp_rb" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -361,13 +424,15 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/playground_env/.playground" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/playground_env/.playground" />
       <recent name="$PROJECT_DIR$/labs/lab1/src/lab1_protocol" />
       <recent name="$PROJECT_DIR$/labs/lab1/src" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb" />
+      <recent name="$PROJECT_DIR$/labs/lab1/src/lab1_protocol" />
+      <recent name="$PROJECT_DIR$/playground_env/.playground" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -449,6 +514,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="echotest client rb" type="PythonConfigurationType" factoryName="Python">
+      <module name="networksecurity2018" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground_env" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Playground3/src/test/echotest.py" />
+      <option name="PARAMETERS" value="20184.1.2.3 -stack=ripp_rb" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="echotest client" type="PythonConfigurationType" factoryName="Python">
       <module name="networksecurity2018" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -464,6 +551,28 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Playground3/src/test/echotest.py" />
       <option name="PARAMETERS" value="20184.1.2.3 -stack=ripp" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="echotest server rb" type="PythonConfigurationType" factoryName="Python">
+      <module name="networksecurity2018" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground_env" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Playground3/src/test/echotest.py" />
+      <option name="PARAMETERS" value="server &amp; -stack=ripp_rb" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -539,7 +648,9 @@
     </configuration>
     <list>
       <item itemvalue="Python.echotest client" />
+      <item itemvalue="Python.echotest client rb" />
       <item itemvalue="Python.ThroughputTester client" />
+      <item itemvalue="Python.echotest server rb" />
       <item itemvalue="Python.pytest_echoserver" />
       <item itemvalue="Python.pytest_echoclient" />
       <item itemvalue="Python.RIPPPacket" />
@@ -889,7 +1000,14 @@
       <option name="project" value="LOCAL" />
       <updated>1539592347985</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Handle seq_no and ack_no correctly">
+      <created>1539595271342</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1539595271342</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TodoView">
@@ -903,13 +1021,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1057" width="1920" height="1057" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1970181" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20713525" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32921812" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.39067358" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32789117" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.40518135" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39792746" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -918,8 +1037,8 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32930845" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32746115" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32953367" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.3265306" />
       <window_info anchor="bottom" id="Messages" order="13" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -935,7 +1054,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Enum for standard packet use" />
     <MESSAGE value="Add skeleton for standard handshake packets needed for RIPPProtocol" />
     <MESSAGE value="__repr__ fails for some reason. Revisit later" />
     <MESSAGE value="client and server protocol for RIPP" />
@@ -960,7 +1078,8 @@
     <MESSAGE value="Handle packet based on connection open or closed" />
     <MESSAGE value="Establish connection correctly with state set open" />
     <MESSAGE value="Maintain consistent logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Maintain consistent logging" />
+    <MESSAGE value="Handle seq_no and ack_no correctly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Handle seq_no and ack_no correctly" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -994,51 +1113,7 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/labs/lab1/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doc/prfc/drafts/reliable.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2772" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/readings/2018_09_19.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/networking.ini">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/programming_quiz.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Playground3/src/playground/common/Configure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/devices/vnic/connect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="428" column="39" lean-forward="true" selection-start-line="428" selection-start-column="39" selection-end-line="428" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/.playground/networking.ini">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/.playground/device_p_eth0.pid">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
@@ -1078,20 +1153,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Playground3/src/test/echotest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="100" column="8" selection-start-line="99" selection-start-column="8" selection-end-line="100" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/packet/encoders/PlaygroundStandardPacketEncoder.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="291">
@@ -1103,13 +1164,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="223">
           <caret line="322" selection-start-line="322" selection-end-line="322" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1127,27 +1181,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughClientProtocol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="8" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp/ripp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/packet/fieldtypes/PacketFields.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="241">
@@ -1159,16 +1192,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3165">
           <caret line="221" column="8" selection-start-line="221" selection-start-column="8" selection-end-line="221" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerTransport.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <marker date="1538383496323" expanded="true" signature="104:105" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1232,43 +1255,50 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
-          <folding>
-            <element signature="e#1#45#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py">
+    <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/protocols/vsockets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+        <state relative-caret-position="2861">
+          <caret line="402" selection-start-line="402" selection-end-line="402" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
+    <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/selector_events.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <marker date="1539590539479" expanded="true" signature="625:634" ph="..." />
-            <marker date="1539590539479" expanded="true" signature="625:814" ph="..." />
-            <marker date="1539590539479" expanded="true" signature="845:854" ph="..." />
-            <marker date="1539590539479" expanded="true" signature="845:1009" ph="..." />
-          </folding>
+        <state relative-caret-position="10920">
+          <caret line="733" selection-start-line="733" selection-end-line="733" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py">
+    <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/events.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="17" lean-forward="true" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
-          <folding>
-            <marker date="1539591716299" expanded="true" signature="137:250" ph="..." />
-            <marker date="1539591716299" expanded="true" signature="282:325" ph="..." />
-          </folding>
+        <state relative-caret-position="2175">
+          <caret line="156" selection-start-line="156" selection-end-line="156" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/base_events.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21180">
+          <caret line="1434" selection-start-line="1434" selection-end-line="1434" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/Kandarps-MacBook-Pro.local-9a5a5c0.23892661728968110081530" />
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp/ripp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/device_test_switch.pid">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1277,9 +1307,91 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Playground3/src/test/echotest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="183" column="31" lean-forward="true" selection-start-line="183" selection-start-column="31" selection-end-line="183" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/devices/vnic/connect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="322" selection-start-line="322" selection-end-line="322" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/device_p_eth0.pid">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/networking.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="18" lean-forward="true" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/device_test_switch.status">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/device_p_eth0.status">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#0#92#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughClientProtocol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
+        <state relative-caret-position="-1532">
           <caret line="40" selection-start-line="40" selection-end-line="40" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
@@ -1294,40 +1406,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/protocols/vsockets.py">
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="402" selection-start-line="402" selection-end-line="402" />
+        <state relative-caret-position="-572">
+          <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1539590539479" expanded="true" signature="625:634" ph="..." />
+            <marker date="1539590539479" expanded="true" signature="625:814" ph="..." />
+            <marker date="1539590539479" expanded="true" signature="845:854" ph="..." />
+            <marker date="1539590539479" expanded="true" signature="845:1009" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/selector_events.py">
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerTransport.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="733" selection-start-line="733" selection-end-line="733" />
+        <state relative-caret-position="240">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/events.py">
+    <entry file="file://$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="156" selection-start-line="156" selection-end-line="156" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/base_events.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="1434" selection-start-line="1434" selection-end-line="1434" />
+        <state relative-caret-position="235">
+          <caret line="211" column="45" selection-start-line="211" selection-start-column="45" selection-end-line="211" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="147" selection-start-line="147" selection-end-line="147" />
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="6" selection-end-column="92" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
             <marker date="1539594646126" expanded="true" signature="387:388" ph="..." />
             <marker date="1539594646126" expanded="true" signature="3022:3028" ph="..." />
             <marker date="1539594646126" expanded="true" signature="3113:3414" ph="..." />
@@ -1335,10 +1446,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py">
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="212" column="42" selection-start-line="212" selection-start-column="42" selection-end-line="212" selection-end-column="42" />
+        <state relative-caret-position="624">
+          <caret line="93" column="65" selection-start-line="93" selection-start-column="65" selection-end-line="93" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
         </state>
       </provider>
     </entry>

@@ -21,8 +21,11 @@ class RIPPPacketType(Enum):
 @unique
 class StateType(Enum):
     OPEN = 'OPEN'
+    LISTEN = 'LISTEN'
+    SYN_RECEIVED = 'SYN-RECEIVED'
+    ESTABLISHED = 'ESTABLISHED'
+    CLOSING = 'CLOSING'
     CLOSED = 'CLOSED'
-
 
 packet_type_mapping = ['SYN', 'ACK', 'SYNACK', 'Data', 'FIN', 'FINACK']
 
