@@ -46,7 +46,7 @@ class RippServerProtocol(StackingProtocol):
                     self.transport.write(synackPkt.__serialize__())
                     self.state = StateType.SYN_RECEIVED.value
                 else:
-                    logger.debug('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
+                    logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
                     self.transport.close()
 
             elif self.state == StateType.SYN_RECEIVED.value:
@@ -60,7 +60,7 @@ class RippServerProtocol(StackingProtocol):
                     self.higherProtocol().connection_made(self.RippTransport)
                     self.state = StateType.ESTABLISHED.value
                 else:
-                    logger.debug('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
+                    logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
                     self.transport.close()
 
             elif self.state == StateType.ESTABLISHED.value:
@@ -85,9 +85,9 @@ class RippServerProtocol(StackingProtocol):
                         self.pktHdlr.processData(pkt)
 
                     else:
-                        logger.debug('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
+                        logger.error('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
                 elif self.pktHdlr.checkHash(pkt) == False:
-                    logger.debug('\n RIPP SERVER: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
+                    logger.warning('\n RIPP SERVER: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
                     continue  # if hashes do not match do nothing with pkt.
 
             elif self.state == StateType.CLOSING.value:
@@ -137,15 +137,15 @@ class RippServerProtocol(StackingProtocol):
                             # Process as data packet
                             self.pktHdlr.processData(pkt)
                         else:
-                            logger.debug('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
+                            logger.error('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
                 else:
-                    logger.debug('\n RIPP SERVER: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
+                    logger.error('\n RIPP SERVER: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
                     continue  # if hashes do not match do nothing with pkt.
             else:
-                logger.debug('\n RIPP {} PROTOCOL IN BAD STATE\n'.format(self.ProtocolID))
+                logger.warning('\n RIPP {} PROTOCOL IN BAD STATE\n'.format(self.ProtocolID))
 
     def connection_lost(self, exc):
-        logger.debug('\n RIPP SERVER: Connection to client lost.\n')
+        logger.error('\n RIPP SERVER: Connection to client lost.\n')
         self.transport = None
 
 
@@ -220,9 +220,9 @@ class RippClientProtocol(StackingProtocol):
                         self.pktHdlr.processData(pkt)
 
                     else:
-                        logger.debug('\n RIPP CLIENT: INVALID PACKET TYPE RECEIVED \n')
+                        logger.error('\n RIPP CLIENT: INVALID PACKET TYPE RECEIVED \n')
                 else:
-                    logger.debug('\n RIPP CLIENT: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
+                    logger.error('\n RIPP CLIENT: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
                     continue  # if hashes do not match do nothing with pkt.
 
             elif self.state == StateType.CLOSING.value:
@@ -272,15 +272,15 @@ class RippClientProtocol(StackingProtocol):
                             # Process as data packet
                             self.pktHdlr.processData(pkt)
                         else:
-                            logger.debug('\n RIPP CLIENT: INVALID PACKET TYPE RECEIVED \n')
+                            logger.error('\n RIPP CLIENT: INVALID PACKET TYPE RECEIVED \n')
                 else:
-                    logger.debug('\n RIPP CLIENT: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
+                    logger.error('\n RIPP CLIENT: CRC CHECK FAIL. DROPPING PACKET S:{}\n'.format(pkt.SeqNo))
                     continue  # if hashes do not match do nothing with pkt.
             else:
-                logger.debug('\n RIPP {} PROTOCOL IN BAD STATE\n'.format(self.ProtocolID))
+                logger.warning('\n RIPP {} PROTOCOL IN BAD STATE\n'.format(self.ProtocolID))
 
     def connection_lost(self, exc):
-        logger.debug('\n RIPP CLIENT: Connection to server lost.\n')
+        logger.error('\n RIPP CLIENT: Connection to server lost.\n')
         self.transport = None
 
 
@@ -389,7 +389,7 @@ class PacketHandler:
                 pkt = self.backlog[index]
                 if pkt.SeqNo == self.nextSeqNo:
                     if len(self.dataBuffer) == 16:
-                        logger.debug('\n RIPP {}:  Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
+                        logger.warning('\n RIPP {}:  Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
                         self.sendACK()
                         self.clearBuffer()
                     elif pkt.Type == 'FIN':
@@ -411,7 +411,7 @@ class PacketHandler:
 
         # Check size of buffer
         if len(self.dataBuffer) == 16:
-            logger.debug('\n RIPP {}:  Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
+            logger.warning('\n RIPP {}:  Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
             self.sendACK()
             self.clearBuffer()
 
@@ -437,7 +437,7 @@ class PacketHandler:
         self.timeout.cancel()
         self.dataBuffer.sort(key=lambda x: x.SeqNo, reverse=False)  # make sure Buffer is sorted
 
-        logger.debug('\n RIPP {}: CLEARING DATA BUFFER. SENDING DATA TO HIGHER PROTOCOL.\n'.format(self.Protocol.ProtocolID))
+        logger.warning('\n RIPP {}: CLEARING DATA BUFFER. SENDING DATA TO HIGHER PROTOCOL.\n'.format(self.Protocol.ProtocolID))
 
         # Add check for FIN packet type. Call higherProtocol().connection_lost(None)
         for pkt in self.dataBuffer:
@@ -511,7 +511,7 @@ class PacketHandler:
             self.addToBuffer(pkt)
         else:  # Wrong SeqNo Received
             self.timeout.cancel()
-            logger.debug('\n RIPP {}: RECEIVED UNEXPECTED PACKET S:{}\n'.format(self.Protocol.ProtocolID, pkt.SeqNo))
+            logger.error('\n RIPP {}: RECEIVED UNEXPECTED PACKET S:{}\n'.format(self.Protocol.ProtocolID, pkt.SeqNo))
 
             # Clear buffer and ACK
             if len(self.dataBuffer) > 0:
@@ -545,7 +545,7 @@ class PacketHandler:
 
     def Timeout(self):
         # Data has not been received within timeout window.
-        logger.debug('\n RIPP {}: TIMEOUT REACHED.  PUSHING DATA \n'.format(self.Protocol.ProtocolID))
+        logger.warning('\n RIPP {}: TIMEOUT REACHED.  PUSHING DATA \n'.format(self.Protocol.ProtocolID))
         self.sendACK()
         self.clearBuffer()
 
