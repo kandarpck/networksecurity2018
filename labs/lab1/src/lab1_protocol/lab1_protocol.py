@@ -1,15 +1,10 @@
-import asyncio
 import hashlib
 import logging
-from random import randint
 
-import playground
-from playground.network.common import StackingProtocol, StackingTransport
-
-from labs.lab1.src.lab1_protocol.PacketHandler import PacketHandler
+from playground.network.common import StackingTransport
 
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, StateType
+from labs.lab1.src.lab1_protocol.RIPPPacketType import StateType
 
 logger = logging.getLogger('playground.' + __name__)
 logger.setLevel(logging.WARNING)
@@ -73,26 +68,3 @@ class RippTransport(StackingTransport):
         # Send FIN through PacketHandler to also delete data buffers
         self.Protocol.pktHdlr.sendFIN(self.Protocol.seqID)
         self.Protocol.state = StateType.CLOSING.value
-
-
-# class ProtocolState:
-# LISTEN - represents waiting for a connection request from any remote TCP and property
-# SYN-SENT - waiting for a matching connection request after having sent a request
-# SYN-RECEIVED - waiting for a confirming connection request ACK after having both received and sent a conn request.
-# ESTABLISHED - represents an open connection.  Data transfer.
-# CLOSING - Closing connection after receiving a FIN request.
-# def __init__(self, state):
-#    self.currentState = state
-
-# def getState():
-#    return self.currentState
-
-# def setState(self, state):
-#    self.currentState = state
-
-async def main():
-    loop = asyncio.get_event_loop()
-    coro = playground.getConnector('lab1protocol').create_playground_server(lambda: RippServerProtocol(), port=9876)
-    server = loop.run_until_complete(coro)
-    loop.run_forever()
-    loop.close()
