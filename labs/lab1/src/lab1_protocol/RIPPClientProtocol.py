@@ -1,4 +1,3 @@
-import hashlib
 from logging import getLogger, WARNING
 from random import randint
 
@@ -41,7 +40,8 @@ class RippClientProtocol(StackingProtocol):
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
             logger.debug('\n RIPP Client: {} received\n'.format(pkt))
-            if not isinstance(pkt, RIPPPacket) and pkt.validate(pkt):
+
+            if not isinstance(pkt, RIPPPacket) and not pkt.validate(pkt):
                 logger.error('\n RIPP Client: INVALID PACKET TYPE RECEIVED \n')
                 self.transport.close()
 
@@ -129,14 +129,6 @@ class RippClientProtocol(StackingProtocol):
         self.transport = None
 
     # ---------- Custom methods ---------------- #
-    def initiate_handshake(self, syn):
-        logger.debug('\n RIPP SERVER: SYN RECEIVED S:{}\n'.format(syn.SeqNo))
-        syn_ack_pkt = RIPPPacket().syn_ack_packet(seq_no=self.seqID, ack_no=syn.SeqNo + 1)
-        self.ackID = syn_ack_pkt.AckNo
-        logger.debug('\n RIPP SERVER: RESPONDING WITH SYNACK S:{}, A:{}\n'.format(syn_ack_pkt.SeqNo,
-                                                                                  syn_ack_pkt.AckNo))
-        self.transport.write(syn_ack_pkt.__serialize__())
-        self.state = StateType.SYN_RECEIVED.value
 
     def establish_connection(self):
         # Make connection
