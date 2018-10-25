@@ -2,22 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9c6a3c7-34e8-4b7f-8b9b-ff871671830f" name="Default Changelist" comment="Session termination part 1 and 2 - FIN, FIN-ACK">
-      <change afterPath="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py" beforeDir="false" afterPath="$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/Handshake.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/Kandarps-MacBook-Pro.local-1438a5c0.18020-7473905588149986909" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/Kandarps-MacBook-Pro.local-d33f5c0.180147483125513590096102" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_p_eth0.pid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_p_eth0.pid.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_p_eth0.status" beforeDir="false" afterPath="$PROJECT_DIR$/playground_env/.playground/device_p_eth0.status" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_test_switch.pid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/device_test_switch.pid.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/.playground/networking.ini" beforeDir="false" afterPath="$PROJECT_DIR$/playground_env/.playground/networking.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground_env/networking.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,11 +24,11 @@
     <SUITE FILE_PATH="coverage/networksecurity2018$echotest_server_rb.coverage" NAME="echotest server rb Coverage Results" MODIFIED="1540413742610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_echoserver.coverage" NAME="pytest_echoserver Coverage Results" MODIFIED="1536178591114" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
     <SUITE FILE_PATH="coverage/networksecurity2018$echotest_client.coverage" NAME="echotest client Coverage Results" MODIFIED="1540409501567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
-    <SUITE FILE_PATH="coverage/networksecurity2018$ThroughputTester_client.coverage" NAME="ThroughputTester client Coverage Results" MODIFIED="1539595039735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
+    <SUITE FILE_PATH="coverage/networksecurity2018$ThroughputTester_client.coverage" NAME="ThroughputTester client Coverage Results" MODIFIED="1540433719852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$first_day_quiz.coverage" NAME="first_day_quiz Coverage Results" MODIFIED="1536172225728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/networksecurity2018$pytest_simplewebclient.coverage" NAME="pytest_simplewebclient Coverage Results" MODIFIED="1536177918128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pytest" />
     <SUITE FILE_PATH="coverage/networksecurity2018$echotest.coverage" NAME="echotest server Coverage Results" MODIFIED="1538384737037" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
-    <SUITE FILE_PATH="coverage/networksecurity2018$ThroughputTester_server.coverage" NAME="ThroughputTester server Coverage Results" MODIFIED="1540432975948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
+    <SUITE FILE_PATH="coverage/networksecurity2018$ThroughputTester_server.coverage" NAME="ThroughputTester server Coverage Results" MODIFIED="1540437369267" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
     <SUITE FILE_PATH="coverage/networksecurity2018$echotest_client_rb.coverage" NAME="echotest client rb Coverage Results" MODIFIED="1540413756008" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/playground_env" />
   </component>
   <component name="FUSProjectUsageTrigger">
@@ -65,7 +54,7 @@
           <entry key="log" value="1" />
           <entry key="md" value="21" />
           <entry key="pid" value="7" />
-          <entry key="py" value="159" />
+          <entry key="py" value="167" />
           <entry key="status" value="4" />
           <entry key="txt" value="5" />
         </counts>
@@ -75,7 +64,7 @@
           <entry key="Ini" value="9" />
           <entry key="Markdown" value="21" />
           <entry key="PLAIN_TEXT" value="20" />
-          <entry key="Python" value="159" />
+          <entry key="Python" value="167" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -83,14 +72,14 @@
           <entry key="Python Console" value="711" />
           <entry key="dummy" value="16" />
           <entry key="gitignore" value="61" />
-          <entry key="py" value="11712" />
-          <entry key="txt" value="1966" />
+          <entry key="py" value="12138" />
+          <entry key="txt" value="2192" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="2043" />
-          <entry key="Python" value="12423" />
+          <entry key="PLAIN_TEXT" value="2269" />
+          <entry key="Python" value="12849" />
         </counts>
       </usages-collector>
     </session>
@@ -98,22 +87,47 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+            <state relative-caret-position="165">
+              <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="50" column="79" lean-forward="true" selection-start-line="50" selection-start-column="79" selection-end-line="50" selection-end-column="79" />
               <folding>
-                <element signature="e#0#17#0" expanded="true" />
+                <element signature="e#0#14#0" expanded="true" />
+                <marker date="1540437385702" expanded="true" signature="9598:11253" ph="..." />
+                <marker date="1540437385702" expanded="true" signature="11340:11656" ph="..." />
+                <marker date="1540437385702" expanded="true" signature="12373:14160" ph="..." />
+                <marker date="1540437385702" expanded="true" signature="12621:12963" ph="..." />
+                <marker date="1540437385702" expanded="true" signature="13694:13703" ph="..." />
+                <marker date="1540437385702" expanded="true" signature="13694:13901" ph="..." />
+                <marker date="1540437385702" expanded="true" signature="14625:14956" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py">
+        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PacketHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="624">
-              <caret line="93" column="65" selection-start-line="93" selection-start-column="65" selection-end-line="93" selection-end-column="65" />
+            <state relative-caret-position="180">
+              <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -124,45 +138,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="211" column="45" selection-start-line="211" selection-start-column="45" selection-end-line="211" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughClientProtocol.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughServerProtocol.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1532">
-              <caret line="40" selection-start-line="40" selection-end-line="40" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <marker date="1539594646123" expanded="true" signature="1224:2879" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="2966:3282" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="3999:5786" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="4247:4589" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="5320:5329" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="5320:5527" ph="..." />
-                <marker date="1539594646123" expanded="true" signature="6251:6582" ph="..." />
-              </folding>
+            <state relative-caret-position="3855">
+              <caret line="260" column="18" selection-start-line="260" selection-start-column="18" selection-end-line="260" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -170,24 +147,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-572">
-              <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
+            <state relative-caret-position="1213">
+              <caret line="117" selection-start-line="117" selection-end-line="117" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
-                <marker date="1539590539479" expanded="true" signature="625:634" ph="..." />
-                <marker date="1539590539479" expanded="true" signature="625:814" ph="..." />
-                <marker date="1539590539479" expanded="true" signature="845:854" ph="..." />
-                <marker date="1539590539479" expanded="true" signature="845:1009" ph="..." />
+                <marker date="1540437029851" expanded="true" signature="625:634" ph="..." />
+                <marker date="1540437029851" expanded="true" signature="625:814" ph="..." />
+                <marker date="1540437029851" expanded="true" signature="845:854" ph="..." />
+                <marker date="1540437029851" expanded="true" signature="845:1009" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -195,22 +163,40 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="6" selection-end-column="92" />
+            <state relative-caret-position="376">
+              <caret line="42" column="38" selection-start-line="40" selection-start-column="12" selection-end-line="42" selection-end-column="38" />
               <folding>
-                <marker date="1539594646126" expanded="true" signature="387:388" ph="..." />
-                <marker date="1539594646126" expanded="true" signature="3022:3028" ph="..." />
-                <marker date="1539594646126" expanded="true" signature="3113:3414" ph="..." />
+                <element signature="e#0#14#0" expanded="true" />
+                <marker date="1540437133793" expanded="true" signature="8922:8923" ph="..." />
+                <marker date="1540437133793" expanded="true" signature="11557:11563" ph="..." />
+                <marker date="1540437133793" expanded="true" signature="11648:11949" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerTransport.py">
+        <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state>
+              <caret column="72" selection-start-column="72" selection-end-column="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -237,15 +223,29 @@
       <find>stack</find>
       <find>server</find>
       <find>connect</find>
-      <find>data</find>
       <find>data_rece</find>
       <find>start</find>
       <find>RIPPClientTransport</find>
       <find>RippPacket</find>
+      <find>state</find>
+      <find>PacketType</find>
+      <find>data</find>
+      <find>transport</find>
+      <find>log</find>
+      <find>print</find>
+      <find>rippTra</find>
+      <find>ripp</find>
+      <find>ripptra</find>
+      <find>RippServerProtocol</find>
     </findStrings>
     <replaceStrings>
       <replace>client</replace>
       <replace>RIPPPacket</replace>
+      <replace>PacketType.SYN.value.lower()</replace>
+      <replace>RIPPPacketType.ACK.value.lower()</replace>
+      <replace>RIPPPacketType.DATA.value.lower()</replace>
+      <replace>RIPPPacketType.FIN.value.lower()</replace>
+      <replace>logger.debug</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -289,14 +289,15 @@
         <option value="$PROJECT_DIR$/playground_env/.playground/connectors/ripp/__init__.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerTransport.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py" />
-        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py" />
-        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" />
-        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py" />
         <option value="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py" />
-        <option value="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py" />
-        <option value="$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py" />
-        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py" />
         <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py" />
+        <option value="$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PacketHandler.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py" />
+        <option value="$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py" />
+        <option value="$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py" />
       </list>
     </option>
   </component>
@@ -367,6 +368,32 @@
               <item name="Playground3" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="playground" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="Playground3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="network" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="Playground3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="network" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="networksecurity2018" type="462c0819:PsiDirectoryNode" />
+              <item name="Playground3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="network" type="462c0819:PsiDirectoryNode" />
+              <item name="protocols" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="networksecurity2018" type="b2602c69:ProjectViewProjectNode" />
@@ -678,34 +705,6 @@
       <option name="presentableId" value="Default" />
       <updated>1536088073694</updated>
     </task>
-    <task id="LOCAL-00001" summary="Setup test skeleton">
-      <created>1536174360520</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1536174360520</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Running simple webserver with request and responses">
-      <created>1536175819610</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1536175819610</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Read contents of the file and return it in a response">
-      <created>1536176487858</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1536176487858</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Small additions">
-      <created>1536177026606</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1536177026606</updated>
-    </task>
     <task id="LOCAL-00005" summary="Client to access the server contents">
       <created>1536177728478</created>
       <option name="number" value="00005" />
@@ -1007,7 +1006,49 @@
       <option name="project" value="LOCAL" />
       <updated>1539595271342</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Added more states to the protocol">
+      <created>1540433315444</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1540433315444</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Merge code in a team">
+      <created>1540433361899</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1540433361899</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Move to enums for consistency">
+      <created>1540434562067</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1540434562068</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Convert print statements to log">
+      <created>1540435210356</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1540435210356</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Better logger warning and errors">
+      <created>1540435557203</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1540435557203</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Refactor the Server into another class">
+      <created>1540437174542</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1540437174542</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1023,12 +1064,12 @@
     <frame x="0" y="-1057" width="1920" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20713525" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20713525" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32789117" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.40518135" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.40518135" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39792746" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1054,12 +1095,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add skeleton for standard handshake packets needed for RIPPProtocol" />
-    <MESSAGE value="__repr__ fails for some reason. Revisit later" />
-    <MESSAGE value="client and server protocol for RIPP" />
-    <MESSAGE value="change CRC to STRING. calculate sha1 hash and serialize packets" />
-    <MESSAGE value="3 way handshake part 1 - SYN and SYN-ACK" />
-    <MESSAGE value="3 way handshake part 2 and 3 - ACK" />
     <MESSAGE value="Session termination part 1 and 2 - FIN, FIN-ACK" />
     <MESSAGE value="Session termination part 3 - FIN-ACK" />
     <MESSAGE value="Receive Data and send ACK" />
@@ -1079,7 +1114,13 @@
     <MESSAGE value="Establish connection correctly with state set open" />
     <MESSAGE value="Maintain consistent logging" />
     <MESSAGE value="Handle seq_no and ack_no correctly" />
-    <option name="LAST_COMMIT_MESSAGE" value="Handle seq_no and ack_no correctly" />
+    <MESSAGE value="Added more states to the protocol" />
+    <MESSAGE value="Merge code in a team" />
+    <MESSAGE value="Move to enums for consistency" />
+    <MESSAGE value="Convert print statements to log" />
+    <MESSAGE value="Better logger warning and errors" />
+    <MESSAGE value="Refactor the Server into another class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor the Server into another class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1090,40 +1131,19 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py</url>
-          <line>147</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py</url>
-          <line>154</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py</url>
-          <line>156</line>
+          <line>303</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py</url>
-          <line>163</line>
+          <line>310</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1590">
-          <caret line="106" column="33" selection-start-line="106" selection-start-column="33" selection-end-line="106" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/.playground/logs/echotest.py.log" />
     <entry file="file://$PROJECT_DIR$/playground_env/.playground/logs/echotest.py.log.2018-09-17_16" />
     <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/protocols.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1258,13 +1278,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/protocols/vsockets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2861">
-          <caret line="402" selection-start-line="402" selection-end-line="402" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda/envs/networksecurity/lib/python3.6/asyncio/selector_events.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10920">
@@ -1299,13 +1312,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/playground_env/.playground/device_test_switch.pid">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Playground3/src/test/echotest.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1355,26 +1361,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#92#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PassThroughClientProtocol.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1389,37 +1375,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1532">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <marker date="1539594646123" expanded="true" signature="1224:2879" ph="..." />
-            <marker date="1539594646123" expanded="true" signature="2966:3282" ph="..." />
-            <marker date="1539594646123" expanded="true" signature="3999:5786" ph="..." />
-            <marker date="1539594646123" expanded="true" signature="4247:4589" ph="..." />
-            <marker date="1539594646123" expanded="true" signature="5320:5329" ph="..." />
-            <marker date="1539594646123" expanded="true" signature="5320:5527" ph="..." />
-            <marker date="1539594646123" expanded="true" signature="6251:6582" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-572">
-          <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <marker date="1539590539479" expanded="true" signature="625:634" ph="..." />
-            <marker date="1539590539479" expanded="true" signature="625:814" ph="..." />
-            <marker date="1539590539479" expanded="true" signature="845:854" ph="..." />
-            <marker date="1539590539479" expanded="true" signature="845:1009" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerTransport.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1427,39 +1382,122 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py">
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="211" column="45" selection-start-line="211" selection-start-column="45" selection-end-line="211" selection-end-column="45" />
+        <state relative-caret-position="360">
+          <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py">
+    <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/protocols/switching.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="6" selection-end-column="92" />
+        <state relative-caret-position="270">
+          <caret line="23" column="21" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Playground3/src/playground/network/protocols/vsockets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="101" column="21" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="21" />
           <folding>
-            <marker date="1539594646126" expanded="true" signature="387:388" ph="..." />
-            <marker date="1539594646126" expanded="true" signature="3022:3028" ph="..." />
-            <marker date="1539594646126" expanded="true" signature="3113:3414" ph="..." />
+            <element signature="e#1#793#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py">
+    <entry file="file://$PROJECT_DIR$/Playground3/src/test/ThroughputTester.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="93" column="65" selection-start-line="93" selection-start-column="65" selection-end-line="93" selection-end-column="65" />
+        <state relative-caret-position="3855">
+          <caret line="260" column="18" selection-start-line="260" selection-start-column="18" selection-end-line="260" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1213">
+          <caret line="117" selection-start-line="117" selection-end-line="117" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1540437029851" expanded="true" signature="625:634" ph="..." />
+            <marker date="1540437029851" expanded="true" signature="625:814" ph="..." />
+            <marker date="1540437029851" expanded="true" signature="845:854" ph="..." />
+            <marker date="1540437029851" expanded="true" signature="845:1009" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/PacketHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPPacketType.py">
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/lab1_protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+        <state relative-caret-position="165">
+          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground_env/.playground/connectors/ripp_rb/ripp_rb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="72" selection-start-column="72" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientTransport.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPServerProtocol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="42" column="38" selection-start-line="40" selection-start-column="12" selection-end-line="42" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1540437133793" expanded="true" signature="8922:8923" ph="..." />
+            <marker date="1540437133793" expanded="true" signature="11557:11563" ph="..." />
+            <marker date="1540437133793" expanded="true" signature="11648:11949" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/labs/lab1/src/lab1_protocol/RIPPClientProtocol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="50" column="79" lean-forward="true" selection-start-line="50" selection-start-column="79" selection-end-line="50" selection-end-column="79" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1540437385702" expanded="true" signature="9598:11253" ph="..." />
+            <marker date="1540437385702" expanded="true" signature="11340:11656" ph="..." />
+            <marker date="1540437385702" expanded="true" signature="12373:14160" ph="..." />
+            <marker date="1540437385702" expanded="true" signature="12621:12963" ph="..." />
+            <marker date="1540437385702" expanded="true" signature="13694:13703" ph="..." />
+            <marker date="1540437385702" expanded="true" signature="13694:13901" ph="..." />
+            <marker date="1540437385702" expanded="true" signature="14625:14956" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
