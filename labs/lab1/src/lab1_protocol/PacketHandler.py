@@ -1,7 +1,6 @@
 import asyncio
-import hashlib
-import logging
 import bisect
+import logging
 
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
 from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, StateType
@@ -30,7 +29,7 @@ class PacketHandler:
             bisect.insort(self.sentDataPkts, pkt)
 
         # Start timer for stored packet. Stored as key:value pairs (SeqNo:timer)
-        timer = asyncio.get_event_loop().call_later(1, self.resend, pkt)
+        timer = asyncio.get_event_loop().call_later(1.5, self.resend, pkt)
         self.ackTimers.update({pkt.SeqNo: timer})
 
     # Set up timer to send up a single packet. Must be less than ACK Timers
@@ -54,7 +53,7 @@ class PacketHandler:
             while index < len(self.backlog):
                 pkt = self.backlog[index]
                 if pkt.SeqNo == self.nextSeqNo:
-                    if len(self.dataBuffer) == 16:
+                    if len(self.dataBuffer) >= 100:
                         logger.warning('\n RIPP {}:  Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
                         self.sendACK()
                         self.clearBuffer()
@@ -82,13 +81,13 @@ class PacketHandler:
             self.clearBuffer()
 
         # start Timeout timer.  When it reaches zero, clear buffer.  timeout < resend
-        self.timeout = asyncio.get_event_loop().call_later(0.2, self.Timeout)
+        self.timeout = asyncio.get_event_loop().call_later(0.3, self.Timeout)
 
     def cleanBacklog(self):
         # Deletes all packets with seqNO that are < the current ack total.
         # Implying that these packets would just be redundant data.
-        self.backlog = self.backlog[bisect.bisect_right(self.backlog, self.ackTotal) - 1:] if bisect.bisect_right(
-            self.backlog, self.ackTotal) else self.backlog
+        i = bisect.bisect_right(self.backlog, RIPPPacket().syn_packet(seq_no=self.ackTotal))
+        self.backlog = self.backlog[i - 1:] if i else self.backlog
 
     def clearBuffer(self):
         # Cancel timer
@@ -138,11 +137,10 @@ class PacketHandler:
             else:
                 break
 
-        if len(tempList) > 0:
-            for pkt in tempList:
-                # del ack entry
-                del self.ackTimers[pkt.SeqNo]
-                self.sentDataPkts.remove(pkt)
+        for pkt in tempList:
+            # del ack entry
+            del self.ackTimers[pkt.SeqNo]
+            self.sentDataPkts.remove(pkt)
 
     def resend(self, packet):
         logger.debug('\n RIPP {}: RESENDING PACKET S:{}\n'.format(self.Protocol.ProtocolID, packet.SeqNo))
@@ -163,15 +161,14 @@ class PacketHandler:
             logger.error('\n RIPP {}: RECEIVED UNEXPECTED PACKET S:{}\n'.format(self.Protocol.ProtocolID, pkt.SeqNo))
 
             # Clear buffer and ACK
-            if len(self.dataBuffer) > 0:
+            if self.dataBuffer:
                 self.sendACK()
                 self.clearBuffer()
 
             # Add pkt to backlog
             if pkt not in self.backlog:
                 logger.debug('\n RIPP {}: ADDING TO BACKLOG S:{}\n'.format(self.Protocol.ProtocolID, pkt.SeqNo))
-                self.backlog.append(pkt)
-                self.backlog.sort(key=lambda x: x.SeqNo, reverse=False)
+                bisect.insort(self.backlog, pkt)
 
     def sendFIN(self, seqno):
         # Cancel all data buffers and timers

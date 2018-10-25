@@ -98,7 +98,10 @@ class RIPPPacket(PacketType):
         return data
 
     def __lt__(self, other):
-        return self.SeqNo < other.SeqNo
+        if isinstance(other, int):
+            return self.SeqNo < other
+        else:
+            return self.SeqNo < other.SeqNo
 
     def __repr__(self):
         return super(RIPPPacket, self).__repr__() + \
