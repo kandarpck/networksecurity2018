@@ -30,6 +30,8 @@ class RippServerProtocol(StackingProtocol):
         self.ackID = 0
         self.finSent = False
 
+    # ---------- Overridden methods ---------------- #
+
     def connection_made(self, transport):
         logger.debug('\n RIPP Server connection made with {}\n'.format(transport.get_extra_info('peername')))
         self.transport = transport
@@ -42,50 +44,33 @@ class RippServerProtocol(StackingProtocol):
                 logger.error('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
                 self.transport.close()
             if self.state == StateType.LISTEN.value:
-                # Handshake Initiated
-                if RIPPPacketType.SYN.value.lower() in pkt.Type.lower():
-                    logger.debug('\n RIPP SERVER: SYN RECEIVED S:{}\n'.format(pkt.SeqNo))
-                    seq = self.seqID
-                    synackPkt = RIPPPacket(Type='SYNACK', SeqNo=seq, AckNo=pkt.SeqNo + 1, CRC=b"", Data=b"")
-                    self.ackID = synackPkt.AckNo
-                    logger.debug(
-                        '\n RIPP SERVER: RESPONDING WITH SYNACK S:{}, A:{}\n'.format(synackPkt.SeqNo,
-                                                                                     synackPkt.AckNo))
-                    self.transport.write(synackPkt.__serialize__())
-                    self.state = StateType.SYN_RECEIVED.value
+                if RIPPPacketType.SYN.value.upper() in pkt.Type.upper():
+                    self.initiate_handshake(pkt)
                 else:
                     logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
                     self.transport.close()
-
             elif self.state == StateType.SYN_RECEIVED.value:
-                # Complete handshake
-                if RIPPPacketType.ACK.value.lower() in pkt.Type.lower() and pkt.SeqNo == self.ackID and pkt.AckNo == self.seqID + 1:
-                    # Check ACK
-                    logger.debug('\n RIPP SERVER: ACK RECEIVED S:{}, A:{}\n'.format(pkt.SeqNo, pkt.AckNo))
-                    # Make connection
-                    logger.debug('\n RIPP SERVER MAKING CONNECTION \n')
-                    self.RippTransport = RippTransport(self)
-                    self.higherProtocol().connection_made(self.RippTransport)
-                    self.state = StateType.ESTABLISHED.value
+                if RIPPPacketType.ACK.value.upper() in pkt.Type.upper() and \
+                        pkt.SeqNo == self.ackID and pkt.AckNo == self.seqID + 1:
+                    self.establish_connection(pkt)
                 else:
                     logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
                     self.transport.close()
 
             elif self.state == StateType.ESTABLISHED.value:
-                # Error-check
 
-                if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():  # type Data
+                if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():  # type Data
                     logger.debug('\n RIPP SERVER: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                     # Process Data Packet and send ACK
                     self.pktHdlr.processData(pkt)
 
-                elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():  # type ACK
+                elif RIPPPacketType.ACK.value.upper() in pkt.Type.upper():  # type ACK
                     logger.debug('\n RIPP SERVER: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                     # Check ACK Number in Data Storage
                     # Cancel timer.
                     self.pktHdlr.checkAck(pkt)
 
-                elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():  # type FIN
+                elif RIPPPacketType.FIN.value.upper() in pkt.Type.upper():  # type FIN
                     logger.debug('\n RIPP SERVER: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                     self.state = StateType.CLOSING.value
                     # Process as data packet
@@ -94,19 +79,18 @@ class RippServerProtocol(StackingProtocol):
                 else:
                     logger.error('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
 
-
             elif self.state == StateType.CLOSING.value:
                 # If higherProtocol().con_lost() was called, no longer process data. Just send ACKs.
                 # else continue handling data until FIN packet is processed in the data buffer.
                 # Error Check
                 if self.finSent:  # If this protocol has sent a FIN request
-                    if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():
+                    if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():
                         # Send an ACK. Do not process packet.
                         dataAckNo = pkt.SeqNo + len(pkt.Data)
                         dataAck = RIPPPacket(Type='ACK', SeqNo=0, AckNo=dataAckNo, CRC=b'', Data=b'')
                         dataAck.CRC = hashlib.sha256(dataAck.__serialize__()).digest()
                         self.transport.write(dataAck.__serialize__())
-                    elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():
+                    elif RIPPPacketType.ACK.value.upper() in pkt.Type.upper():
                         self.pktHdlr.checkAck(pkt)
                         # Check for final ACK
                         if pkt.AckNo >= self.pktHdlr.finalACK:
@@ -115,7 +99,7 @@ class RippServerProtocol(StackingProtocol):
                             self.pktHdlr.sentDataPkts.clear()
                             self.state = StateType.CLOSED.value
                             self.transport.close()
-                    elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():
+                    elif RIPPPacketType.FIN.value.upper() in pkt.Type.upper():
                         # Send a FIN ACK. Then shutdown.
                         finAck = RIPPPacket(Type='ACK', SeqNo=0, AckNo=pkt.SeqNo + 1, CRC=b'', Data=b'')
                         finAck.CRC = hashlib.sha256(finAck.__serialize__()).digest()
@@ -127,16 +111,16 @@ class RippServerProtocol(StackingProtocol):
                         self.state = StateType.CLOSED.value
                         self.transport.close()
                 else:  # In a CLOSING state by receiving a FIN request
-                    if RIPPPacketType.DATA.value.lower() in pkt.Type.lower():  # type Data
+                    if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():  # type Data
                         logger.debug('\n RIPP SERVER: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                         # Process Data Packet and send ACK
                         self.pktHdlr.processData(pkt)
-                    elif RIPPPacketType.ACK.value.lower() in pkt.Type.lower():  # type ACK
+                    elif RIPPPacketType.ACK.value.upper() in pkt.Type.upper():  # type ACK
                         logger.debug('\n RIPP SERVER: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                         # Check ACK Number in Data Storage
                         # Cancel timer.
                         self.pktHdlr.checkAck(pkt)
-                    elif RIPPPacketType.FIN.value.lower() in pkt.Type.lower():  # type FIN
+                    elif RIPPPacketType.FIN.value.upper() in pkt.Type.upper():  # type FIN
                         logger.debug('\n RIPP SERVER: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                         # Process as data packet
                         self.pktHdlr.processData(pkt)
@@ -146,10 +130,29 @@ class RippServerProtocol(StackingProtocol):
             else:
                 logger.warning('\n RIPP {} PROTOCOL IN BAD STATE\n'.format(self.ProtocolID))
 
+    def connection_lost(self, exc):
+        logger.error('\n RIPP SERVER: Connection to client lost.\n')
+        self.transport = None
 
-def connection_lost(self, exc):
-    logger.error('\n RIPP SERVER: Connection to client lost.\n')
-    self.transport = None
+    # ---------- Custom methods ---------------- #
+    def initiate_handshake(self, syn):
+        logger.debug('\n RIPP SERVER: SYN RECEIVED S:{}\n'.format(syn.SeqNo))
+        seq = self.seqID
+        synackPkt = RIPPPacket(Type='SYNACK', SeqNo=seq, AckNo=syn.SeqNo + 1, CRC=b"", Data=b"")
+        self.ackID = synackPkt.AckNo
+        logger.debug(
+            '\n RIPP SERVER: RESPONDING WITH SYNACK S:{}, A:{}\n'.format(synackPkt.SeqNo,
+                                                                         synackPkt.AckNo))
+        self.transport.write(synackPkt.__serialize__())
+        self.state = StateType.SYN_RECEIVED.value
+
+    def establish_connection(self, ack):
+        logger.debug('\n RIPP SERVER: ACK RECEIVED S:{}, A:{}\n'.format(ack.SeqNo, ack.AckNo))
+        # Make connection
+        logger.debug('\n RIPP SERVER MAKING CONNECTION \n')
+        self.RippTransport = RippTransport(self)
+        self.higherProtocol().connection_made(self.RippTransport)
+        self.state = StateType.ESTABLISHED.value
 
 
 class RIPPServerProtocol(StackingProtocol):
