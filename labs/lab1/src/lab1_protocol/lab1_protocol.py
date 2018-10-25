@@ -13,9 +13,9 @@ logger.setLevel(logging.WARNING)
 class RippTransport(StackingTransport):
     # Store all sent data packets in protocol's pktHdlr
     # Add timer for all data packets sent
-    def __init__(self, Protocol):
-        self.Protocol = Protocol
-        super().__init__(Protocol.transport)
+    def __init__(self, lower_protocol):
+        self.Protocol = lower_protocol
+        super().__init__(lower_protocol.transport)
 
     def write(self, data):
         MTU = 1500
@@ -29,19 +29,18 @@ class RippTransport(StackingTransport):
             chunk, data = data[:MTU], data[MTU:]
 
             # Create and process Ripp Packet
-            rPkt = RIPPPacket(Type='Data', SeqNo=Seq, AckNo=0, CRC=b"", Data=chunk)
-            rPkt.CRC = hashlib.sha256(rPkt.__serialize__()).digest()
+            data_pkt = RIPPPacket().data_packet(seq_no=Seq, data_content=chunk)
             # Place in queue
-            window.append(rPkt)
-            Seq += len(rPkt.Data)
+            window.append(data_pkt)
+            Seq += len(data_pkt.Data)
             self.Protocol.seqID = Seq
 
-            if len(window) == 16:  # Empty queue when max window size is reached
+            if len(window) >= 100:  # Empty queue when max window size is reached
                 logger.debug('\n RIPP {} Transport: Emptying Full Window \n'.format(self.Protocol.ProtocolID))
                 for pkt in window:
                     logger.debug(
                         '\n RIPP {}: Transporting RIPP Packet S:{}\n'.format(self.Protocol.ProtocolID, pkt.SeqNo))
-                    self.Protocol.pktHdlr.storePkt(pkt)  # store sent pkt
+                    self.Protocol.pktHdlr.store_packet(pkt)  # store sent pkt
                     self.lowerTransport().write(pkt.__serialize__())
                 # Clear queue
                 window.clear()
@@ -51,7 +50,7 @@ class RippTransport(StackingTransport):
             logger.debug('\n RIPP {} Transport: Clearing Window of final packets\n'.format(self.Protocol.ProtocolID))
             for pkt in window:
                 logger.debug('\n RIPP {}: Transporting RIPP Packet S:{}\n'.format(self.Protocol.ProtocolID, pkt.SeqNo))
-                self.Protocol.pktHdlr.storePkt(pkt)  # store sent pkt
+                self.Protocol.pktHdlr.store_packet(pkt)  # store sent pkt
                 self.lowerTransport().write(pkt.__serialize__())
             # Clear queue
             window.clear()
