@@ -1,1 +1,1 @@
-# networksecurity2018
+# Johns Hopkins University - Network Security 2018
