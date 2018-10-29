@@ -103,13 +103,13 @@ class RIPPPacket(PacketType):
         else:
             return self.SeqNo < other.SeqNo
 
-    def __repr__(self):
-        return super(RIPPPacket, self).__repr__() + \
-               ". Type: " + str(self.Type) + \
-               ". SeqNo: " + str(self.SeqNo) + \
-               ". AckNo: " + str(self.AckNo) + \
-               ". Data: " + str(self.Data) + \
-               ". CRC: " + str(self.CRC)
+    #def __repr__(self):
+    #    return super(RIPPPacket, self).__repr__() + \
+    #           ". Type: " + str(self.Type) + \
+    #           ". SeqNo: " + str(self.SeqNo) + \
+    #           ". AckNo: " + str(self.AckNo) + \
+    #           ". Data: " + str(self.Data) + \
+    #           ". CRC: " + str(self.CRC)
 
 
 if __name__ == "__main__":

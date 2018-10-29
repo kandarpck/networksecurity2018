@@ -6,7 +6,7 @@ from playground.network.common import StackingProtocol
 from labs.lab1.src.lab1_protocol.PacketHandler import PacketHandler
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
 from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, StateType
-from labs.lab1.src.lab1_protocol.lab1_protocol import RippTransport
+from labs.lab1.src.lab1_protocol.RippTransport import RippTransport
 
 logger = getLogger('playground.' + __name__)
 logger.setLevel(WARNING)
@@ -36,9 +36,10 @@ class RippServerProtocol(StackingProtocol):
         for pkt in self.deserializer.nextPackets():
             logger.debug('\n RIPP Server: {} received \n'.format(pkt))
 
-            if not isinstance(pkt, RIPPPacket) and not pkt.validate(pkt):
+            if not pkt.validate(pkt):# not isinstance(pkt, RIPPPacket) and
                 logger.error('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
-                self.transport.close()
+                continue
+                #self.transport.close()
 
             elif self.state == StateType.ESTABLISHED.value:
                 if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():  # type Data
@@ -51,7 +52,7 @@ class RippServerProtocol(StackingProtocol):
                     # Cancel timer.
                     self.pktHdlr.check_ack(pkt)
                 elif RIPPPacketType.FIN.value.upper() in pkt.Type.upper():  # type FIN
-                    logger.debug('\n RIPP SERVER: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
+                    logger.warning('\n RIPP SERVER: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                     self.state = StateType.CLOSING.value
                     # Process as data packet
                     self.pktHdlr.process_data(pkt)
@@ -63,6 +64,7 @@ class RippServerProtocol(StackingProtocol):
                     self.initiate_handshake(pkt)
                 else:
                     logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
+                    print('\n Type: {} | Seq: {} \n'.format(pkt.Type, pkt.SeqNo))
                     self.transport.close()
 
             elif self.state == StateType.SYN_RECEIVED.value:
@@ -71,12 +73,12 @@ class RippServerProtocol(StackingProtocol):
                     self.establish_connection(pkt)
                 else:
                     logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
+                    print('\n Type: {} | Seq: {} \n'.format(pkt.Type, pkt.SeqNo))
                     self.transport.close()
 
             elif self.state == StateType.CLOSING.value:
                 # If higherProtocol().con_lost() was called, no longer process data. Just send ACKs.
                 # else continue handling data until FIN packet is processed in the data buffer.
-                # Error Check
                 if self.finSent:  # If this protocol has sent a FIN request
                     if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():
                         # Send an ACK. Do not process packet.

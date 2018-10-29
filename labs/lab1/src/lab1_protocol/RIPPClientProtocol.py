@@ -1,3 +1,4 @@
+import asyncio
 from logging import getLogger, WARNING
 from random import randint
 
@@ -6,7 +7,7 @@ from playground.network.common import StackingProtocol
 from labs.lab1.src.lab1_protocol.PacketHandler import PacketHandler
 from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
 from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, StateType
-from labs.lab1.src.lab1_protocol.lab1_protocol import RippTransport
+from labs.lab1.src.lab1_protocol.RippTransport import RippTransport
 
 logger = getLogger('playground.' + __name__)
 logger.setLevel(WARNING)
@@ -24,29 +25,27 @@ class RippClientProtocol(StackingProtocol):
         self.seqID = randint(0, 2 ** 32)
         self.ackID = 0
         self.finSent = False
+        self.synTimer = None
 
     def connection_made(self, transport):
         logger.debug('\n Client connection made with {}\n'.format(transport.get_extra_info('peername')))
         self.transport = transport
 
-        # Make SYN packet to initiate session
-        if self.state == StateType.LISTEN.value:
-            syn_pkt = RIPPPacket().syn_packet(seq_no=self.seqID)
-            logger.debug('\n RIPP CLIENT: SENDING SYN PACKET S:{}\n'.format(syn_pkt.SeqNo))
-            self.transport.write(syn_pkt.__serialize__())
-            self.state = StateType.SYN_SENT.value
+        # Initiate Handshake
+        self.initiate_handshake()
 
     def data_received(self, data):
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
             logger.debug('\n RIPP Client: {} received\n'.format(pkt))
 
-            if not isinstance(pkt, RIPPPacket) and not pkt.validate(pkt):
+            if not pkt.validate(pkt): #not isinstance(pkt, RIPPPacket) and
                 logger.error('\n RIPP Client: INVALID PACKET TYPE RECEIVED \n')
-                self.transport.close()
+                continue
+                #self.transport.close()
 
             elif self.state == StateType.ESTABLISHED.value:
-                # Error-check
+
                 if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():  # type Data
                     logger.debug('\n RIPP CLIENT: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                     # Process Data Packet and send ACK
@@ -59,7 +58,7 @@ class RippClientProtocol(StackingProtocol):
                     self.pktHdlr.check_ack(pkt)
 
                 elif RIPPPacketType.FIN.value.upper() in pkt.Type.upper():  # type FIN
-                    logger.debug('\n RIPP CLIENT: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
+                    logger.warning('\n RIPP CLIENT: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                     self.state = StateType.CLOSING.value
                     # Process as data packet
                     self.pktHdlr.process_data(pkt)
@@ -73,6 +72,7 @@ class RippClientProtocol(StackingProtocol):
                 if RIPPPacketType.SYN.value.upper() in pkt.Type.upper() and \
                         RIPPPacketType.ACK.value.upper() in pkt.Type.upper() and pkt.AckNo == ack:
                     logger.debug('\n RIPP CLIENT: SYNACK RECEIVED S:{}, A:{}\n'.format(pkt.SeqNo, pkt.AckNo))
+                    self.synTimer.cancel()
                     # Process SYNACK packet; Send ACK
                     ack_pkt = RIPPPacket().ack_packet(seq_no=pkt.AckNo, ack_no=pkt.SeqNo + 1)
                     self.transport.write(ack_pkt.__serialize__())
@@ -83,12 +83,12 @@ class RippClientProtocol(StackingProtocol):
 
                 else:
                     logger.debug('\n RIPP Client:  RECEIVED WRONG PACKET DURING HANDSHAKE. CLOSING\n')
+                    print('\n Type: {} | Seq: {} \n'.format(pkt.Type, pkt.SeqNo))
                     self.transport.close()
 
             elif self.state == StateType.CLOSING.value:
                 # If higherProtocol().con_lost() was called, no longer process data. Just send ACKs.
                 # else continue handling data until FIN packet is processed in the data buffer.
-                # Error Check
                 if self.finSent:  # If this protocol has sent a FIN request
                     if RIPPPacketType.DATA.value.upper() in pkt.Type.upper():
                         # Send an ACK. Do not process packet.
@@ -129,6 +129,20 @@ class RippClientProtocol(StackingProtocol):
         self.transport = None
 
     # ---------- Custom methods ---------------- #
+    def initiate_handshake(self):
+        # Make SYN packet to initiate session
+        if self.state == StateType.LISTEN.value:
+            syn_pkt = RIPPPacket().syn_packet(seq_no=self.seqID)
+            logger.debug('\n RIPP CLIENT: SENDING SYN PACKET S:{}\n'.format(syn_pkt.SeqNo))
+            self.transport.write(syn_pkt.__serialize__())
+            self.state = StateType.SYN_SENT.value
+            self.synTimer = asyncio.get_event_loop().call_later(0.1, self.resend_SYN, syn_pkt)
+
+    def resend_SYN(self, syn):
+        logger.debug('\n RIPP CLIENT: RESENDING SYN PACKET S:{}\n'.format(syn.SeqNo))
+        self.transport.write(syn.__serialize__())
+        # Restart timer
+        self.synTimer = asyncio.get_event_loop().call_later(0.1, self.resend_SYN, syn)
 
     def establish_connection(self):
         # Make connection
