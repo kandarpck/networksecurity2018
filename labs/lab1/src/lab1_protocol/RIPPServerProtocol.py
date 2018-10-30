@@ -42,16 +42,16 @@ class RippServerProtocol(StackingProtocol):
                 # self.transport.close()
 
             elif self.state == StateType.ESTABLISHED.value:
-                if RIPPPacketType.DATA.value in pkt.Type.upper():  # type Data
+                if RIPPPacketType.DATA.value == pkt.Type:  # type Data
                     logger.debug('\n RIPP SERVER: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                     # Process Data Packet and send ACK
                     self.pktHdlr.process_data(pkt)
-                elif RIPPPacketType.ACK.value in pkt.Type.upper():  # type ACK
+                elif RIPPPacketType.ACK.value == pkt.Type:  # type ACK
                     logger.debug('\n RIPP SERVER: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                     # Check ACK Number in Data Storage
                     # Cancel timer.
                     self.pktHdlr.check_ack(pkt)
-                elif RIPPPacketType.FIN.value in pkt.Type.upper():  # type FIN
+                elif RIPPPacketType.FIN.value == pkt.Type:  # type FIN
                     logger.warning('\n RIPP SERVER: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                     self.state = StateType.CLOSING.value
                     # Process as data packet
@@ -60,14 +60,14 @@ class RippServerProtocol(StackingProtocol):
                     logger.error('\n RIPP SERVER: INVALID PACKET TYPE RECEIVED \n')
 
             elif self.state == StateType.LISTEN.value:
-                if RIPPPacketType.SYN.value in pkt.Type.upper():
+                if RIPPPacketType.SYN.value in pkt.Type:
                     self.initiate_handshake(pkt)
                 else:
                     logger.error('\n RIPP SERVER: INCOMPATIBLE PACKET FOR HANDSHAKE. CLOSING\n')
                     self.transport.close()
 
             elif self.state == StateType.SYN_RECEIVED.value:
-                if RIPPPacketType.ACK.value in pkt.Type.upper() and \
+                if RIPPPacketType.ACK.value in pkt.Type and \
                         pkt.SeqNo == self.ackID and pkt.AckNo == self.seqID + 1:
                     self.establish_connection(pkt)
                 else:
@@ -78,32 +78,32 @@ class RippServerProtocol(StackingProtocol):
                 # If higherProtocol().con_lost() was called, no longer process data. Just send ACKs.
                 # else continue handling data until FIN packet is processed in the data buffer.
                 if self.finSent:  # If this protocol has sent a FIN request
-                    if RIPPPacketType.DATA.value in pkt.Type.upper():
+                    if RIPPPacketType.DATA.value == pkt.Type:
                         # Send an ACK. Do not process packet.
                         data_ack = RIPPPacket().ack_packet(ack_no=pkt.SeqNo + len(pkt.Data))
                         self.transport.write(data_ack.__serialize__())
-                    elif RIPPPacketType.ACK.value in pkt.Type.upper():
+                    elif RIPPPacketType.ACK.value == pkt.Type:
                         self.pktHdlr.check_ack(pkt)
                         # Check for final ACK
                         if pkt.AckNo >= self.pktHdlr.finalACK:
                             self.shutdown()
-                    elif RIPPPacketType.FIN.value in pkt.Type.upper():
+                    elif RIPPPacketType.FIN.value == pkt.Type:
                         # Send a FIN ACK. Then shutdown.
                         fin_ack = RIPPPacket().ack_packet(ack_no=pkt.SeqNo + 1)
                         self.transport.write(fin_ack.__serialize__())
                         self.shutdown()
 
                 else:  # In a CLOSING state by receiving a FIN request
-                    if RIPPPacketType.DATA.value in pkt.Type.upper():  # type Data
+                    if RIPPPacketType.DATA.value == pkt.Type:  # type Data
                         logger.debug('\n RIPP SERVER: RECEIVED DATA PACKET S:{} \n'.format(pkt.SeqNo))
                         # Process Data Packet and send ACK
                         self.pktHdlr.process_data(pkt)
-                    elif RIPPPacketType.ACK.value in pkt.Type.upper():  # type ACK
+                    elif RIPPPacketType.ACK.value == pkt.Type:  # type ACK
                         logger.debug('\n RIPP SERVER: ACK RECEIVED A:{}\n'.format(pkt.AckNo))
                         # Check ACK Number in Data Storage
                         # Cancel timer.
                         self.pktHdlr.check_ack(pkt)
-                    elif RIPPPacketType.FIN.value in pkt.Type.upper():  # type FIN
+                    elif RIPPPacketType.FIN.value == pkt.Type:  # type FIN
                         logger.debug('\n RIPP SERVER: FIN RECEIVED S:{}\n'.format(pkt.SeqNo))
                         # Process as data packet
                         self.pktHdlr.process_data(pkt)

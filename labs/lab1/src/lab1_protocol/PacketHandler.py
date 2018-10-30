@@ -156,7 +156,7 @@ class PacketHandler:
         # Build dataBuffer with subsequent packets.  Send a single 'total' ACK
         # for all packets received.  If packet received out of order, build
         # backlog, wait for proper packet.
-        if self.nextSeqNo == 0:  # 1st packet or expected next packet
+        if not self.nextSeqNo:  # 1st packet or expected next packet
             self.addToBuffer(pkt)
         elif pkt.SeqNo == self.nextSeqNo:  # expected next packet
             self.timeout.cancel()

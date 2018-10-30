@@ -23,7 +23,7 @@ class RippTransport(StackingTransport):
         window = []
         Seq = self.Protocol.seqID
 
-        while len(data) > 0:
+        while data:
             # Handle data in 1500 (MTU) sized chunks
             chunk, data = data[:MTU], data[MTU:]
 
@@ -45,7 +45,7 @@ class RippTransport(StackingTransport):
                 window.clear()
 
         # Empty remaining queue after while loop
-        if len(window) > 0:
+        if window:
             logger.debug('\n RIPP {} Transport: Clearing Window of final packets\n'.format(self.Protocol.ProtocolID))
             for pkt in window:
                 logger.debug('\n RIPP {}: Transporting RIPP Packet S:{}\n'.format(self.Protocol.ProtocolID, pkt.SeqNo))
