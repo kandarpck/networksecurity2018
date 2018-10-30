@@ -39,10 +39,10 @@ class RippClientProtocol(StackingProtocol):
         for pkt in self.deserializer.nextPackets():
             logger.debug('\n RIPP Client: {} received\n'.format(pkt))
 
-            if not pkt.validate(pkt): #not isinstance(pkt, RIPPPacket) and
+            if not pkt.validate(pkt):  # not isinstance(pkt, RIPPPacket) and
                 logger.error('\n RIPP Client: INVALID PACKET TYPE RECEIVED \n')
                 continue
-                #self.transport.close()
+                # self.transport.close()
 
             elif self.state == StateType.ESTABLISHED.value:
 

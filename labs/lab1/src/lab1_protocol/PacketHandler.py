@@ -29,7 +29,7 @@ class PacketHandler:
             bisect.insort(self.sentDataPkts, pkt)
 
         # Start timer for stored packet. Stored as key:value pairs (SeqNo:timer)
-        timer = asyncio.get_event_loop().call_later(0.3, self.resend, pkt)
+        timer = asyncio.get_event_loop().call_later(1, self.resend, pkt)
         self.ackTimers.update({pkt.SeqNo: timer})
 
     # Set up timer to send up a single packet. Must be less than ACK Timers
@@ -41,7 +41,7 @@ class PacketHandler:
             bisect.insort(self.dataBuffer, packet)
 
             # start Timeout timer.  When it reaches zero, clear buffer.  timeout < resend
-            self.timeout = asyncio.get_event_loop().call_later(0.2, self.Timeout)
+            self.timeout = asyncio.get_event_loop().call_later(0.3, self.Timeout)
 
             self.sendACK()
             self.clearBuffer()
@@ -50,15 +50,15 @@ class PacketHandler:
             self.nextSeqNo = packet.SeqNo + len(packet.Data)
             bisect.insort(self.dataBuffer, packet)
 
-            self.timeout = asyncio.get_event_loop().call_later(0.2, self.Timeout)
+            self.timeout = asyncio.get_event_loop().call_later(0.3, self.Timeout)
 
         # Check backlog for self.nextSeqNo.
-        if len(self.backlog) > 0:
+        if self.backlog:
             index = 0
             while index < len(self.backlog):
                 pkt = self.backlog[index]
                 if pkt.SeqNo == self.nextSeqNo:
-                    if len(self.dataBuffer) >= 16:
+                    if len(self.dataBuffer) >= 100:
                         logger.warning('\n RIPP {}:  Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
                         self.sendACK()
                         self.clearBuffer()
@@ -66,7 +66,7 @@ class PacketHandler:
                         self.ackTotal = pkt.SeqNo + 1
                         self.nextSeqNo = pkt.SeqNo + 1
                         self.dataBuffer.append(pkt)
-                        #self.timeout = asyncio.get_event_loop().call_later(0.2, self.Timeout)
+                        # self.timeout = asyncio.get_event_loop().call_later(0.2, self.Timeout)
                         self.sendACK()
                         self.clearBuffer()
                         index += 1
@@ -75,18 +75,17 @@ class PacketHandler:
                         self.nextSeqNo = pkt.SeqNo + len(pkt.Data)
                         self.ackTotal = pkt.SeqNo + len(pkt.Data)
                         self.dataBuffer.append(pkt)
-                        self.timeout = asyncio.get_event_loop().call_later(0.2, self.Timeout)
+                        self.timeout = asyncio.get_event_loop().call_later(0.3, self.Timeout)
                         self.backlog.pop(index)
                         index = 0  # restart while loop
                 else:
                     index += 1
 
         # Check size of buffer
-        if len(self.dataBuffer) >= 16:
+        if len(self.dataBuffer) >= 100:
             logger.warning('\n RIPP {}: Data Buffer Maxed.\n'.format(self.Protocol.ProtocolID))
             self.sendACK()
             self.clearBuffer()
-
 
     def cleanBacklog(self):
         # Deletes all packets with seqNO that are < the current ack total.

@@ -34,7 +34,7 @@ class RippTransport(StackingTransport):
             Seq += len(data_pkt.Data)
             self.Protocol.seqID = Seq
 
-            if len(window) >= 16:  # Empty queue when max window size is reached
+            if len(window) >= 100:  # Empty queue when max window size is reached
                 logger.debug('\n RIPP {} Transport: Emptying Full Window \n'.format(self.Protocol.ProtocolID))
                 for pkt in window:
                     logger.debug(
