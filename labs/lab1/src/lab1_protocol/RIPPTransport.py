@@ -2,8 +2,8 @@ import logging
 
 from playground.network.common import StackingTransport
 
-from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import StateType
+from .RIPPPacket import RIPPPacket
+from .RIPPPacketType import StateType
 
 logger = logging.getLogger('playground.' + __name__)
 logger.setLevel(logging.WARNING)

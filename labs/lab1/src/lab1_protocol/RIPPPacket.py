@@ -3,7 +3,7 @@ import hashlib
 from playground.network.packet import PacketType
 from playground.network.packet.fieldtypes import UINT32, BUFFER, STRING
 
-from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, packet_type_mapping
+from .RIPPPacketType import RIPPPacketType, packet_type_mapping
 
 
 class RIPPPacket(PacketType):

@@ -3,10 +3,10 @@ from random import randint
 
 from playground.network.common import StackingProtocol
 
-from labs.lab1.src.lab1_protocol.PacketHandler import PacketHandler
-from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, StateType
-from labs.lab1.src.lab1_protocol.RIPPTransport import RippTransport
+from .PacketHandler import PacketHandler
+from .RIPPPacket import RIPPPacket
+from .RIPPPacketType import RIPPPacketType, StateType
+from .RIPPTransport import RippTransport
 
 logger = getLogger('playground.' + __name__)
 logger.setLevel(WARNING)
