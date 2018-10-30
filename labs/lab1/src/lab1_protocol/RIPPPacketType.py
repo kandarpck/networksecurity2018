@@ -12,7 +12,7 @@ class RIPPPacketType(Enum):
     SYN = 'SYN'
     ACK = 'ACK'
     SYN_ACK = 'SYNACK'
-    DATA = 'Data'
+    DATA = 'DATA'
     FIN = 'FIN'
 
 
@@ -26,6 +26,6 @@ class StateType(Enum):
     CLOSED = 'CLOSED'
 
 
-packet_type_mapping = ['SYN', 'ACK', 'SYNACK', 'Data', 'FIN', 'FINACK']
+packet_type_mapping = ['SYN', 'ACK', 'SYNACK', 'DATA', 'FIN', 'FINACK']
 
 max_seq_no = 2147483647
