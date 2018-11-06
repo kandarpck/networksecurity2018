@@ -58,7 +58,7 @@
    <!-- The abbreviated title is used in the page header - it is only necessary if the 
         full title is longer than 39 characters -->
 
-   <title abbrev="PRFC's">Playground Request For Comments</title>
+   <title abbrev="PRFC's">The Secure Internetwork Transport Handshake (SITH) Protocol over RIPP</title>
 
    <!-- add 'role="editor"' below for the editors if appropriate -->
 
@@ -145,9 +145,13 @@
         keywords will be used for the search engine. -->
 
    <abstract>
-     <t>Create a PRFC (Playground RFC) to specify a protocol that provides confidentiality,
-      message integrity, and mutual authentication over the Reliable Internetwork Playground
-      Protocol (R.I.P.P.)</t>
+    <t>This PRFC (Playground RFC) defines S.I.T.H. (Secure Internetwork Transport Handshake),
+      a protocol that provides confidentiality, message integrity, and mutual authentication
+      over the Reliable Internetwork Playground Protocol (R.I.P.P.)</t>
+
+     <t>This document takes inspiration from RFCs 5246 and 8446 to create a simpler, 
+     	faster and barebones implementation of a secure layer over the RIPP protocol.
+	 </t>
    </abstract>
  </front>
 
@@ -169,7 +173,7 @@
    
 
    <section title="Purpose/Technical Background">
-    <t> pass </t>
+    <t>SITH: Secure Internetwork Transport Handshake </t>
    </section>
 
    <section title="Protocol Specifications">
@@ -226,34 +230,5 @@
      &RFC8446;
    </references>
 
-
-   <!-- Change Log
-
-v00 2006-03-15  EBD   Initial version
-
-v01 2006-04-03  EBD   Moved PI location back to position 1 -
-                     v3.1 of XMLmind is better with them at this location.
-v02 2007-03-07  AH    removed extraneous nested_list attribute,
-                     other minor corrections
-v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
-                     Modified comments around figure to reflect non-implementation of
-                     figure indent control.  Put in reference using anchor="DOMINATION".
-                     Fixed up the date specification comments to reflect current truth.
-v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
-                     added discussion of rfc include.
-v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative 
-                     images. Removed meta-characters from comments (causes problems).
-
-v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
-                     year only, to be consistent with the comments. Updated the 
-                     IANA guidelines reference from the I-D to the finished RFC.  
-                     
-SETH NIELSON:
-  Altered for PLAYGROUND AND PRFC's
-  2016-09-21 SJN PRFC 1
-
-  Updated for Fall 2018
-  2017-10-1
-  -->
  </back>
 </rfc>
