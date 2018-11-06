@@ -2,8 +2,8 @@ import asyncio
 import bisect
 import logging
 
-from labs.lab1.src.lab1_protocol.RIPPPacket import RIPPPacket
-from labs.lab1.src.lab1_protocol.RIPPPacketType import RIPPPacketType, StateType
+from .RIPPPacket import RIPPPacket
+from .RIPPPacketType import RIPPPacketType, StateType
 
 logger = logging.getLogger('playground.' + __name__)
 logger.setLevel(logging.WARNING)
