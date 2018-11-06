@@ -174,19 +174,25 @@
 
    <section title="Purpose/Technical Background">
     <t>The primary goal of SITH is to provide a secure channel between two
-	   communicating peers; the only requirement from the underlying
-	   RIPP transport is a reliable, in-order data stream. Specifically, the
-	   secure channel should provide the following properties:
+	   communicating peers in the Playground network. The only requirement
+	   from the underlying RIPP transport is a reliable, in-order data stream.
+	   Specifically, the secure channel should provide the following properties:
 
 	   <list>
 	   	<t>Authentication: Both the server and the client need to be 
-	   		mutually authenticated. Authentication can happen via
-	   		the Elliptic Curve Digital Signature Algorithm (ECDSA)
-	   		or Ephemeral Diffie-Hellman exchange authenticated with a
-	   		pre-shared key (PSK)</t>
+	   		mutually authenticated. For the key establishment phase, 
+	   		Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) is to be used.
+	   		Authentication can happen via the Elliptic Curve Digital
+	   		Signature Algorithm (ECDSA). Separating the algorithms for 
+	   		key establishment and authentication ensures that complete
+	   		forward secrecy is maintained while communicating. 
+	   		A DH handshake with an elliptic curve DSA certificate and
+	   		elliptic curve Diffie-Hellman key agreement can be faster
+	   		than a one-operation RSA handshake.
+	   		</t>
 
 		<t>Confidentiality: Data sent over the channel after establishment is
-			only visible to the endpoints. Symmetric cryptography (AES) is
+			only visible to the endpoints. Symmetric cryptography (AEAD) is
 			used for data encryption.</t>
 
 	   	<t>Integrity: Data sent over the channel after establishment cannot
@@ -197,7 +203,18 @@
 
    <section title="Protocol Specifications">
    <section title="Mutual authentication, setup">
-     <t>pass</t>
+     <t>The ephemeral Diffie-Hellman handshake in the SITH protocol 
+     	uses two different mechanisms:
+     	<list>
+     		<t>One for establishing a shared pre-master secret.
+     		</t>
+     		<t>One for authenticating with the server.
+     		</t>
+     	</list>
+
+     	The communicating parties with different secrets exchange messages 
+     	to 
+     </t>
    </section>
 
    <section title="Trust Model">

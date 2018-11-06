@@ -7,13 +7,18 @@ Category: Standards Track                 JHU Network Security Fall 2018
                                                            November 2018
 
 
-                    Playground Request For Comments
+ The Secure Internetwork Transport Handshake (SITH) Protocol over RIPP
 
 Abstract
 
-   Create a PRFC (Playground RFC) to specify a protocol that provides
-   confidentiality, message integrity, and mutual authentication over
-   the Reliable Internetwork Playground Protocol (R.I.P.P.)
+   This PRFC (Playground RFC) defines S.I.T.H. (Secure Internetwork
+   Transport Handshake), a protocol that provides confidentiality,
+   message integrity, and mutual authentication over the Reliable
+   Internetwork Playground Protocol (R.I.P.P.)
+
+   This document takes inspiration from RFCs 5246 and 8446 to create a
+   simpler, faster and barebones implementation of a secure layer over
+   the RIPP protocol.
 
 Status of this Memo
 
@@ -47,11 +52,6 @@ Copyright Notice
 
 
 
-
-
-
-
-
 Khandwala & Bradt            Standards Track                    [Page 1]
 
 RFC 1                            PRFC's                    November 2018
@@ -64,14 +64,14 @@ Table of Contents
    2.  Purpose/Technical Background  . . . . . . . . . . . . . . . . . 3
    3.  Protocol Specifications . . . . . . . . . . . . . . . . . . . . 3
      3.1.  Mutual authentication, setup  . . . . . . . . . . . . . . . 3
-     3.2.  Trust Model . . . . . . . . . . . . . . . . . . . . . . . . 3
-     3.3.  Confidential communications . . . . . . . . . . . . . . . . 3
-     3.4.  Integrous communications  . . . . . . . . . . . . . . . . . 3
-     3.5.  Algorithm specifications  . . . . . . . . . . . . . . . . . 3
-     3.6.  Shutdown  . . . . . . . . . . . . . . . . . . . . . . . . . 3
+     3.2.  Trust Model . . . . . . . . . . . . . . . . . . . . . . . . 4
+     3.3.  Confidential communications . . . . . . . . . . . . . . . . 4
+     3.4.  Integrous communications  . . . . . . . . . . . . . . . . . 4
+     3.5.  Algorithm specifications  . . . . . . . . . . . . . . . . . 4
+     3.6.  Shutdown  . . . . . . . . . . . . . . . . . . . . . . . . . 4
    4.  Normative References  . . . . . . . . . . . . . . . . . . . . . 4
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . 4
-   Intellectual Property and Copyright Statements  . . . . . . . . . . 5
+   Intellectual Property and Copyright Statements  . . . . . . . . . . 6
 
 
 
@@ -129,14 +129,49 @@ RFC 1                            PRFC's                    November 2018
 
 2.  Purpose/Technical Background
 
-   pass
+   The primary goal of SITH is to provide a secure channel between two
+   communicating peers in the Playground network.  The only requirement
+   from the underlying RIPP transport is a reliable, in-order data
+   stream.  Specifically, the secure channel should provide the
+   following properties:
+
+      Authentication: Both the server and the client need to be mutually
+      authenticated.  For the key establishment phase, Elliptic Curve
+      Diffie-Hellman Ephemeral (ECDHE) is to be used.  Authentication
+      can happen via the Elliptic Curve Digital Signature Algorithm
+      (ECDSA).  Separting the algorithms for key establishment and
+      authentication ensures that complete forward secrecy is maintained
+      while communicating.  A DH handshake with an elliptic curve DSA
+      certificate and elliptic curve Diffie-Hellman key agreement can be
+      faster than a one-operation RSA handshake.
+
+      Confidentiality: Data sent over the channel after establishment is
+      only visible to the endpoints.  Symmetric cryptography (AEAD) is
+      used for data encryption.
+
+      Integrity: Data sent over the channel after establishment cannot
+      be modified by attackers without detection.
 
 
 3.  Protocol Specifications
 
 3.1.  Mutual authentication, setup
 
-   pass
+   The ephemeral Diffie-Hellman handshake in the SITH protocol uses two
+   different mechanisms:
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 3]
+
+RFC 1                            PRFC's                    November 2018
+
+
+      One for establishing a shared pre-master secret.
+
+      One for authenticating with the server.
 
 3.2.  Trust Model
 
@@ -159,16 +194,6 @@ RFC 1                            PRFC's                    November 2018
    pass
 
 
-
-
-
-
-
-Khandwala & Bradt            Standards Track                    [Page 3]
-
-RFC 1                            PRFC's                    November 2018
-
-
 4.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -188,6 +213,16 @@ RFC 1                            PRFC's                    November 2018
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/info/rfc8446>.
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 4]
+
+RFC 1                            PRFC's                    November 2018
 
 
 Authors' Addresses
@@ -220,7 +255,28 @@ Authors' Addresses
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 4]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 5]
 
 RFC 1                            PRFC's                    November 2018
 
@@ -276,7 +332,7 @@ Intellectual Property
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 5]
+Khandwala & Bradt            Standards Track                    [Page 6]
 
 RFC 1                            PRFC's                    November 2018
 
@@ -332,5 +388,5 @@ RFC 1                            PRFC's                    November 2018
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 6]
+Khandwala & Bradt            Standards Track                    [Page 7]
 
