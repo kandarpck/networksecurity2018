@@ -11,7 +11,9 @@ Category: Standards Track                 JHU Network Security Fall 2018
 
 Abstract
 
-   pass
+   Create a PRFC (Playground RFC) to specify a protocol that provides
+   confidentiality, message integrity, and mutual authentication over
+   the Reliable Internetwork Playground Protocol (R.I.P.P.)
 
 Status of this Memo
 
@@ -28,8 +30,6 @@ Copyright Notice
    technical reference.  If any of these cited elements are protected
    under copyright, their inclusion here falls under Fair Use
    provisions.
-
-
 
 
 
@@ -180,6 +180,15 @@ RFC 1                            PRFC's                    November 2018
               RFC 2360, DOI 10.17487/RFC2360, June 1998,
               <https://www.rfc-editor.org/info/rfc2360>.
 
+   [RFC5246]  Dierks, T. and E. Rescorla, "The Transport Layer Security
+              (TLS) Protocol Version 1.2", RFC 5246, DOI 10.17487/
+              RFC5246, August 2008,
+              <https://www.rfc-editor.org/info/rfc5246>.
+
+   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://www.rfc-editor.org/info/rfc8446>.
+
 
 Authors' Addresses
 
@@ -201,15 +210,6 @@ Authors' Addresses
 
    Phone: XXX
    Email: XXX
-
-
-
-
-
-
-
-
-
 
 
 
