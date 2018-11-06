@@ -143,7 +143,9 @@
         keywords will be used for the search engine. -->
 
    <abstract>
-     <t>pass</t>
+     <t>Create a PRFC (Playground RFC) to specify a protocol that provides confidentiality,
+      message integrity, and mutual authentication over the Reliable Internetwork Playground
+      Protocol (R.I.P.P.)</t>
    </abstract>
  </front>
 
