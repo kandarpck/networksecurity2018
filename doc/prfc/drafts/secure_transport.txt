@@ -1,0 +1,336 @@
+
+
+
+Network Working Group                                  K. Khandwala, Ed.
+Request for Comments: 1                                    R. Bradt, Ed.
+Category: Standards Track                 JHU Network Security Fall 2018
+                                                           November 2018
+
+
+                    Playground Request For Comments
+
+Abstract
+
+   pass
+
+Status of this Memo
+
+   This document specifies a Playgrounds standards track protocol for
+   the Playground Experiment, and requests discussion and suggestions
+   for improvements.  Distribution of this memo is unlimited.
+
+Copyright Notice
+
+   Copyright (c) 2018 SETH JAMES NIELSON.  All rights reserved.
+
+   This document is used solely for educational purposes.  Any citations
+   within this document are also for educational purposes and also for
+   technical reference.  If any of these cited elements are protected
+   under copyright, their inclusion here falls under Fair Use
+   provisions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 1]
+
+RFC 1                            PRFC's                    November 2018
+
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . 3
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . . . 3
+   2.  Purpose/Technical Background  . . . . . . . . . . . . . . . . . 3
+   3.  Protocol Specifications . . . . . . . . . . . . . . . . . . . . 3
+     3.1.  Mutual authentication, setup  . . . . . . . . . . . . . . . 3
+     3.2.  Trust Model . . . . . . . . . . . . . . . . . . . . . . . . 3
+     3.3.  Confidential communications . . . . . . . . . . . . . . . . 3
+     3.4.  Integrous communications  . . . . . . . . . . . . . . . . . 3
+     3.5.  Algorithm specifications  . . . . . . . . . . . . . . . . . 3
+     3.6.  Shutdown  . . . . . . . . . . . . . . . . . . . . . . . . . 3
+   4.  Normative References  . . . . . . . . . . . . . . . . . . . . . 4
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . 4
+   Intellectual Property and Copyright Statements  . . . . . . . . . . 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 2]
+
+RFC 1                            PRFC's                    November 2018
+
+
+1.  Introduction
+
+   RFC's (Request for Comments) are a publication of the Internet
+   Engineering Task Force (IETF).  RFC's have many purposes including
+   the publication of standards, general information, and best
+   practices.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
+
+
+2.  Purpose/Technical Background
+
+   pass
+
+
+3.  Protocol Specifications
+
+3.1.  Mutual authentication, setup
+
+   pass
+
+3.2.  Trust Model
+
+   pass
+
+3.3.  Confidential communications
+
+   pass
+
+3.4.  Integrous communications
+
+   pass
+
+3.5.  Algorithm specifications
+
+   pass
+
+3.6.  Shutdown
+
+   pass
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 3]
+
+RFC 1                            PRFC's                    November 2018
+
+
+4.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, DOI 10.17487/
+              RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC2360]  Scott, G., "Guide for Internet Standards Writers", BCP 22,
+              RFC 2360, DOI 10.17487/RFC2360, June 1998,
+              <https://www.rfc-editor.org/info/rfc2360>.
+
+
+Authors' Addresses
+
+   Kandarp Khandwala (editor)
+   JHU Network Security Fall 2018
+   JHU 160 Malone Hall/3400 North Charles St.
+   Baltimore, MD  21218
+   USA
+
+   Phone: +1 443-763-9251
+   Email: kck@jhu.edu
+
+
+   Richard Bradt (editor)
+   JHU Network Security Fall 2018
+   JHU 160 Malone Hall/3400 North Charles St.
+   Baltimore, MD  21218
+   USA
+
+   Phone: XXX
+   Email: XXX
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 4]
+
+RFC 1                            PRFC's                    November 2018
+
+
+Full Copyright Statement
+
+   Copyright (C) Seth James Nielson (2018).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the PLAYGROUND experiment or
+   other associated organizations, except by explicit permission.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by SETH JAMES NIELSON or his successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and SETH JAMES NIELSON and associated academic
+   institutions DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+Intellectual Property
+
+   The PLAYGROUND framework and student submissions for PLAYGROUND are
+   intended to be free of any intellectual property conflicts.  All
+   submitting parties, especially students, are not allowed to submit
+   source code, specifications, or other components that are known to be
+   protected by copyright, patents, or other IP mechanisms.  Students
+   submitting creative content grant shared rights and ownership of
+   their content to the PLAYGROUND project.  Specifically, any
+   submission can be used in future educational settings including
+   subsequent PLAYGROUND experiments.
+
+   Any interested party is invited to bring to the experiment director's
+   attention any copyrights, patents or patent applications, or other
+   proprietary rights which may cover technology that may be currently
+   in use without permission.
+
+   It should be noted that these statements have not been reviewed by
+   legal counsel.  Moreover, the academic institutions at which
+   PLAYGROUND experiments take place may have additional or even
+   conflicting copyright and intellectual property rules.  Accordingly,
+   concerned parties may need to contact their own lawyer and/or
+   resources at their institution to understand the rights and
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 5]
+
+RFC 1                            PRFC's                    November 2018
+
+
+   limitations associated with code donated to a PLAYGROUND experiment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 6]
+
