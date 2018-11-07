@@ -212,8 +212,32 @@
      		</t>
      	</list>
 
-     	The communicating parties with different secrets exchange messages 
-     	to 
+     	<t>The communicating parties with different secrets exchange messages 
+     	to obtain the shared secret.</t>
+
+     	<t>The SITH handshake can be visualized as below:</t>
+     	<t>
+	      <figure>
+	        <artwork><![CDATA[
+
+	        	ASCII Artwork here
+]]>
+	       </artwork>
+	     </figure>
+	    </t>
+
+	    <section title="Message 1: Client Hello">
+	    	<t>
+     		</t>
+	    </section>
+
+	    <section title="Message 2: Server Hello">
+	    	<t>
+     		</t>
+	    </section>
+
+
+
      </t>
    </section>
 
