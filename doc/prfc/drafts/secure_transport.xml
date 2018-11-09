@@ -245,7 +245,13 @@
 	    		while initiating the ClientHello message. 
      		</t>
 	    </section>
-
+	    <section title="Server Key Exchange Generation">
+	    	<t>TThe server also start by calculating a private/public keypair for key exchange.
+	    		An elliptical curve method, using the x25519 curve is chosen to generate 
+	    		the 32 byte private key. The public key is derived from the corresponding
+	    		x25519 curve similar to how a client started the connection.
+	    	</t>
+	    </section>
 	    <section title="Message 2: Server Hello">
 	    	<t>The server will send this message in response to a ClientHello
       			message. This must include the 32 byte "random" and the
