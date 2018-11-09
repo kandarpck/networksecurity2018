@@ -257,6 +257,7 @@
 
 	    <section title="Server Shared Key Calculation">
 	    	<t>The server now has the information to calculate the shared secret.
+	    		Explain KDF here.
 	    		<list style="numbers">
 			    	<t>client public key (from Client Hello)</t>
 					<t>server private key (from Server Key Exchange Generation)</t>
@@ -267,6 +268,7 @@
 
 	    <section title="Client Shared Key Calculation">
 	    	<t>The client now has the information to calculate the shared secret.
+	    		Explain KDF here.
 	    		<list style="numbers">
 			    	<t>server public key (from Server Hello)</t>
 					<t>client private key (from Client Key Exchange Generation)</t>
