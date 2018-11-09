@@ -308,6 +308,16 @@
 	    	valid by the server by using the certificate's public key.
 	    	</t>
 	    </section>
+
+	    <section title="Data Transfer">
+	    	<t>At this stage, the SITH handshake is concluded and both the
+	    		client and server can start transmitting and receiving bulk 
+	    		data from each other. Each message is protected using the 
+	    		Authenticated Encryption with Additional Data (AEAD) with the 
+	    		default algorithm as AES_128_GCM. This ensures that the data
+	    		is simultaneously encrypted and integrity protected.
+	    	</t>
+	    </section>
      </t>
    </section>
 
