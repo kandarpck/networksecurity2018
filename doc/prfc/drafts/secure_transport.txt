@@ -64,22 +64,22 @@ Table of Contents
    2.  Purpose/Technical Background  . . . . . . . . . . . . . . . . . 3
    3.  Protocol Specifications . . . . . . . . . . . . . . . . . . . . 3
      3.1.  Mutual authentication, setup  . . . . . . . . . . . . . . . 3
-     3.2.  Trust Model . . . . . . . . . . . . . . . . . . . . . . . . 4
-     3.3.  Confidential communications . . . . . . . . . . . . . . . . 4
-     3.4.  Integrous communications  . . . . . . . . . . . . . . . . . 4
-     3.5.  Algorithm specifications  . . . . . . . . . . . . . . . . . 4
-     3.6.  Shutdown  . . . . . . . . . . . . . . . . . . . . . . . . . 4
-   4.  Normative References  . . . . . . . . . . . . . . . . . . . . . 4
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . 4
-   Intellectual Property and Copyright Statements  . . . . . . . . . . 6
-
-
-
-
-
-
-
-
+       3.1.1.  Client Key Exchange Generation  . . . . . . . . . . . . 4
+       3.1.2.  Message 1: Client Hello . . . . . . . . . . . . . . . . 4
+       3.1.3.  Server Key Exchange Generation  . . . . . . . . . . . . 4
+       3.1.4.  Message 2: Server Hello . . . . . . . . . . . . . . . . 4
+       3.1.5.  Server Shared Key Calculation . . . . . . . . . . . . . 4
+       3.1.6.  Client Shared Key Calculation . . . . . . . . . . . . . 5
+       3.1.7.  Message 3: Server Certificate and Verification  . . . . 5
+       3.1.8.  Message 4: Client Verification  . . . . . . . . . . . . 5
+       3.1.9.  Data Transfer . . . . . . . . . . . . . . . . . . . . . 5
+     3.2.  Trust Model . . . . . . . . . . . . . . . . . . . . . . . . 6
+     3.3.  Confidential and Integrous communications . . . . . . . . . 6
+     3.4.  Algorithm specifications  . . . . . . . . . . . . . . . . . 6
+     3.5.  Shutdown  . . . . . . . . . . . . . . . . . . . . . . . . . 7
+   4.  Normative References  . . . . . . . . . . . . . . . . . . . . . 7
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . 7
+   Intellectual Property and Copyright Statements  . . . . . . . . . . 9
 
 
 
@@ -135,22 +135,23 @@ RFC 1                            PRFC's                    November 2018
    stream.  Specifically, the secure channel should provide the
    following properties:
 
-      Authentication: Both the server and the client need to be mutually
-      authenticated.  For the key establishment phase, Elliptic Curve
-      Diffie-Hellman Ephemeral (ECDHE) is to be used.  Authentication
-      can happen via the Elliptic Curve Digital Signature Algorithm
-      (ECDSA).  Separting the algorithms for key establishment and
-      authentication ensures that complete forward secrecy is maintained
-      while communicating.  A DH handshake with an elliptic curve DSA
-      certificate and elliptic curve Diffie-Hellman key agreement can be
-      faster than a one-operation RSA handshake.
+   1.  Authentication: Both the server and the client need to be
+       mutually authenticated.  For the key establishment phase,
+       Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) using the
+       specific x25519 curve is to be used.  Authentication can happen
+       via the Elliptic Curve Digital Signature Algorithm (ECDSA) or
+       RSA.  Separating the algorithms for key establishment and
+       authentication ensures that complete forward secrecy is
+       maintained while communicating.  A DH handshake with an elliptic
+       curve DSA certificate and elliptic curve Diffie-Hellman key
+       agreement can be faster than a one-operation RSA handshake.
 
-      Confidentiality: Data sent over the channel after establishment is
-      only visible to the endpoints.  Symmetric cryptography (AEAD) is
-      used for data encryption.
+   2.  Confidentiality: Data sent over the channel after establishment
+       is only visible to the endpoints.  Symmetric cryptography (AEAD)
+       is used for data encryption.
 
-      Integrity: Data sent over the channel after establishment cannot
-      be modified by attackers without detection.
+   3.  Integrity: Data sent over the channel after establishment cannot
+       be modified by attackers without detection.
 
 
 3.  Protocol Specifications
@@ -158,9 +159,8 @@ RFC 1                            PRFC's                    November 2018
 3.1.  Mutual authentication, setup
 
    The ephemeral Diffie-Hellman handshake in the SITH protocol uses two
-   different mechanisms:
-
-
+   different mechanisms: one for establishing a shared secret and the
+   other for authentication.The communicating parties with different
 
 
 
@@ -169,29 +169,191 @@ Khandwala & Bradt            Standards Track                    [Page 3]
 RFC 1                            PRFC's                    November 2018
 
 
-      One for establishing a shared pre-master secret.
+   secrets exchange messages to obtain the shared secret.
 
-      One for authenticating with the server.
+   The SITH handshake can be visualized as below:
+
+
+
+                           ASCII Artwork here
+
+
+3.1.1.  Client Key Exchange Generation
+
+   The client begins by calculating a private/public keypair for key
+   exchange.  An elliptical curve method, using the x25519 curve is
+   chosen to generate the 32 byte private key.  The public key is
+   derived from the corresponding x25519 curve.
+
+3.1.2.  Message 1: Client Hello
+
+   When a client first connects to a server, it is REQUIRED to send the
+   ClientHello as its first SITH message.  This must include the 32 byte
+   "random", the "public value" of the selected Elliptic Curve ((EC)DHE
+   x25519) along with the appropriate certificate and relevant CA
+   (explained in the trust model section) which will be validated by the
+   server.  Since the SITH protocol only supports one group, all the
+   above fields are mandatory while initiating the ClientHello message.
+
+   Playground format packet here
+
+3.1.3.  Server Key Exchange Generation
+
+   The server also start by calculating a private/public keypair for key
+   exchange.  An elliptical curve method, using the x25519 curve is
+   chosen to generate the 32 byte private key.  The public key is
+   derived from the corresponding x25519 curve similar to how a client
+   started the connection.
+
+3.1.4.  Message 2: Server Hello
+
+   The server will send this message in response to a ClientHello
+   message.  This must include the 32 byte "random" and the "public
+   value" of the selected Elliptic Curve ((EC)DHE).
+
+   Playground format packet here
+
+3.1.5.  Server Shared Key Calculation
+
+   The server now has the information to calculate the shared secret.
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 4]
+
+RFC 1                            PRFC's                    November 2018
+
+
+   1.  client public key (from Client Hello)
+
+   2.  server private key (from Server Key Exchange Generation)
+
+   3.  SHA256 hash of ClientHello and ServerHello
+
+3.1.6.  Client Shared Key Calculation
+
+   The client now has the information to calculate the shared secret.
+
+   1.  server public key (from Server Hello)
+
+   2.  client private key (from Client Key Exchange Generation)
+
+   3.  SHA256 hash of ClientHello and ServerHello
+
+3.1.7.  Message 3: Server Certificate and Verification
+
+   The server sends the appropriate certificate and relevant CA cert
+   (explained in the trust model section) which will be validated by the
+   client.  To prove that the server owns the server certificate, it
+   signs a hash of the handshake messages using the certificate's
+   private key.  The signature can be proven valid by the client by
+   using the certificate's public key.
+
+   Playground format packet here
+
+3.1.8.  Message 4: Client Verification
+
+   To prove that the client owns the client certificate, it signs a hash
+   of the handshake messages using the certificate's private key.  The
+   signature can be proven valid by the server by using the
+   certificate's public key.
+
+   Playground format packet here
+
+3.1.9.  Data Transfer
+
+   At this stage, the SITH handshake is concluded and both the client
+   and server can start transmitting and receiving bulk data from each
+   other.  Each message is protected using the Authenticated Encryption
+   with Additional Data (AEAD) with the default algorithm as
+   AES_128_GCM.  This ensures that the data is simultaneously encrypted
+   and integrity protected.
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 5]
+
+RFC 1                            PRFC's                    November 2018
+
 
 3.2.  Trust Model
 
-   pass
+   1.  The first, or topmost, link in the chain of trust is the
+       Certification Authority (CA).  CAs are deemed to be trusted
+       organizations.
 
-3.3.  Confidential communications
+   2.  The very existence of the CA marks the first step in the
+       establishment of the line of trust.
 
-   pass
+   3.  The Playground entities who desire a certificate send various
+       information such as name of business, business registration
+       number or other identifying information which is then verified by
+       the CA.
 
-3.4.  Integrous communications
+   4.  The CA, which is trusted, is trusted to have established that the
+       user is who they say they are.
 
-   pass
+   5.  As seen before, the user then generates the ECDHE key pair and
+       use the private key to sign a Certificate Signing Request (CSR)
+       which will contain the public key of the generated public-private
+       pair among other information.
 
-3.5.  Algorithm specifications
+   6.  The CA finally signs the user's certificate using the private key
+       of the public-private key pair whose public key is contained in
+       the CA's root certificate.
 
-   pass
+   7.  The trust loop is therefore completed by the CA's digital
+       signature.  Care must be taken that only the trusted root CA can
+       sign certificates.  No intermediate CAs are allowed in this
+       implementation.
 
-3.6.  Shutdown
+   8.  Examples showing how to generate certs, csr and verfication here?
 
-   pass
+3.3.  Confidential and Integrous communications
+
+   Each message is protected using the Authenticated Encryption with
+   Additional Data (AEAD) with the default algorithm as AES_128_GCM.
+   This ensures that the data is simultaneously encrypted and integrity
+   protected.
+
+   Expand more here?
+
+3.4.  Algorithm specifications
+
+   1.  Elliptic Curve Diffie-Hellman Ephemeral ((EC)DHE) using x25519
+       curve for key exchange.
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 6]
+
+RFC 1                            PRFC's                    November 2018
+
+
+   2.  Elliptic Curve Digital Signature Algorithm (ECDSA) with SHA-256
+       for signatures.
+
+   3.  Advanced Encryption Standard (AES) with Galois/Counter Mode (GCM)
+       with block size of 128 bit as a cipher for encryption and
+       integrity.
+
+3.5.  Shutdown
+
+   Any party who wants to close the connection or is encountering an
+   error should send a close message and indicate the closure
+   information or error.  Error alerts indicate abortive closure of the
+   connection.  Upon receiving an error alert, the SITH implementation
+   SHOULD indicate an error to the application and MUST NOT allow any
+   further data to be sent or received on the connection.
+
+   Playground format packet here
 
 
 4.  Normative References
@@ -220,7 +382,13 @@ RFC 1                            PRFC's                    November 2018
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 4]
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 7]
 
 RFC 1                            PRFC's                    November 2018
 
@@ -276,7 +444,7 @@ Authors' Addresses
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 5]
+Khandwala & Bradt            Standards Track                    [Page 8]
 
 RFC 1                            PRFC's                    November 2018
 
@@ -332,7 +500,7 @@ Intellectual Property
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 6]
+Khandwala & Bradt            Standards Track                    [Page 9]
 
 RFC 1                            PRFC's                    November 2018
 
@@ -388,5 +556,5 @@ RFC 1                            PRFC's                    November 2018
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 7]
+Khandwala & Bradt            Standards Track                   [Page 10]
 
