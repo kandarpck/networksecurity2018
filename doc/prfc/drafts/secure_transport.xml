@@ -290,7 +290,24 @@
 	    	</t>
 	    </section>
 
-	    
+	    <section title="Message 3: Server Certificate and Verification">
+	    	<t>The server sends the appropriate certificate and relevant CA
+	    	cert (explained in the trust model section) which will be
+	    	validated by the client. 
+	    	To prove that the server owns the server certificate,
+	    	it signs a hash of the handshake messages using the 
+	    	certificate's private key. The signature can be proven 
+	    	valid by the client by using the certificate's public key.
+	    	</t>
+	    </section>
+
+	    <section title="Message 4: Client Verification">
+	    	<t>To prove that the client owns the client certificate,
+	    	it signs a hash of the handshake messages using the 
+	    	certificate's private key. The signature can be proven 
+	    	valid by the server by using the certificate's public key.
+	    	</t>
+	    </section>
      </t>
    </section>
 
