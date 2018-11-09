@@ -318,6 +318,8 @@
 	    		is simultaneously encrypted and integrity protected.
 	    	</t>
 	    </section>
+
+	
      </t>
    </section>
 
@@ -342,7 +344,14 @@
    </section>
 
    <section title="Shutdown">
-     <t>pass</t>
+     <t>Any party who wants to close the connection or is 
+     	encountering an error should send a close message and
+	    indicate the closure information or error.   
+	    Error alerts indicate abortive closure of the connection.
+	    Upon receiving an error alert, the SITH implementation
+		SHOULD indicate an error to the application and MUST NOT allow any
+		further data to be sent or received on the connection.
+	</t>
    </section>
   </section>
  </middle>
