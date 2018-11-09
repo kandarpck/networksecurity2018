@@ -246,7 +246,7 @@
      		</t>
 	    </section>
 	    <section title="Server Key Exchange Generation">
-	    	<t>TThe server also start by calculating a private/public keypair for key exchange.
+	    	<t>The server also start by calculating a private/public keypair for key exchange.
 	    		An elliptical curve method, using the x25519 curve is chosen to generate 
 	    		the 32 byte private key. The public key is derived from the corresponding
 	    		x25519 curve similar to how a client started the connection.
@@ -259,7 +259,25 @@
      		</t>
 	    </section>
 
+	    <section title="Server Shared Key Calculation">
+	    	<t>The server now has the information to calculate the shared secret.
+	    		<list style="numbers">
+			    	<t>client public key (from Client Hello)</t>
+					<t>server private key (from Server Key Exchange Generation)</t>
+					<t>SHA256 hash of ClientHello and ServerHello</t>
+				</list>
+	    	</t>
+	    </section>
 
+	    <section title="Client Shared Key Calculation">
+	    	<t>The client now has the information to calculate the shared secret.
+	    		<list style="numbers">
+			    	<t>server public key (from Server Hello)</t>
+					<t>client private key (from Client Key Exchange Generation)</t>
+					<t>SHA256 hash of ClientHello and ServerHello</t>
+				</list>
+	    	</t>
+	    </section>
 
      </t>
    </section>
