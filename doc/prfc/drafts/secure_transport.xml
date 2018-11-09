@@ -313,11 +313,25 @@
    </section>
 
    <section title="Trust Model">
-     <t>chain of trust
-     	intermediate CA
-     	public key in the certq
 
-     	</t>
+   	<t>
+   		<list style="numbers">
+   			<t>The first, or topmost, link in the chain of trust
+   			 is the Certification Authority (CA). CAs are deemed to be trusted organizations.</t>
+   	 		<t>The very existence of the CA marks the first step in the
+   	  		 establishment of the line of trust.</t>
+   	 		<t>The Playground entities who desire a certificate send various information such as name of business, business registration number or other identifying information which is then verified by
+   	 		the CA.</t>
+   	 		<t>The CA, which is trusted, is trusted to have established that the user
+   	 		is who they say they are.</t>
+   	 		<t>As seen before, the user then generates the ECDHE key pair and use the private key to sign a Certificate Signing Request (CSR) which will contain the public key of the generated public-private pair among other information.</t>
+   	 		<t>The CA finally signs the user's certificate using the private key of the public-private key pair whose public key is contained in the CA's root certificate.</t>
+   	 		<t>The trust loop is therefore completed by the CA's digital signature. Care must be taken
+   	 	    that only the trusted root CA can sign certificates. No intermediate CAs are allowed 
+   	 	    in this implementation.</t>
+   	 	</list>
+
+   	</t>
    </section>
 
    <section title="Confidential communications">
