@@ -181,9 +181,10 @@
 	   <list>
 	   	<t>Authentication: Both the server and the client need to be 
 	   		mutually authenticated. For the key establishment phase, 
-	   		Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) is to be used.
+	   		Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) using the 
+	   		specific x25519 curve is to be used.
 	   		Authentication can happen via the Elliptic Curve Digital
-	   		Signature Algorithm (ECDSA). Separating the algorithms for 
+	   		Signature Algorithm (ECDSA) or RSA. Separating the algorithms for 
 	   		key establishment and authentication ensures that complete
 	   		forward secrecy is maintained while communicating. 
 	   		A DH handshake with an elliptic curve DSA certificate and
@@ -226,13 +227,29 @@
 	     </figure>
 	    </t>
 
+	    <section title="Client Key Exchange Generation">
+	    	<t>The client begins by calculating a private/public keypair for key exchange.
+	    		An elliptical curve method, using the x25519 curve is chosen to generate 
+	    		the 32 byte private key. The public key is derived from the corresponding
+	    		x25519 curve.
+	    	</t>
+	    </section>
 	    <section title="Message 1: Client Hello">
-	    	<t>
+	    	<t>When a client first connects to a server, it is REQUIRED to send the
+   				ClientHello as its first SITH message. This must include the 
+	    		32 byte "random", the "public value" of the selected 
+	    		Elliptic Curve ((EC)DHE x25519) along with the appropriate 
+	    		certificate and relevant CA (explained in the trust model section) 
+	    		which will be validated by the server. Since the SITH protocol 
+	    		only supports one group, all the above fields are mandatory 
+	    		while initiating the ClientHello message. 
      		</t>
 	    </section>
 
 	    <section title="Message 2: Server Hello">
-	    	<t>
+	    	<t>The server will send this message in response to a ClientHello
+      			message. This must include the 32 byte "random" and the
+      			"public value" of the selected Elliptic Curve ((EC)DHE).
      		</t>
 	    </section>
 
@@ -242,7 +259,11 @@
    </section>
 
    <section title="Trust Model">
-     <t>pass</t>
+     <t>chain of trust
+     	intermediate CA
+     	public key in the certq
+
+     	</t>
    </section>
 
    <section title="Confidential communications">
