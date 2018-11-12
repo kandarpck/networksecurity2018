@@ -184,7 +184,7 @@
 	   		Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) using the
 	   		specific x25519 curve is to be used.
 	   		Authentication can happen via the Elliptic Curve Digital
-	   		Signature Algorithm (ECDSA) or RSA. Separating the algorithms for
+	   		Signature Algorithm (ECDSA). Separating the algorithms for
 	   		key establishment and authentication ensures that complete
 	   		forward secrecy is maintained while communicating.
 	   		A DH handshake with an elliptic curve DSA certificate and
@@ -237,13 +237,11 @@
   +--------------+
   |Client Finish |
   |--------------|+--------------------------->
-  |-Certificates |
-  |-Signature    |                              +--------------+
-  +--------------+                              |Server Finish |
-                  <----------------------------+|--------------|
-                                                |-Certificates |
-                                                |-Signature    |
-                                                +--------------+
+  |-Signature    |                              +---------------+
+  +--------------+                              |Server Finish  |
+                  <----------------------------+|---------------|
+                                                |-Signature     |
+                                                +---------------+
                     Figure 1. SITH Handshake
 ]]>
 	       </artwork>
@@ -278,9 +276,9 @@
 
         FIELDS = [
 
-          ("Type", STRING), //HELLO|FINISH|CLOSE
+          ("Type", STRING), // HELLO|FINISH|CLOSE
           ("Random", BUFFER({Optional: True})),
-          ("Public_Value", BUFFER({Optional: True})),
+          ("PublicValue", BUFFER({Optional: True})),
           ("Certificate", LIST(BUFFER)({Optional: True})),
           ("Signature", BUFFER({Optional: True}))
         ]
@@ -292,7 +290,7 @@
         </t>
 	    </section>
 	    <section title="Server Key Exchange Generation">
-	    	<t>The server also start by calculating a private/public keypair for key exchange.
+	    	<t>The server also starts by calculating a private/public keypair for key exchange.
 	    		An elliptical curve method, using the x25519 curve is chosen to generate
 	    		the 32 byte private key. The public key is derived from the corresponding
 	    		x25519 curve similar to how a client started the connection.
@@ -310,7 +308,6 @@
 
 	    <section title="Server Shared Key Calculation">
 	    	<t>The server now has the information to calculate the shared secret.
-	    		Explain KDF here.
 	    		<list style="numbers">
 			    	<t>Client public key (from Client Hello)</t>
 	          <t>Server private key (from Server Key Exchange Generation)</t>
@@ -321,7 +318,6 @@
 
 	    <section title="Client Shared Key Calculation">
 	    	<t>The client now has the information to calculate the shared secret.
-	    		Explain KDF here.
 	    		<list style="numbers">
 			    	<t>Server public key (from Server Hello)</t>
 	          <t>Client private key (from Client Key Exchange Generation)</t>
@@ -450,7 +446,7 @@
 AEADEncrypted = AEAD_Encrypt(shared_key, nonce, plaintext, \
         additional_data)
 
-additional_data = seq_num + [**SPECIFY ADDITIONAL DATA?**]
+additional_data = None
 
             Figure 4. AEAD Function Model
            ]]>

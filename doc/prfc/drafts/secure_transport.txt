@@ -65,10 +65,10 @@ Table of Contents
    3.  Protocol Specifications  . . . . . . . . . . . . . . . . . . .  3
      3.1.  Mutual Authentication - Setup  . . . . . . . . . . . . . .  3
        3.1.1.  Client Key Exchange Generation . . . . . . . . . . . .  4
-       3.1.2.  Message 1: Client Hello  . . . . . . . . . . . . . . .  5
+       3.1.2.  Message 1: Client Hello  . . . . . . . . . . . . . . .  4
        3.1.3.  Server Key Exchange Generation . . . . . . . . . . . .  5
        3.1.4.  Message 2: Server Hello  . . . . . . . . . . . . . . .  5
-       3.1.5.  Server Shared Key Calculation  . . . . . . . . . . . .  6
+       3.1.5.  Server Shared Key Calculation  . . . . . . . . . . . .  5
        3.1.6.  Client Shared Key Calculation  . . . . . . . . . . . .  6
        3.1.7.  Message 3: Server Certificate and Verification . . . .  6
        3.1.8.  Message 4: Client Verification . . . . . . . . . . . .  6
@@ -139,8 +139,8 @@ RFC 2                           SITH PRFC                  November 2018
        mutually authenticated.  For the key establishment phase,
        Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) using the
        specific x25519 curve is to be used.  Authentication can happen
-       via the Elliptic Curve Digital Signature Algorithm (ECDSA) or
-       RSA.  Separating the algorithms for key establishment and
+       via the Elliptic Curve Digital Signature Algorithm (ECDSA).
+       Separating the algorithms for key establishment and
        authentication ensures that complete forward secrecy is
        maintained while communicating.  A DH handshake with an elliptic
        curve DSA certificate and elliptic curve Diffie-Hellman key
@@ -197,13 +197,11 @@ RFC 2                           SITH PRFC                  November 2018
      +--------------+
      |Client Finish |
      |--------------|+--------------------------->
-     |-Certificates |
-     |-Signature    |                              +--------------+
-     +--------------+                              |Server Finish |
-                     <----------------------------+|--------------|
-                                                   |-Certificates |
-                                                   |-Signature    |
-                                                   +--------------+
+     |-Signature    |                              +---------------+
+     +--------------+                              |Server Finish  |
+                     <----------------------------+|---------------|
+                                                   |-Signature     |
+                                                   +---------------+
                        Figure 1. SITH Handshake
 
 
@@ -214,9 +212,11 @@ RFC 2                           SITH PRFC                  November 2018
    chosen to generate the 32 byte private key.  The public key is
    derived from the corresponding x25519 curve.
 
+3.1.2.  Message 1: Client Hello
 
-
-
+   When a client first connects to a server, it is REQUIRED to send the
+   ClientHello as its first SITH message.  This must include the 32 byte
+   "random", the "public value" of the selected Elliptic Curve ((EC)DHE
 
 
 
@@ -225,11 +225,6 @@ Khandwala & Bradt            Standards Track                    [Page 4]
 RFC 2                           SITH PRFC                  November 2018
 
 
-3.1.2.  Message 1: Client Hello
-
-   When a client first connects to a server, it is REQUIRED to send the
-   ClientHello as its first SITH message.  This must include the 32 byte
-   "random", the "public value" of the selected Elliptic Curve ((EC)DHE
    x25519) along with the appropriate certificate and relevant CA
    (explained in the trust model section) which will be validated by the
    server.  Since the SITH protocol only supports one group, all the
@@ -246,9 +241,9 @@ RFC 2                           SITH PRFC                  November 2018
 
            FIELDS = [
 
-             ("Type", STRING), //HELLO|FINISH|CLOSE
+             ("Type", STRING), // HELLO|FINISH|CLOSE
              ("Random", BUFFER({Optional: True})),
-             ("Public_Value", BUFFER({Optional: True})),
+             ("PublicValue", BUFFER({Optional: True})),
              ("Certificate", LIST(BUFFER)({Optional: True})),
              ("Signature", BUFFER({Optional: True}))
            ]
@@ -258,8 +253,8 @@ RFC 2                           SITH PRFC                  November 2018
 
 3.1.3.  Server Key Exchange Generation
 
-   The server also start by calculating a private/public keypair for key
-   exchange.  An elliptical curve method, using the x25519 curve is
+   The server also starts by calculating a private/public keypair for
+   key exchange.  An elliptical curve method, using the x25519 curve is
    chosen to generate the 32 byte private key.  The public key is
    derived from the corresponding x25519 curve similar to how a client
    started the connection.
@@ -273,6 +268,11 @@ RFC 2                           SITH PRFC                  November 2018
    Refer to Figure 2 for the SITH Packet format.  The HELLO Packet will
    include Type, Random, Public_Value, and Certificates.
 
+3.1.5.  Server Shared Key Calculation
+
+   The server now has the information to calculate the shared secret.
+
+
 
 
 
@@ -280,11 +280,6 @@ Khandwala & Bradt            Standards Track                    [Page 5]
 
 RFC 2                           SITH PRFC                  November 2018
 
-
-3.1.5.  Server Shared Key Calculation
-
-   The server now has the information to calculate the shared secret.
-   Explain KDF here.
 
    1.  Client public key (from Client Hello)
 
@@ -295,7 +290,6 @@ RFC 2                           SITH PRFC                  November 2018
 3.1.6.  Client Shared Key Calculation
 
    The client now has the information to calculate the shared secret.
-   Explain KDF here.
 
    1.  Server public key (from Server Hello)
 
@@ -329,6 +323,12 @@ RFC 2                           SITH PRFC                  November 2018
 
    At this stage, the SITH handshake is concluded and both the client
    and server can start transmitting and receiving bulk data from each
+   other.  Each message is protected using the Authenticated Encryption
+   with Additional Data (AEAD) with the default algorithm as
+   AES_128_GCM.  This ensures that the data is simultaneously encrypted
+   and integrity protected.
+
+
 
 
 
@@ -336,11 +336,6 @@ Khandwala & Bradt            Standards Track                    [Page 6]
 
 RFC 2                           SITH PRFC                  November 2018
 
-
-   other.  Each message is protected using the Authenticated Encryption
-   with Additional Data (AEAD) with the default algorithm as
-   AES_128_GCM.  This ensures that the data is simultaneously encrypted
-   and integrity protected.
 
 3.2.  Trust Model
 
@@ -378,6 +373,11 @@ RFC 2                           SITH PRFC                  November 2018
        through the entire certificate chain.  A signature must match the
        subject name of the previous CA certificate in the chain, and
        only the root certificate may be self signed.
+
+
+
+
+
 
 
 
@@ -452,7 +452,7 @@ RFC 2                           SITH PRFC                  November 2018
    AEADEncrypted = AEAD_Encrypt(shared_key, nonce, plaintext, \
            additional_data)
 
-   additional_data = seq_num + [**SPECIFY ADDITIONAL DATA?**]
+   additional_data = None
 
                Figure 4. AEAD Function Model
 
