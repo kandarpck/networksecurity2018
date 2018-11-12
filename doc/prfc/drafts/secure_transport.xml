@@ -276,11 +276,12 @@
 
         FIELDS = [
 
-          ("Type", STRING), // HELLO|FINISH|CLOSE
+          ("Type", STRING), // HELLO, FINISH, DATA, CLOSE
           ("Random", BUFFER({Optional: True})),
           ("PublicValue", BUFFER({Optional: True})),
           ("Certificate", LIST(BUFFER)({Optional: True})),
-          ("Signature", BUFFER({Optional: True}))
+          ("Signature", BUFFER({Optional: True})),
+          ("Ciphertext", BUFFER({Optional: True}))
         ]
 
         Figure 2. SITH Packet in Playground Format
@@ -309,20 +310,22 @@
 	    <section title="Server Shared Key Calculation">
 	    	<t>The server now has the information to calculate the shared secret.
 	    		<list style="numbers">
-			    	<t>Client public key (from Client Hello)</t>
-	          <t>Server private key (from Server Key Exchange Generation)</t>
+			<t>Client public key (from Client Hello)</t>
+	        <t>Server private key (from Server Key Exchange Generation)</t>
             <t>SHA256 hash of ClientHello and ServerHello</t>
 				</list>
+			<t></t>
 	    	</t>
 	    </section>
 
 	    <section title="Client Shared Key Calculation">
 	    	<t>The client now has the information to calculate the shared secret.
 	    		<list style="numbers">
-			    	<t>Server public key (from Server Hello)</t>
+			  <t>Server public key (from Server Hello)</t>
 	          <t>Client private key (from Client Key Exchange Generation)</t>
 	          <t>SHA256 hash of ClientHello and ServerHello</t>
 				</list>
+			<t></t>
 	    	</t>
 	    </section>
 
@@ -357,6 +360,8 @@
 	    		default algorithm as AES_128_GCM. This ensures that the data
 	    		is simultaneously encrypted and integrity protected.
 	    	</t>
+	    	<t>Refer to Figure 2 for the SITH Packet format.  The Data packet
+          will include Type=DATA, and Ciphertext.</t>
 	    </section>
    </section>
 
