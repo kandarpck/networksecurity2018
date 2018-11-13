@@ -265,7 +265,7 @@
 	    		while initiating the ClientHello message.
      		</t>
         <t>Below is the SITH packet in Playground format. The HELLO packet will
-          include Type, Random, Public_Value, and Certificates.</t>
+          include Type, Random, PublicValue, and Certificates.</t>
      		<t>
           <figure>
             <artwork><![CDATA[
@@ -303,7 +303,7 @@
       			"public value" of the selected Elliptic Curve ((EC)DHE).
      		</t>
      		<t>Refer to Figure 2 for the SITH Packet format.  The HELLO Packet will
-          include Type, Random, Public_Value, and Certificates.
+          include Type, Random, PublicValue, and Certificates.
         </t>
 	    </section>
 
@@ -315,9 +315,8 @@
 	        <t>Combine 1 and 2 to generate the shared secret</t>
             <t>SHA256 hash of ClientHello and ServerHello</t>
 				</list>
-			Now we want to derive our client IV, server IV, 
-				client read, client write, server read and 
-				server write from the above information.
+			Now we want to derive our server_iv, server_read and 
+				server_write from the above information.
 
 			AES GCM takes in 12 bytes of IV. Since the recommended mode 
 			in SITH is AES GCM with 128 bit block size, the key size is 128 
@@ -342,9 +341,8 @@
 	          <t>Combine 1 and 2 to generate the shared secret</t>
               <t>SHA256 hash of ClientHello and ServerHello</t>
 				</list>
-			Now we want to derive our client IV, server IV, 
-				client read, client write, server read and 
-				server write from the above information.
+			Now we want to derive our client_iv, client_read and client write
+			from the above information.
 
 			AES GCM takes in 12 bytes of IV. Since the recommended mode 
 			in SITH is AES GCM with 128 bit block size, the key size is 128 
@@ -370,8 +368,8 @@
 	    	certificate's private key. The signature can be proven
 	    	valid by the client by using the certificate's public key.
 	    	</t>
-     		<t>Refer to Figure 2 for the SITH Packet format.  The Finish packet
-          will include Type=FINISH, Certificates, and Signature.</t>
+     		<t>Refer to Figure 2 for the SITH Packet format. The Finish packet
+          will include Type=FINISH, and Signature.</t>
 	    </section>
 
 	    <section title="Message 4: Client Verification">
@@ -380,8 +378,8 @@
 	    	certificate's private key. The signature can be proven
 	    	valid by the server by using the certificate's public key.
 	    	</t>
-     		<t>Refer to Figure 2 for the SITH Packet format.  The Finish packet
-          will include Type=FINISH, Certificates, and Signature.</t>
+     		<t>Refer to Figure 2 for the SITH Packet format. The Finish packet
+          will include Type=FINISH, and Signature.</t>
 	    </section>
 
 	    <section title="Data Transfer">
@@ -392,7 +390,7 @@
 	    		default algorithm as AES_128_GCM. This ensures that the data
 	    		is simultaneously encrypted and integrity protected.
 	    	</t>
-	    	<t>Refer to Figure 2 for the SITH Packet format.  The Data packet
+	    	<t>Refer to Figure 2 for the SITH Packet format. The Data packet
           will include Type=DATA, and Ciphertext.</t>
 	    </section>
    </section>
@@ -512,7 +510,8 @@ additional_data = None
        or received on the connection.</t>
 
      <t>Refer to Figure 2 for the SITH packet format.  The CLOSE packet will
-       require only the Type field.</t>
+       require the Type field and the error message can use the ciphertext 
+       field.</t>
    </section>
   </section>
  </middle>
