@@ -315,20 +315,20 @@
 	        <t>Combine 1 and 2 to generate the shared secret</t>
             <t>SHA256 hash of ClientHello and ServerHello</t>
 				</list>
-			Now we want to derive our server_iv, server_read and 
+			Now we want to derive our server_iv, server_read and
 				server_write from the above information.
 
-			AES GCM takes in 12 bytes of IV. Since the recommended mode 
-			in SITH is AES GCM with 128 bit block size, the key size is 128 
-			bits. Therefore, we generate them using the below formula - 
-			
+			AES GCM takes in 12 bytes of IV. Since the recommended mode
+			in SITH is AES GCM with 128 bit block size, the key size is 128
+			bits. Therefore, we generate them using the below formula -
+
 			<list>
 			<t>server_iv = SHA256(3 and 4 from above)[96:192]</t>
 			<t>server_write = SHA256(SHA256(3 and 4 from above))[:128]</t>
 			<t>server_read = SHA256(SHA256(3 and 4 from above))[128:]</t>
 			</list>
 
-			The client_read is the same as server_write and the 
+			The client_read is the same as server_write and the
 			server_read is the same as client_write.
 	    	</t>
 	    </section>
@@ -344,17 +344,17 @@
 			Now we want to derive our client_iv, client_read and client write
 			from the above information.
 
-			AES GCM takes in 12 bytes of IV. Since the recommended mode 
-			in SITH is AES GCM with 128 bit block size, the key size is 128 
-			bits. Therefore, we generate them using the below formula - 
-			
+			AES GCM takes in 12 bytes of IV. Since the recommended mode
+			in SITH is AES GCM with 128 bit block size, the key size is 128
+			bits. Therefore, we generate them using the below formula -
+
 			<list>
 			<t>client_iv = SHA256(3 and 4 from above)[:96]</t>
 			<t>client_read = SHA256(SHA256(3 and 4 from above))[:128]</t>
 			<t>client_write = SHA256(SHA256(3 and 4 from above))[128:]</t>
 			</list>
 
-			The client_read is the same as server_write and the 
+			The client_read is the same as server_write and the
 			server_read is the same as client_write.
 	    	</t>
 	    </section>
@@ -403,27 +403,30 @@
           organizations.</t>
    	 		<t>The very existence of the CA marks the first step in the
    	  		establishment of the line of trust.</t>
+        <t>The root CA certificate in the chain of trust will have the subject
+          name or address of the known CA as well as a corresponding signature.
+          The root CA certificate is the only certificate in the chain that can
+          be self-signed. This signature must be verified with attached CA
+          public key.</t>
    	 		<t>The Playground entities who desire a certificate send various
-          information such as name of business, business registration number or
-          other identifying information which is then verified by	the CA.</t>
-   	 		<t>The CA, which is trusted, is trusted to have established that the
-          user is who they say they are.</t>
-   	 		<t>As seen before, the user then generates the ECDHE key pair and use
+          information such as designated name, business registration number or
+          other serial number which is then verified by	the CA.</t>
+   	 		<t>As seen before, the user then generates the ECDHE key pair and uses
           the private key to sign a Certificate Signing Request (CSR) which
           will contain the public key of the generated public-private pair
           among other information.</t>
+        <t>The user will also add a suggested address pre-fix in their
+          Playground CSR.  If the CSR is approved, this range of addresses will
+          be assigned to the user allowing that user to act as the intermediary
+          CA to sign any certificates for subjects in that address range.</t>
    	 		<t>The CA finally signs the user's certificate using the private key of
           the public-private key pair whose public key is contained in the CA's
           root certificate.</t>
-   	 		<t>The trust loop is therefore completed by the CA's digital signature.
-          Care must be taken that only the trusted root CA can sign
-          certificates. No intermediate CAs are allowed in this implementation.
-        </t>
         <t>Certificates will be generated using the X.509 format, and only CAs
           may sign certificates.  Signature verification will occur through the
-          entire certificate chain.  A signature must match the subject name of
-          the previous CA certificate in the chain, and only the root
-          certificate may be self signed.</t>
+          entire certificate chain.  A signature must be verified with the
+          public key of the previous CA certificate in the chain, and only the
+          root certificate may be self-signed.</t>
       </list>
    	</t>
     <t>
@@ -435,8 +438,8 @@
   | +Identifying Information    ||+Version Number           |
   |  -Distinguished Name (DN)   ||+Serial Number            |
   |  -Organization              ||+Signature Algorithm ID   |
-  |  -Address                   ||+Issuer Name              |
-  |                             ||+Validity Name            |
+  |  -Address Pre-fix           ||+Issuer Name              |
+  |                             ||+Validity Period          |
   | +Applicant's Public Key     ||+Subject Name             |
   |                             ||+Subject Public Key Info  |
   | +Signed with Applicant's    || -Public Key Algorithm    |
@@ -449,9 +452,9 @@
    |    CSR    |   |    CA     |   | CA Cert   |
    |-----------|+->|-----------|+->|-----------|
    |+ID        |   | +Verifies |   |+Subject   |<-+
-   |+Public Key|   |  User ID  |   |+Public Key|  |
-   |+Signature |   |           |   |+Signature |  |
-   |           |   |           |   |(Self sign)|  | Verify
+   |+Pre-fix   |   |  User ID  |   |+Public Key|  |
+   |+Public Key|   |           |   |+Signature |  |
+   |+Signature |   |           |   |           |  | Verify
    +-----------+   +-----------+   +-----------+  | Signature
                                    | User Cert |  | w/ CA Cert
                                    |-----------|  |
@@ -465,6 +468,30 @@
         </artwork>
       </figure>
     </t>
+   </section>
+
+   <section title="Certificate Verification and Revocations">
+     <t>As stated above, each certificate in the chain of trust must be
+      verified.  For the chain of trust to be valid, the following conditions
+      must be met:</t>
+     <t>
+       <list style="numbers">
+         <t>The root CA certificate is from a known, trusted CA.  The root
+          certificate is the only self-signed certificate in the chain of
+          trust.</t>
+        <t>Each certificate must not have an expired validity period.</t>
+        <t>Each signature is verified with its corresponding public key through
+          out the chain.</t>
+        <t>Each issuer/subject relationship is verified throughout the chain.</t>
+        <t>Any certificate in the chain must not be in the Certificate
+          Revocation List (CRL).</t>
+       </list>
+     </t>
+     <t>If any certificate in the chain of trust breaks any of these conditions,
+       that certificate is considered invalid and must be revoked by adding it
+       to the CRL.  Certificates in the CRL is stored by its corresponding
+       serial number and is stored indefinitely.
+     </t>
    </section>
 
    <section title="Confidential and Integrous Communications">
@@ -510,7 +537,7 @@ additional_data = None
        or received on the connection.</t>
 
      <t>Refer to Figure 2 for the SITH packet format.  The CLOSE packet will
-       require the Type field and the error message can use the ciphertext 
+       require the Type field and the error message can use the ciphertext
        field.</t>
    </section>
   </section>
