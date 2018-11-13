@@ -310,22 +310,54 @@
 	    <section title="Server Shared Key Calculation">
 	    	<t>The server now has the information to calculate the shared secret.
 	    		<list style="numbers">
-			<t>Client public key (from Client Hello)</t>
-	        <t>Server private key (from Server Key Exchange Generation)</t>
+			<t>Client Public Key (from Client Hello)</t>
+	        <t>Server Private Key (from Server Key Exchange Generation)</t>
+	        <t>Combine 1 and 2 to generate the shared secret</t>
             <t>SHA256 hash of ClientHello and ServerHello</t>
 				</list>
-			<t></t>
+			Now we want to derive our client IV, server IV, 
+				client read, client write, server read and 
+				server write from the above information.
+
+			AES GCM takes in 12 bytes of IV. Since the recommended mode 
+			in SITH is AES GCM with 128 bit block size, the key size is 128 
+			bits. Therefore, we generate them using the below formula - 
+			
+			<list>
+			<t>server_iv = SHA256(3 and 4 from above)[96:192]</t>
+			<t>server_write = SHA256(SHA256(3 and 4 from above))[:128]</t>
+			<t>server_read = SHA256(SHA256(3 and 4 from above))[128:]</t>
+			</list>
+
+			The client_read is the same as server_write and the 
+			server_read is the same as client_write.
 	    	</t>
 	    </section>
 
 	    <section title="Client Shared Key Calculation">
 	    	<t>The client now has the information to calculate the shared secret.
 	    		<list style="numbers">
-			  <t>Server public key (from Server Hello)</t>
-	          <t>Client private key (from Client Key Exchange Generation)</t>
-	          <t>SHA256 hash of ClientHello and ServerHello</t>
+			  <t>Server Public Key (from Server Hello)</t>
+	          <t>Client Private Key (from Client Key Exchange Generation)</t>
+	          <t>Combine 1 and 2 to generate the shared secret</t>
+              <t>SHA256 hash of ClientHello and ServerHello</t>
 				</list>
-			<t></t>
+			Now we want to derive our client IV, server IV, 
+				client read, client write, server read and 
+				server write from the above information.
+
+			AES GCM takes in 12 bytes of IV. Since the recommended mode 
+			in SITH is AES GCM with 128 bit block size, the key size is 128 
+			bits. Therefore, we generate them using the below formula - 
+			
+			<list>
+			<t>client_iv = SHA256(3 and 4 from above)[:96]</t>
+			<t>client_read = SHA256(SHA256(3 and 4 from above))[:128]</t>
+			<t>client_write = SHA256(SHA256(3 and 4 from above))[128:]</t>
+			</list>
+
+			The client_read is the same as server_write and the 
+			server_read is the same as client_write.
 	    	</t>
 	    </section>
 

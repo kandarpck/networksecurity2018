@@ -70,16 +70,16 @@ Table of Contents
        3.1.4.  Message 2: Server Hello  . . . . . . . . . . . . . . .  5
        3.1.5.  Server Shared Key Calculation  . . . . . . . . . . . .  5
        3.1.6.  Client Shared Key Calculation  . . . . . . . . . . . .  6
-       3.1.7.  Message 3: Server Certificate and Verification . . . .  6
-       3.1.8.  Message 4: Client Verification . . . . . . . . . . . .  6
-       3.1.9.  Data Transfer  . . . . . . . . . . . . . . . . . . . .  6
+       3.1.7.  Message 3: Server Certificate and Verification . . . .  7
+       3.1.8.  Message 4: Client Verification . . . . . . . . . . . .  7
+       3.1.9.  Data Transfer  . . . . . . . . . . . . . . . . . . . .  7
      3.2.  Trust Model  . . . . . . . . . . . . . . . . . . . . . . .  7
-     3.3.  Confidential and Integrous Communications  . . . . . . . .  8
-     3.4.  Algorithm Specifications . . . . . . . . . . . . . . . . .  9
-     3.5.  Shutdown . . . . . . . . . . . . . . . . . . . . . . . . .  9
-   4.  Normative References . . . . . . . . . . . . . . . . . . . . .  9
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 10
-   Intellectual Property and Copyright Statements . . . . . . . . . . 11
+     3.3.  Confidential and Integrous Communications  . . . . . . . .  9
+     3.4.  Algorithm Specifications . . . . . . . . . . . . . . . . . 10
+     3.5.  Shutdown . . . . . . . . . . . . . . . . . . . . . . . . . 10
+   4.  Normative References . . . . . . . . . . . . . . . . . . . . . 10
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 11
+   Intellectual Property and Copyright Statements . . . . . . . . . . 12
 
 
 
@@ -241,11 +241,12 @@ RFC 2                           SITH PRFC                  November 2018
 
            FIELDS = [
 
-             ("Type", STRING), // HELLO|FINISH|CLOSE
+             ("Type", STRING), // HELLO, FINISH, DATA, CLOSE
              ("Random", BUFFER({Optional: True})),
              ("PublicValue", BUFFER({Optional: True})),
              ("Certificate", LIST(BUFFER)({Optional: True})),
-             ("Signature", BUFFER({Optional: True}))
+             ("Signature", BUFFER({Optional: True})),
+             ("Ciphertext", BUFFER({Optional: True}))
            ]
 
            Figure 2. SITH Packet in Playground Format
@@ -275,27 +276,68 @@ RFC 2                           SITH PRFC                  November 2018
 
 
 
-
 Khandwala & Bradt            Standards Track                    [Page 5]
 
 RFC 2                           SITH PRFC                  November 2018
 
 
-   1.  Client public key (from Client Hello)
+   1.  Client Public Key (from Client Hello)
 
-   2.  Server private key (from Server Key Exchange Generation)
+   2.  Server Private Key (from Server Key Exchange Generation)
 
-   3.  SHA256 hash of ClientHello and ServerHello
+   3.  Combine 1 and 2 to generate the shared secret
+
+   4.  SHA256 hash of ClientHello and ServerHello
+
+   Now we want to derive our client IV, server IV, client read, client
+   write, server read and server write from the above information.  AES
+   GCM takes in 12 bytes of IV.  Since the recommended mode in SITH is
+   AES GCM with 128 bit block size, the key size is 128 bits.
+   Therefore, we generate them using the below formula -
+
+      server_iv = SHA256(3 and 4 from above)[96:192]
+
+      server_write = SHA256(SHA256(3 and 4 from above))[:128]
+
+      server_read = SHA256(SHA256(3 and 4 from above))[128:]
+
+   The client_read is the same as server_write and the server_read is
+   the same as client_write.
 
 3.1.6.  Client Shared Key Calculation
 
    The client now has the information to calculate the shared secret.
 
-   1.  Server public key (from Server Hello)
+   1.  Server Public Key (from Server Hello)
 
-   2.  Client private key (from Client Key Exchange Generation)
+   2.  Client Private Key (from Client Key Exchange Generation)
 
-   3.  SHA256 hash of ClientHello and ServerHello
+   3.  Combine 1 and 2 to generate the shared secret
+
+   4.  SHA256 hash of ClientHello and ServerHello
+
+   Now we want to derive our client IV, server IV, client read, client
+   write, server read and server write from the above information.  AES
+   GCM takes in 12 bytes of IV.  Since the recommended mode in SITH is
+   AES GCM with 128 bit block size, the key size is 128 bits.
+   Therefore, we generate them using the below formula -
+
+      client_iv = SHA256(3 and 4 from above)[:96]
+
+      client_read = SHA256(SHA256(3 and 4 from above))[:128]
+
+      client_write = SHA256(SHA256(3 and 4 from above))[128:]
+
+   The client_read is the same as server_write and the server_read is
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 6]
+
+RFC 2                           SITH PRFC                  November 2018
+
+
+   the same as client_write.
 
 3.1.7.  Message 3: Server Certificate and Verification
 
@@ -328,14 +370,8 @@ RFC 2                           SITH PRFC                  November 2018
    AES_128_GCM.  This ensures that the data is simultaneously encrypted
    and integrity protected.
 
-
-
-
-
-Khandwala & Bradt            Standards Track                    [Page 6]
-
-RFC 2                           SITH PRFC                  November 2018
-
+   Refer to Figure 2 for the SITH Packet format.  The Data packet will
+   include Type=DATA, and Ciphertext.
 
 3.2.  Trust Model
 
@@ -349,6 +385,14 @@ RFC 2                           SITH PRFC                  November 2018
    3.  The Playground entities who desire a certificate send various
        information such as name of business, business registration
        number or other identifying information which is then verified by
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 7]
+
+RFC 2                           SITH PRFC                  November 2018
+
+
        the CA.
 
    4.  The CA, which is trusted, is trusted to have established that the
@@ -388,7 +432,19 @@ RFC 2                           SITH PRFC                  November 2018
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 7]
+
+
+
+
+
+
+
+
+
+
+
+
+Khandwala & Bradt            Standards Track                    [Page 8]
 
 RFC 2                           SITH PRFC                  November 2018
 
@@ -444,7 +500,7 @@ RFC 2                           SITH PRFC                  November 2018
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 8]
+Khandwala & Bradt            Standards Track                    [Page 9]
 
 RFC 2                           SITH PRFC                  November 2018
 
@@ -500,7 +556,7 @@ RFC 2                           SITH PRFC                  November 2018
 
 
 
-Khandwala & Bradt            Standards Track                    [Page 9]
+Khandwala & Bradt            Standards Track                   [Page 10]
 
 RFC 2                           SITH PRFC                  November 2018
 
@@ -556,7 +612,7 @@ Authors' Addresses
 
 
 
-Khandwala & Bradt            Standards Track                   [Page 10]
+Khandwala & Bradt            Standards Track                   [Page 11]
 
 RFC 2                           SITH PRFC                  November 2018
 
@@ -612,7 +668,7 @@ Intellectual Property
 
 
 
-Khandwala & Bradt            Standards Track                   [Page 11]
+Khandwala & Bradt            Standards Track                   [Page 12]
 
 RFC 2                           SITH PRFC                  November 2018
 
@@ -668,5 +724,5 @@ RFC 2                           SITH PRFC                  November 2018
 
 
 
-Khandwala & Bradt            Standards Track                   [Page 12]
+Khandwala & Bradt            Standards Track                   [Page 13]
 
