@@ -197,11 +197,11 @@ RFC 2                           SITH PRFC                  November 2018
      +--------------+
      |Client Finish |
      |--------------|+--------------------------->
-     |-Signature    |                              +---------------+
-     +--------------+                              |Server Finish  |
-                     <----------------------------+|---------------|
-                                                   |-Signature     |
-                                                   +---------------+
+     |-Signature    |                              +--------------+
+     +--------------+                              |Server Finish |
+                     <----------------------------+|--------------|
+                                                   |-Signature    |
+                                                   +--------------+
                        Figure 1. SITH Handshake
 
 
@@ -231,7 +231,7 @@ RFC 2                           SITH PRFC                  November 2018
    above fields are mandatory while initiating the ClientHello message.
 
    Below is the SITH packet in Playground format.  The HELLO packet will
-   include Type, Random, Public_Value, and Certificates.
+   include Type, Random, PublicValue, and Certificates.
 
 
        class SITHPacket(PacketType):
@@ -267,7 +267,7 @@ RFC 2                           SITH PRFC                  November 2018
    value" of the selected Elliptic Curve ((EC)DHE).
 
    Refer to Figure 2 for the SITH Packet format.  The HELLO Packet will
-   include Type, Random, Public_Value, and Certificates.
+   include Type, Random, PublicValue, and Certificates.
 
 3.1.5.  Server Shared Key Calculation
 
@@ -289,11 +289,11 @@ RFC 2                           SITH PRFC                  November 2018
 
    4.  SHA256 hash of ClientHello and ServerHello
 
-   Now we want to derive our client IV, server IV, client read, client
-   write, server read and server write from the above information.  AES
-   GCM takes in 12 bytes of IV.  Since the recommended mode in SITH is
-   AES GCM with 128 bit block size, the key size is 128 bits.
-   Therefore, we generate them using the below formula -
+   Now we want to derive our server_iv, server_read and server_write
+   from the above information.  AES GCM takes in 12 bytes of IV.  Since
+   the recommended mode in SITH is AES GCM with 128 bit block size, the
+   key size is 128 bits.  Therefore, we generate them using the below
+   formula -
 
       server_iv = SHA256(3 and 4 from above)[96:192]
 
@@ -316,11 +316,11 @@ RFC 2                           SITH PRFC                  November 2018
 
    4.  SHA256 hash of ClientHello and ServerHello
 
-   Now we want to derive our client IV, server IV, client read, client
-   write, server read and server write from the above information.  AES
-   GCM takes in 12 bytes of IV.  Since the recommended mode in SITH is
-   AES GCM with 128 bit block size, the key size is 128 bits.
-   Therefore, we generate them using the below formula -
+   Now we want to derive our client_iv, client_read and client write
+   from the above information.  AES GCM takes in 12 bytes of IV.  Since
+   the recommended mode in SITH is AES GCM with 128 bit block size, the
+   key size is 128 bits.  Therefore, we generate them using the below
+   formula -
 
       client_iv = SHA256(3 and 4 from above)[:96]
 
@@ -349,7 +349,7 @@ RFC 2                           SITH PRFC                  November 2018
    using the certificate's public key.
 
    Refer to Figure 2 for the SITH Packet format.  The Finish packet will
-   include Type=FINISH, Certificates, and Signature.
+   include Type=FINISH, and Signature.
 
 3.1.8.  Message 4: Client Verification
 
@@ -359,7 +359,7 @@ RFC 2                           SITH PRFC                  November 2018
    certificate's public key.
 
    Refer to Figure 2 for the SITH Packet format.  The Finish packet will
-   include Type=FINISH, Certificates, and Signature.
+   include Type=FINISH, and Signature.
 
 3.1.9.  Data Transfer
 
@@ -571,7 +571,8 @@ RFC 2                           SITH PRFC                  November 2018
    further data to be sent or received on the connection.
 
    Refer to Figure 2 for the SITH packet format.  The CLOSE packet will
-   require only the Type field.
+   require the Type field and the error message can use the ciphertext
+   field.
 
 
 4.  Normative References
@@ -605,7 +606,6 @@ Authors' Addresses
 
    Phone: +1 443-763-9251
    Email: kck@jhu.edu
-
 
 
 
