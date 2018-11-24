@@ -1,9 +1,10 @@
-from ..lab1protocol.RIPPServerProtocol import RippServerProtocol
-from ..lab1protocol.RIPPClientProtocol import RippClientProtocol
+import playground
+from playground.network.common import StackingProtocolFactory
+
 from .SITHClientProtocol import SithClientProtocol
 from .SITHServerProtocol import SithServerProtocol
-from playground.network.common import StackingProtocolFactory
-import playground
+from ..lab1_protocol.RIPPClientProtocol import RippClientProtocol
+from ..lab1_protocol.RIPPServerProtocol import RippServerProtocol
 
 secure_client = StackingProtocolFactory(lambda: RippClientProtocol(), lambda: SithClientProtocol())
 secure_server = StackingProtocolFactory(lambda: RippServerProtocol(), lambda: SithServerProtocol())
