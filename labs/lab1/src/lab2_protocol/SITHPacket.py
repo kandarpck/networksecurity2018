@@ -2,6 +2,7 @@ import hashlib
 
 from playground.network.packet import PacketType
 from playground.network.packet.fieldtypes import BUFFER, STRING
+from playground.network.packet.fieldtypes.attributes import Optional
 
 from .SITHPacketType import SITHPacketType, packet_type_mapping
 
@@ -12,11 +13,11 @@ class SITHPacket(PacketType):
 
     FIELDS = [
 
-        ("Type", STRING), # HELLO, FINISH, DATA, CLOSE
-        ("Random", BUFFER),#({Optional: True})),
-        ("PublicValue", BUFFER),#({Optional: True})),
-        ("Certificate", BUFFER),#({Optional: True})),
-        ("Signature", BUFFER),#({Optional: True})),
-        ("Ciphertext", BUFFER)#({Optional: True}))
+        ("Type", STRING),  # HELLO, FINISH, DATA, CLOSE
+        ("Random", BUFFER({Optional: True})),
+        ("PublicValue", BUFFER({Optional: True})),
+        ("Certificate", BUFFER({Optional: True})),
+        ("Signature", BUFFER({Optional: True})),
+        ("Ciphertext", BUFFER({Optional: True}))
 
     ]

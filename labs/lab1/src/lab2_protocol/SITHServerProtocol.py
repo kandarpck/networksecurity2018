@@ -1,15 +1,14 @@
-from logging import getLogger, WARNING
-from random import randint
+from logging import getLogger, WARNING, DEBUG
 
 from playground.network.common import StackingProtocol
 
-#from .PacketHandler import PacketHandler
-#from .RIPPPacket import RIPPPacket
-#from .RIPPPacketType import RIPPPacketType, StateType
+# from .PacketHandler import PacketHandler
+# from .RIPPPacket import RIPPPacket
+# from .RIPPPacketType import RIPPPacketType, StateType
 from .SITHTransport import SithTransport
 
 logger = getLogger('playground.' + __name__)
-logger.setLevel(WARNING)
+logger.setLevel(DEBUG)
 
 
 class SithServerProtocol(StackingProtocol):
@@ -26,16 +25,13 @@ class SithServerProtocol(StackingProtocol):
         self.transport = transport
         # Make connection
         logger.debug('\n SITH SERVER MAKING CONNECTION \n')
-        print('\n SITH SERVER MAKING CONNECTION \n')
         self.SithTransport = SithTransport(self)
         self.higherProtocol().connection_made(self.SithTransport)
 
-
     def data_received(self, data):
-        print('\n SITH Server received data. Pushing data up.\n')
+        logger.debug('\n SITH Server received data. Pushing data up.\n')
         self.higherProtocol().data_received(data)
 
     def connection_lost(self, exc):
-        print('\n SITH SERVER: Connection to client lost.\n')
         logger.error('\n SITH SERVER: Connection to client lost.\n')
         self.transport = None

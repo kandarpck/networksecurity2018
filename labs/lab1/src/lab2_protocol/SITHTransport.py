@@ -20,7 +20,6 @@ class SithTransport(StackingTransport):
         print("\nSITH {} Transport writing data\n".format(self.Protocol.ProtocolID))
         self.lowerTransport().write(data)
 
-
     def close(self):
         # Application is no longer expecting to receive data.
         # Call protocol's protocol.connection_lost() method with None as argument.
