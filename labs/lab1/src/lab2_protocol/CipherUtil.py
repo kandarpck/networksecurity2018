@@ -1,5 +1,6 @@
 from cryptography.hazmat.primitives.asymmetric.x25519 import X25519PrivateKey
 import hashlib
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 
 class CipherUtils(object):
@@ -29,15 +30,21 @@ class ClientCipherUtils(CipherUtils):
         super(ClientCipherUtils, self).__init__()
         self.private_key, self.public_key = self.generate_private_public_keypair()
         self.shared_key = None
+        self.client_iv, self.server_iv, self.client_read, self.client_write = None, None, None, None
 
     def generate_client_shared(self, peer_pub_key):
         self.shared_key = self.generate_shared_key(priv_key=self.private_key, peer_pub_key=peer_pub_key)
         return self.shared_key
 
     def generate_client_keys(self, client_hello, server_hello):
-        client_iv, _, client_read, client_write = self.key_derivation(self.shared_key,
-                                                                      client_hello + server_hello)
-        return client_iv, client_read, client_write
+        self.client_iv, self.server_iv, self.client_read, self.client_write = self.key_derivation(self.shared_key,
+                                                                                                  client_hello +
+                                                                                                  server_hello)
+        return self.client_iv, self.server_iv, self.client_read, self.client_write
+
+    def server_decrypt(self, ct):
+        aesgcm = AESGCM(self.client_read)
+        return aesgcm.decrypt(self.server_iv, ct, None)
 
 
 class ServerCipherUtils(CipherUtils):
@@ -45,20 +52,26 @@ class ServerCipherUtils(CipherUtils):
         super(ServerCipherUtils, self).__init__()
         self.private_key, self.public_key = self.generate_private_public_keypair()
         self.shared_key = None
+        self.client_iv, self.server_iv, self.server_read, self.server_write = None, None, None, None
 
     def generate_server_shared(self, peer_pub_key):
         self.shared_key = self.generate_shared_key(priv_key=self.private_key, peer_pub_key=peer_pub_key)
         return self.shared_key
 
     def generate_server_keys(self, client_hello, server_hello):
-        _, server_iv, server_write, server_read = self.key_derivation(self.shared_key,
-                                                                      client_hello + server_hello)
-        return server_iv, server_write, server_read
+        self.client_iv, self.server_iv, self.server_write, self.server_read = self.key_derivation(self.shared_key,
+                                                                                                  client_hello +
+                                                                                                  server_hello)
+        return self.client_iv, self.server_iv, self.server_write, self.server_read
+
+    def client_decrypt(self, ct):
+        aesgcm = AESGCM(self.server_read)
+        return aesgcm.decrypt(self.client_iv, ct, None)
 
 
 if __name__ == '__main__':
     client = ClientCipherUtils()
     server = ServerCipherUtils()
     assert client.generate_client_shared(server.public_key) == server.generate_server_shared(client.public_key)
-    assert client.generate_client_keys(b'a', b'b')[1] == server.generate_server_keys(b'a', b'b')[1]
     assert client.generate_client_keys(b'a', b'b')[2] == server.generate_server_keys(b'a', b'b')[2]
+    assert client.generate_client_keys(b'a', b'b')[3] == server.generate_server_keys(b'a', b'b')[3]

@@ -21,11 +21,5 @@ class SithTransport(StackingTransport):
         self.lowerTransport().write(data)
 
     def close(self):
-        # Application is no longer expecting to receive data.
-        # Call protocol's protocol.connection_lost() method with None as argument.
-        logger.warning(
-            "\n SITH {} Transport: close() Initiated.  Sending FIN packet and calling current protocol's connection_lost(None) \n".format(
-                self.Protocol.ProtocolID))
-
         self.Protocol.higherProtocol().connection_lost(None)
         self.Protocol.transport.close()

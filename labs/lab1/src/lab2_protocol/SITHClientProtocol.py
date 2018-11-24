@@ -22,8 +22,10 @@ class SithClientProtocol(StackingProtocol):
         self.address = None
         self.client_ciphers = ClientCipherUtils()
         self.client_certs = ClientCertificateUtils(self.address)
-        self.client_hello = None
         self.deserializer = SITHPacket.Deserializer()
+        self.client_hello = None
+
+    # ---------- Overridden methods ---------------- #
 
     def connection_made(self, transport):
         self.transport = transport
@@ -41,20 +43,23 @@ class SithClientProtocol(StackingProtocol):
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
             if pkt.Type == SITHPacketType.DATA.value:
-                pass
-            elif pkt.Tyoe == SITHPacketType.HELLO.value:
-                pass
+                pt = self.client_ciphers.server_decrypt(pkt.Ciphertext)
+                self.higherProtocol().data_received(pt)
+            elif pkt.Type == SITHPacketType.HELLO.value:
+                client_iv, server_iv, client_read, client_write = self.client_ciphers.generate_client_keys(
+                    self.client_hello, pkt)
+
             elif pkt.Type == SITHPacketType.FINISH.value:
-                pass
+
+                self.higherProtocol().connection_made(self.SithTransport)
+
             elif pkt.Type == SITHPacketType.CLOSE.value:
-                pass
+                self.higherProtocol().connection_lost(pkt.Ciphertext)
+                self.transport.close()
             else:
                 logger.error('Unexpected packet type found')  # TODO drop?
 
-        self.higherProtocol().data_received(data)
-
-        self.higherProtocol().connection_made(self.SithTransport)
-
     def connection_lost(self, exc):
         logger.error('\n SITH CLIENT: Connection to server lost.\n')
+        self.transport.close()
         self.transport = None

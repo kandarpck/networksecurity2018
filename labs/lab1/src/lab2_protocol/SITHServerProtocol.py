@@ -22,9 +22,8 @@ class SithServerProtocol(StackingProtocol):
         self.address = None
         self.server_ciphers = ServerCipherUtils()
         self.server_certs = ServerCertificateUtils(self.address)
-        self.server_hello = None
-
         self.deserializer = SITHPacket.Deserializer()
+        self.server_hello = None
 
     # ---------- Overridden methods ---------------- #
 
@@ -44,13 +43,19 @@ class SithServerProtocol(StackingProtocol):
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
             if pkt.Type == SITHPacketType.DATA.value:
-                pass
-            elif pkt.Tyoe == SITHPacketType.HELLO.value:
-                pass
+                pt = self.server_ciphers.client_decrypt(pkt.Ciphertext)
+                self.higherProtocol().data_received(pt)
+            elif pkt.Type == SITHPacketType.HELLO.value:
+                client_iv, server_iv, server_write, server_read = self.server_ciphers.generate_server_keys(
+                    self.server_hello, pkt)
+
             elif pkt.Type == SITHPacketType.FINISH.value:
-                pass
+
+                self.higherProtocol().connection_made(self.SithTransport)
+
             elif pkt.Type == SITHPacketType.CLOSE.value:
-                pass
+                self.higherProtocol().connection_lost(pkt.Ciphertext)
+                self.transport.close()
             else:
                 logger.error('Unexpected packet type found')  # TODO drop?
 
