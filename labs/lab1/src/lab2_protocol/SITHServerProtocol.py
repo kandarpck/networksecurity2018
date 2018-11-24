@@ -1,10 +1,11 @@
-from logging import getLogger, WARNING, DEBUG
+import secrets
+from logging import getLogger, DEBUG
 
 from playground.network.common import StackingProtocol
 
-# from .PacketHandler import PacketHandler
-# from .RIPPPacket import RIPPPacket
-# from .RIPPPacketType import RIPPPacketType, StateType
+from .CertificateUtil import ServerCertificateUtils
+from .CipherUtil import ServerCipherUtils
+from .SITHPacket import SITHPacket
 from .SITHTransport import SithTransport
 
 logger = getLogger('playground.' + __name__)
@@ -17,15 +18,22 @@ class SithServerProtocol(StackingProtocol):
         self.ProtocolID = 'SERVER'
         self.SithTransport = None
         self.transport = None
+        self.address = None
+        self.server_ciphers = ServerCipherUtils()
+        self.server_certs = ServerCertificateUtils(self.address)
 
     # ---------- Overridden methods ---------------- #
 
     def connection_made(self, transport):
-        logger.debug('\n SITH Server connection made with {}\n'.format(transport.get_extra_info('peername')))
         self.transport = transport
         # Make connection
         logger.debug('\n SITH SERVER MAKING CONNECTION \n')
         self.SithTransport = SithTransport(self)
+        server_hello = SITHPacket().sith_hello(random=secrets.randbits(256),
+                                               public_val=self.server_ciphers.public_key,
+                                               certs=[self.server_certs.server_cert,
+                                                      self.server_certs.intermediate_cert,
+                                                      self.server_certs.get_root_certificate()])
         self.higherProtocol().connection_made(self.SithTransport)
 
     def data_received(self, data):

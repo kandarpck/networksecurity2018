@@ -1,7 +1,7 @@
 class CertificateUtils(object):
 
     def get_root_certificate(self):
-        pass
+        return None
 
     def get_certificates_for_ip(self, ip_addr):
         return None, None
@@ -16,7 +16,7 @@ class ClientCertificateUtils(CertificateUtils):
 class ServerCertificateUtils(CertificateUtils):
     def __init__(self, ip_addr):
         super(ServerCertificateUtils, self).__init__()
-        self.client_cert, self.intermediate_cert = self.get_certificates_for_ip(ip_addr)
+        self.server_cert, self.intermediate_cert = self.get_certificates_for_ip(ip_addr)
 
 
 if __name__ == '__main__':
