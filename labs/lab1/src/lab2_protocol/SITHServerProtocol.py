@@ -6,6 +6,7 @@ from playground.network.common import StackingProtocol
 from .CertificateUtil import ServerCertificateUtils
 from .CipherUtil import ServerCipherUtils
 from .SITHPacket import SITHPacket
+from .SITHPacketType import SITHPacketType
 from .SITHTransport import SithTransport
 
 logger = getLogger('playground.' + __name__)
@@ -21,6 +22,9 @@ class SithServerProtocol(StackingProtocol):
         self.address = None
         self.server_ciphers = ServerCipherUtils()
         self.server_certs = ServerCertificateUtils(self.address)
+        self.server_hello = None
+
+        self.deserializer = SITHPacket.Deserializer()
 
     # ---------- Overridden methods ---------------- #
 
@@ -29,16 +33,29 @@ class SithServerProtocol(StackingProtocol):
         # Make connection
         logger.debug('\n SITH SERVER MAKING CONNECTION \n')
         self.SithTransport = SithTransport(self)
-        server_hello = SITHPacket().sith_hello(random=secrets.randbits(256),
-                                               public_val=self.server_ciphers.public_key,
-                                               certs=[self.server_certs.server_cert,
-                                                      self.server_certs.intermediate_cert,
-                                                      self.server_certs.get_root_certificate()])
-        self.higherProtocol().connection_made(self.SithTransport)
+        self.server_hello = SITHPacket().sith_hello(random=secrets.randbits(256),
+                                                    public_val=self.server_ciphers.public_key,
+                                                    certs=[self.server_certs.server_cert,
+                                                           self.server_certs.intermediate_cert,
+                                                           self.server_certs.get_root_certificate()])
 
     def data_received(self, data):
-        logger.debug('\n SITH Server received data. Pushing data up.\n')
+        logger.debug('\n SITH Client received data. \n')
+        self.deserializer.update(data)
+        for pkt in self.deserializer.nextPackets():
+            if pkt.Type == SITHPacketType.DATA.value:
+                pass
+            elif pkt.Tyoe == SITHPacketType.HELLO.value:
+                pass
+            elif pkt.Type == SITHPacketType.FINISH.value:
+                pass
+            elif pkt.Type == SITHPacketType.CLOSE.value:
+                pass
+            else:
+                logger.error('Unexpected packet type found')  # TODO drop?
+
         self.higherProtocol().data_received(data)
+        self.higherProtocol().connection_made(self.SithTransport)
 
     def connection_lost(self, exc):
         logger.error('\n SITH SERVER: Connection to client lost.\n')
