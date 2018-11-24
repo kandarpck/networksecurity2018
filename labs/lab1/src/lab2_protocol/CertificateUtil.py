@@ -1,7 +1,8 @@
-from cryptography import x509
 import os
-from cryptography.hazmat.primitives.hashes import SHA256
 from logging import getLogger, DEBUG
+
+from cryptography import x509
+from cryptography.hazmat.primitives.hashes import SHA256
 
 logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)

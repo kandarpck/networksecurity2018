@@ -46,9 +46,11 @@ class SithServerProtocol(StackingProtocol):
                 pt = self.server_ciphers.client_decrypt(pkt.Ciphertext)
                 self.higherProtocol().data_received(pt)
             elif pkt.Type == SITHPacketType.HELLO.value:
-                client_iv, server_iv, server_write, server_read = self.server_ciphers.generate_server_keys(
-                    self.server_hello, pkt)
-
+                if self.server_certs.validate_certificate_chain(pkt.Certificate):
+                    client_iv, server_iv, server_write, server_read = self.server_ciphers.generate_server_keys(
+                        self.server_hello, pkt)
+                else:
+                    logger.error("Error in certificate chain validation {}".format(pkt))
             elif pkt.Type == SITHPacketType.FINISH.value:
 
                 self.higherProtocol().connection_made(self.SithTransport)

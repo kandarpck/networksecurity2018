@@ -46,6 +46,14 @@ class SITHPacket(PacketType):
         close.Ciphertext = error
         return close
 
+    def __repr__(self):
+        return super(SITHPacket, self).__repr__() + \
+               ". Type: " + str(self.Type) + \
+               ". Random: " + str(self.Random) + \
+               ". PublicValue: " + str(self.PublicValue) + \
+               ". Certificate: " + str(self.Certificate) + \
+               ". Ciphertext: " + str(self.Ciphertext)
+
 
 if __name__ == '__main__':
     pass
