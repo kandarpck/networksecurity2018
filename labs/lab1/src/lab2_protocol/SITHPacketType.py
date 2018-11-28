@@ -18,8 +18,8 @@ class SITHPacketType(Enum):
 @unique
 class StateType(Enum):
     LISTEN = 'LISTEN'
-    SYN_SENT = 'SYN-SENT'
-    SYN_RECEIVED = 'SYN-RECEIVED'
+    HELLO_SENT = 'HELLO-SENT'
+    HELLO_RECEIVED = 'HELLO-RECEIVED'
     ESTABLISHED = 'ESTABLISHED'
     CLOSING = 'CLOSING'
     CLOSED = 'CLOSED'

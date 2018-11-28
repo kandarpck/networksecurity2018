@@ -3,6 +3,7 @@ import hashlib
 from cryptography.hazmat.primitives.asymmetric.x25519 import X25519PrivateKey
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
+# TODO: Add client, server_encrypt for transport.write?
 
 class CipherUtils(object):
 
@@ -25,6 +26,11 @@ class CipherUtils(object):
         key_2 = block_2[16:]
         return iv_1, iv_2, key_1, key_2
 
+    def generate_signature(self, secret, hellos):
+        sign = hashlib.sha256()
+        sign.update(secret + hellos)
+        return sign.digest()
+
 
 class ClientCipherUtils(CipherUtils):
     def __init__(self):
@@ -42,6 +48,10 @@ class ClientCipherUtils(CipherUtils):
                                                                                                   client_hello +
                                                                                                   server_hello)
         return self.client_iv, self.server_iv, self.client_read, self.client_write
+
+    def get_signature(self, client_hello, server_hello):
+        signature = self.generate_signature(self.private_key, client_hello + server_hello)
+        return signature
 
     def server_decrypt(self, ct):
         aesgcm = AESGCM(self.client_read)
@@ -64,6 +74,10 @@ class ServerCipherUtils(CipherUtils):
                                                                                                   client_hello +
                                                                                                   server_hello)
         return self.client_iv, self.server_iv, self.server_write, self.server_read
+
+    def get_signature(self, client_hello, server_hello):
+        signature = self.generate_signature(self.private_key, client_hello + server_hello)
+        return signature
 
     def client_decrypt(self, ct):
         aesgcm = AESGCM(self.server_read)

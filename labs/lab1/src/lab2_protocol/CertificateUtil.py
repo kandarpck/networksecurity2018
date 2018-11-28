@@ -7,6 +7,8 @@ from cryptography.hazmat.primitives.hashes import SHA256
 logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
 
+#TODO: Add certificate generation?
+#TODO: Add Cert Revocation List
 
 class CertificateUtils(object):
 
