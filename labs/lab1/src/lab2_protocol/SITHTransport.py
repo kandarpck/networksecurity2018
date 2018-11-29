@@ -12,15 +12,16 @@ logger.setLevel(logging.WARNING)
 # TODO: Check if connection was made?
 
 class SithTransport(StackingTransport):
-    # Store all sent data packets in protocol's pktHdlr
-    # Add timer for all data packets sent
     def __init__(self, lower_protocol):
         self.Protocol = lower_protocol
         super().__init__(lower_protocol.transport)
 
     def write(self, data):
         print("\nSITH {} Transport writing data\n".format(self.Protocol.ProtocolID))
-        self.lowerTransport().write(data)
+        # TODO: Encrypt data and send Data packet
+        ct = self.Protocol.cipher_util.encrypt_data(data)
+        data_pkt = SITHPacket().sith_data(ct)
+        self.lowerTransport().write(data_pkt.__serialize__())
 
     def close(self):
         self.Protocol.higherProtocol().connection_lost(None)

@@ -2,6 +2,10 @@ import hashlib
 
 from cryptography.hazmat.primitives.asymmetric.x25519 import X25519PrivateKey
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
 
 # TODO: Add client, server_encrypt for transport.write?
 
@@ -26,10 +30,11 @@ class CipherUtils(object):
         key_2 = block_2[16:]
         return iv_1, iv_2, key_1, key_2
 
-    def generate_signature(self, secret, hellos):
-        sign = hashlib.sha256()
-        sign.update(secret + hellos)
-        return sign.digest()
+    def get_ecdsa_key(self, path):
+        with open(path, 'rb') as f:
+            loaded_key = f.read()
+
+        return serialization.load_pem_private_key(loaded_key, password=None, backend=default_backend())
 
 
 class ClientCipherUtils(CipherUtils):
@@ -37,7 +42,9 @@ class ClientCipherUtils(CipherUtils):
         super(ClientCipherUtils, self).__init__()
         self.private_key, self.public_key = self.generate_private_public_keypair()
         self.shared_key = None
+        self.ecdsa_key = self.get_ecdsa_key('/certificates/tempclient_prkey.pem')
         self.client_iv, self.server_iv, self.client_read, self.client_write = None, None, None, None
+        self.hello_messages = None
 
     def generate_client_shared(self, peer_pub_key):
         self.shared_key = self.generate_shared_key(priv_key=self.private_key, peer_pub_key=peer_pub_key)
@@ -50,8 +57,23 @@ class ClientCipherUtils(CipherUtils):
         return self.client_iv, self.server_iv, self.client_read, self.client_write
 
     def get_signature(self, client_hello, server_hello):
-        signature = self.generate_signature(self.private_key, client_hello + server_hello)
+        # Hash hello messages
+        hasher = hashlib.sha256()
+        hasher.update(client_hello + server_hello)
+        self.hello_messages = hasher.finalize()
+        # Sign using ECDSA key
+        signature = self.ecdsa_key.sign(self.hello_messages, ec.ECDSA(hashes.SHA256())
         return signature
+
+    def verify_signature(self, sig):
+        try:
+            return self.ecdsa_key.public_key.verify(sig, self.hello_messages, ec.ECDSA(hashes.SHA256()))
+        except:
+            print('Validation Error')
+
+    def encrypt_data(self, ct):
+        aesgcm = AESGCM(self.client_write)
+        return aesgcm.encrypt(self.client_iv, ct, None)
 
     def server_decrypt(self, ct):
         aesgcm = AESGCM(self.client_read)
@@ -63,7 +85,9 @@ class ServerCipherUtils(CipherUtils):
         super(ServerCipherUtils, self).__init__()
         self.private_key, self.public_key = self.generate_private_public_keypair()
         self.shared_key = None
+        self.ecdsa_key = self.get_ecdsa_key('/certificates/tempserver_prkey.pem')
         self.client_iv, self.server_iv, self.server_read, self.server_write = None, None, None, None
+        self.hello_messages = None
 
     def generate_server_shared(self, peer_pub_key):
         self.shared_key = self.generate_shared_key(priv_key=self.private_key, peer_pub_key=peer_pub_key)
@@ -76,8 +100,23 @@ class ServerCipherUtils(CipherUtils):
         return self.client_iv, self.server_iv, self.server_write, self.server_read
 
     def get_signature(self, client_hello, server_hello):
-        signature = self.generate_signature(self.private_key, client_hello + server_hello)
+        # Hash hello messages
+        hasher = hashlib.sha256()
+        hasher.update(client_hello + server_hello)
+        self.hello_messages = hasher.finalize()
+        # Sign using ECDSA key
+        signature = self.ecdsa_key.sign(self.hello_messages, ec.ECDSA(hashes.SHA256())
         return signature
+
+    def verify_signature(self, sig):
+        try:
+            return self.ecdsa_key.public_key.verify(sig, self.hello_messages, ec.ECDSA(hashes.SHA256()))
+        except:
+            print('Validation Error')
+
+    def encrypt_data(self, ct):
+        aesgcm = AESGCM(self.server_write)
+        return aesgcm.encrypt(self.server_iv, ct, None)
 
     def client_decrypt(self, ct):
         aesgcm = AESGCM(self.server_read)

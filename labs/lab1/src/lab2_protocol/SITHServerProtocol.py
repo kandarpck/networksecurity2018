@@ -22,7 +22,7 @@ class SithServerProtocol(StackingProtocol):
         self.transport = None
         self.state = StateType.LISTEN.value
         self.address = None
-        self.server_ciphers = ServerCipherUtils()
+        self.cipher_util = ServerCipherUtils()
         self.server_certs = ServerCertificateUtils(self.address)
         self.deserializer = SITHPacket.Deserializer()
         self.server_hello = None
@@ -40,7 +40,7 @@ class SithServerProtocol(StackingProtocol):
             if self.state == StateType.ESTABLISHED.value:
                 # Expecting Data or Close packets
                 if pkt.Type == SITHPacketType.DATA.value:
-                    pt = self.server_ciphers.client_decrypt(pkt.Ciphertext)
+                    pt = self.cipher_util.client_decrypt(pkt.Ciphertext)
                     self.higherProtocol().data_received(pt)
                 elif pkt.Type == SITHPacketType.CLOSE.value:
                     # Close Connection
@@ -56,7 +56,7 @@ class SithServerProtocol(StackingProtocol):
                         self.state = StateType.HELLO_RECEIVED
                         # Send Client the Server HELLO to continue handshake
                         self.server_hello = SITHPacket().sith_hello(random=secrets.randbits(256),
-                                                                    public_val=self.server_ciphers.public_key,
+                                                                    public_val=self.cipher_util.public_key,
                                                                     certs=[self.server_certs.server_cert,
                                                                            self.server_certs.intermediate_cert,
                                                                            self.server_certs.get_root_certificate()])
@@ -64,11 +64,11 @@ class SithServerProtocol(StackingProtocol):
                         self.transport.write(self.server_hello.__serialize__())
 
                        # Key Derivation
-                        client_iv, server_iv, server_write, server_read = self.server_ciphers.generate_server_keys(
+                        client_iv, server_iv, server_write, server_read = self.cipher_util.generate_server_keys(
                             self.server_hello, pkt)
 
-                        # Send FINISH Packet
-                        signature = self.server_ciphers.get_signature(self.client_hello, pkt)
+                        # Send FINISH Packet TODO: Change to ECDSA signature
+                        signature = self.cipher_util.get_signature(self.client_hello, pkt)
                         finish_pkt = SITHPacket().sith_finish(signature)
                         self.transport.write(finish_pkt.__serialize__())
                     else:
@@ -79,11 +79,14 @@ class SithServerProtocol(StackingProtocol):
                 # Expecting FINISH packet from Client
                 if pkt.Type == SITHPacketType.FINISH.value:
                     # TODO: Verify signatures
-                    # Establish connection
-                    logger.debug('\n SITH SERVER MAKING CONNECTION \n')
-                    self.SithTransport = SithTransport(self)
-                    self.higherProtocol().connection_made(self.SithTransport)
-                    self.state = StateType.ESTABLISHED.value
+                    if self.cipher_util.verify_signature(pkt.Signature):
+                        # Establish connection
+                        logger.debug('\n SITH CLIENT MAKING CONNECTION \n')
+                        self.SithTransport = SithTransport(self)
+                        self.higherProtocol().connection_made(self.SithTransport)
+                        self.state = StateType.ESTABLISHED.value
+                    else:
+                        logger.error('Signature Validation Error')
                 else:
                     logger.error('Unexpected packet type found')  # TODO drop?
             else:

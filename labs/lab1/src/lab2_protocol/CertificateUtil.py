@@ -3,6 +3,7 @@ from logging import getLogger, DEBUG
 
 from cryptography import x509
 from cryptography.hazmat.primitives.hashes import SHA256
+from cryptography.hazmat.backends import default_backend
 
 logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
@@ -20,10 +21,20 @@ class CertificateUtils(object):
             raise FileNotFoundError('File not found at {}'.format(path))
 
     def get_root_certificate(self):
-        return self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/20184_root_signed.cert')
+        #file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/20184_root_signed.cert')
+        file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/temp_root_cert.cert')
+        # Must decode back into x509.Cert object
+        root = x509.load_pem_x509_certificate(file, default_backend())
+        return root
 
     def get_certificates_for_ip(self, ip_addr):
-        return None, None
+        # get these certs from file
+        int_file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/temp_int_cert.cert')
+        int_cert = x509.load_pem_x509_certificate(int_file, default_backend())
+        client_server_file = self.read_certificate_from_path(os.path.dirname(__file__) + 'certificates/temp_client_cert.cert')
+        client_server_cert = x509.load_pem_x509_certificate(client_server_file, default_backend())
+        return client_server_cert, int_cert
+        #return None, None
 
     def check_types(self, certs):
         for certificate in certs:
