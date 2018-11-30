@@ -66,14 +66,15 @@ class SithClientProtocol(StackingProtocol):
                         shared = self.cipher_util.generate_client_shared(pkt.PublicValue)
                         client_iv, server_iv, client_read, client_write = self.cipher_util.generate_client_keys(
                             self.client_hello.__serialize__(), pkt.__serialize__())
+                        # Send FINISH Packet TODO: Change to ECDSA signature
+                        signature = self.cipher_util.get_signature(self.client_hello.__serialize__(),
+                                                                   pkt.__serialize__())
+                        finish_pkt = SITHPacket().sith_finish(signature)
+                        print('Sending keys for verification \n {}'.format(finish_pkt))
+                        logger.debug('\n SITH CLIENT: SENDING FINISH PACKET\n')
+                        self.transport.write(finish_pkt.__serialize__())
                     else:
                         logger.error("Error in certificate chain validation {}".format(pkt))
-
-                    # Send FINISH Packet TODO: Change to ECDSA signature
-                    signature = self.cipher_util.get_signature(self.client_hello.__serialize__(), pkt.__serialize__())
-                    finish_pkt = SITHPacket().sith_finish(signature)
-                    logger.debug('\n SITH CLIENT: SENDING FINISH PACKET\n')
-                    self.transport.write(finish_pkt.__serialize__())
                 else:
                     logger.error('Unexpected packet type found')  # TODO drop?
             elif self.state == StateType.HELLO_RECEIVED.value:

@@ -77,6 +77,7 @@ class SithServerProtocol(StackingProtocol):
                         signature = self.cipher_util.get_signature(pkt.__serialize__(),
                                                                    self.server_hello.__serialize__())
                         finish_pkt = SITHPacket().sith_finish(signature)
+                        print('Sending keys for verification \n {}'.format(finish_pkt))
                         logger.debug('\n SITH SERVER: SENDING FINISH PACKET\n')
                         self.transport.write(finish_pkt.__serialize__())
                     else:

@@ -80,6 +80,7 @@ class ClientCipherUtils(CipherUtils):
         except Exception as e:
             logger.error("Finish signature verification failed with {}".format(e))
             return False
+        return True
 
     def encrypt_data(self, ct):
         aesgcm = AESGCM(self.client_write)
@@ -126,6 +127,7 @@ class ServerCipherUtils(CipherUtils):
         except Exception as e:
             logger.error("Finish signature verification failed with {}".format(e))
             return False
+        return True
 
     def encrypt_data(self, ct):
         aesgcm = AESGCM(self.server_write)
