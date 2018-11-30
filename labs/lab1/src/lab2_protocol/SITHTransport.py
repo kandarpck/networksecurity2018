@@ -3,10 +3,10 @@ import logging
 from playground.network.common import StackingTransport
 
 from .SITHPacket import SITHPacket
-from .SITHPacketType import StateType
 
 logger = logging.getLogger('playground.' + __name__)
 logger.setLevel(logging.WARNING)
+
 
 # TODO: Add encrypt data with shared key when writing data down the stack.
 # TODO: Check if connection was made?

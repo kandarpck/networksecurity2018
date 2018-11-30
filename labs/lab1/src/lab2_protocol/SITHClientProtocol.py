@@ -12,6 +12,7 @@ from .SITHTransport import SithTransport
 logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
 
+
 # TODO: Add handshake
 
 class SithClientProtocol(StackingProtocol):
@@ -101,7 +102,7 @@ class SithClientProtocol(StackingProtocol):
     def initiate_handshake(self):
         # Create Hello Packet to initiate session
         if self.state == StateType.LISTEN.value:
-            self.client_hello = SITHPacket().sith_hello(random=secrets.token_bytes(32), # 32 bytes = 256 bits
+            self.client_hello = SITHPacket().sith_hello(random=secrets.token_bytes(32),  # 32 bytes = 256 bits
                                                         public_val=self.cipher_util.public_key.public_bytes(),
                                                         certs=[self.client_certs.client_cert,
                                                                self.client_certs.intermediate_cert,

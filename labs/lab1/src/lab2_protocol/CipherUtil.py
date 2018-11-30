@@ -2,15 +2,16 @@ import hashlib
 import os
 from logging import getLogger, DEBUG
 
-from cryptography.hazmat.primitives.asymmetric import x25519
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.asymmetric import x25519
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
+
 
 # TODO: Add client, server_encrypt for transport.write?
 

@@ -12,7 +12,8 @@ from .SITHTransport import SithTransport
 logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
 
-#TODO: Complete handshake
+
+# TODO: Complete handshake
 
 class SithServerProtocol(StackingProtocol):
     def __init__(self):
@@ -57,7 +58,8 @@ class SithServerProtocol(StackingProtocol):
                         self.state = StateType.HELLO_RECEIVED.value
                         self.peer_pub_key = self.server_certs.get_peer_public_key(pkt.Certificate)
                         # Send Client the Server HELLO to continue handshake
-                        self.server_hello = SITHPacket().sith_hello(random=secrets.token_bytes(32), # 32 bytes = 256 bits
+                        self.server_hello = SITHPacket().sith_hello(random=secrets.token_bytes(32),
+                                                                    # 32 bytes = 256 bits
                                                                     public_val=self.cipher_util.public_key.public_bytes(),
                                                                     certs=[self.server_certs.server_cert,
                                                                            self.server_certs.intermediate_cert,
@@ -72,7 +74,8 @@ class SithServerProtocol(StackingProtocol):
                             pkt.__serialize__(), self.server_hello.__serialize__())
 
                         # Send FINISH Packet TODO: Change to ECDSA signature
-                        signature = self.cipher_util.get_signature(pkt.__serialize__(), self.server_hello.__serialize__())
+                        signature = self.cipher_util.get_signature(pkt.__serialize__(),
+                                                                   self.server_hello.__serialize__())
                         finish_pkt = SITHPacket().sith_finish(signature)
                         logger.debug('\n SITH SERVER: SENDING FINISH PACKET\n')
                         self.transport.write(finish_pkt.__serialize__())
