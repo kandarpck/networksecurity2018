@@ -6,7 +6,7 @@ from playground.network.common import StackingProtocol
 from .CertificateUtil import ServerCertificateUtils
 from .CipherUtil import ServerCipherUtils
 from .SITHPacket import SITHPacket
-from .SITHPacketType import SITHPacketType
+from .SITHPacketType import SITHPacketType, StateType
 from .SITHTransport import SithTransport
 
 logger = getLogger('playground.' + __name__)
@@ -26,6 +26,7 @@ class SithServerProtocol(StackingProtocol):
         self.server_certs = ServerCertificateUtils(self.address)
         self.deserializer = SITHPacket.Deserializer()
         self.server_hello = None
+        self.peer_pub_key = None
 
     # ---------- Overridden methods ---------------- #
 
@@ -53,23 +54,27 @@ class SithServerProtocol(StackingProtocol):
                 # Only expecting HELLO packet from Client
                 if pkt.Type == SITHPacketType.HELLO.value:
                     if self.server_certs.validate_certificate_chain(pkt.Certificate):
-                        self.state = StateType.HELLO_RECEIVED
+                        self.state = StateType.HELLO_RECEIVED.value
+                        self.peer_pub_key = self.server_certs.get_peer_public_key(pkt.Certificate)
                         # Send Client the Server HELLO to continue handshake
-                        self.server_hello = SITHPacket().sith_hello(random=secrets.randbits(256),
-                                                                    public_val=self.cipher_util.public_key,
+                        self.server_hello = SITHPacket().sith_hello(random=secrets.token_bytes(32), # 32 bytes = 256 bits
+                                                                    public_val=self.cipher_util.public_key.public_bytes(),
                                                                     certs=[self.server_certs.server_cert,
                                                                            self.server_certs.intermediate_cert,
                                                                            self.server_certs.get_root_certificate()])
                         logger.debug('\n SITH SERVER: SENDING HELLO PACKET\n')
                         self.transport.write(self.server_hello.__serialize__())
 
-                       # Key Derivation
+                        # Key Derivation
+                        logger.debug('\n SITH SERVER: DERIVING KEYS\n')
+                        shared = self.cipher_util.generate_server_shared(pkt.PublicValue)
                         client_iv, server_iv, server_write, server_read = self.cipher_util.generate_server_keys(
-                            self.server_hello, pkt)
+                            pkt.__serialize__(), self.server_hello.__serialize__())
 
                         # Send FINISH Packet TODO: Change to ECDSA signature
-                        signature = self.cipher_util.get_signature(self.client_hello, pkt)
+                        signature = self.cipher_util.get_signature(pkt.__serialize__(), self.server_hello.__serialize__())
                         finish_pkt = SITHPacket().sith_finish(signature)
+                        logger.debug('\n SITH SERVER: SENDING FINISH PACKET\n')
                         self.transport.write(finish_pkt.__serialize__())
                     else:
                         logger.error("Error in certificate chain validation {}".format(pkt))
@@ -79,7 +84,7 @@ class SithServerProtocol(StackingProtocol):
                 # Expecting FINISH packet from Client
                 if pkt.Type == SITHPacketType.FINISH.value:
                     # TODO: Verify signatures
-                    if self.cipher_util.verify_signature(pkt.Signature):
+                    if self.cipher_util.verify_signature(self.peer_pub_key, pkt.Signature):
                         # Establish connection
                         logger.debug('\n SITH CLIENT MAKING CONNECTION \n')
                         self.SithTransport = SithTransport(self)

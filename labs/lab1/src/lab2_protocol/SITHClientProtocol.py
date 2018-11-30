@@ -6,7 +6,7 @@ from playground.network.common import StackingProtocol
 from .CertificateUtil import ClientCertificateUtils
 from .CipherUtil import ClientCipherUtils
 from .SITHPacket import SITHPacket
-from .SITHPacketType import SITHPacketType
+from .SITHPacketType import SITHPacketType, StateType
 from .SITHTransport import SithTransport
 
 logger = getLogger('playground.' + __name__)
@@ -26,6 +26,7 @@ class SithClientProtocol(StackingProtocol):
         self.client_certs = ClientCertificateUtils(self.address)
         self.deserializer = SITHPacket.Deserializer()
         self.client_hello = None
+        self.peer_pub_key = None
 
     # ---------- Overridden methods ---------------- #
 
@@ -57,15 +58,20 @@ class SithClientProtocol(StackingProtocol):
                 if pkt.Type == SITHPacketType.HELLO.value:
                     # Continue handshake
                     if self.client_certs.validate_certificate_chain(pkt.Certificate):
+                        self.state = StateType.HELLO_RECEIVED.value
+                        self.peer_pub_key = self.client_certs.get_peer_public_key(pkt.Certificate)
                         # Key Derivation
+                        logger.debug('\n SITH CLIENT: DERIVING KEYS\n')
+                        shared = self.cipher_util.generate_client_shared(pkt.PublicValue)
                         client_iv, server_iv, client_read, client_write = self.cipher_util.generate_client_keys(
-                            self.client_hello, pkt)
+                            self.client_hello.__serialize__(), pkt.__serialize__())
                     else:
                         logger.error("Error in certificate chain validation {}".format(pkt))
 
                     # Send FINISH Packet TODO: Change to ECDSA signature
-                    signature = self.cipher_util.get_signature(self.client_hello, pkt)
+                    signature = self.cipher_util.get_signature(self.client_hello.__serialize__(), pkt.__serialize__())
                     finish_pkt = SITHPacket().sith_finish(signature)
+                    logger.debug('\n SITH CLIENT: SENDING FINISH PACKET\n')
                     self.transport.write(finish_pkt.__serialize__())
                 else:
                     logger.error('Unexpected packet type found')  # TODO drop?
@@ -73,7 +79,7 @@ class SithClientProtocol(StackingProtocol):
                 # Expecting FINISH packet from server
                 if pkt.Type == SITHPacketType.FINISH.value:
                     # TODO: Verify signatures
-                    if self.cipher_util.verify_signature(pkt.Signature):
+                    if self.cipher_util.verify_signature(self.peer_pub_key, pkt.Signature):
                         # Establish connection
                         logger.debug('\n SITH CLIENT MAKING CONNECTION \n')
                         self.SithTransport = SithTransport(self)
@@ -94,9 +100,9 @@ class SithClientProtocol(StackingProtocol):
 
     def initiate_handshake(self):
         # Create Hello Packet to initiate session
-        if self.state == self.StateType.LISTEN.value:
-            self.client_hello = SITHPacket().sith_hello(random=secrets.randbits(256),
-                                                        public_val=self.cipher_util.public_key,
+        if self.state == StateType.LISTEN.value:
+            self.client_hello = SITHPacket().sith_hello(random=secrets.token_bytes(32), # 32 bytes = 256 bits
+                                                        public_val=self.cipher_util.public_key.public_bytes(),
                                                         certs=[self.client_certs.client_cert,
                                                                self.client_certs.intermediate_cert,
                                                                self.client_certs.get_root_certificate()])
