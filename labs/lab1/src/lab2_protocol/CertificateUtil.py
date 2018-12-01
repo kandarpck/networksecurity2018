@@ -9,8 +9,6 @@ from cryptography.hazmat.primitives.asymmetric import ec
 logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
 
-
-# TODO: Add certificate generation?
 # TODO: Add Cert Revocation List
 
 class CertificateUtils(object):

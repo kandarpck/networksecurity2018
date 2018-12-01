@@ -13,8 +13,6 @@ logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
 
 
-# TODO: Add client, server_encrypt for transport.write?
-
 class CipherUtils(object):
 
     def generate_private_public_keypair(self):
@@ -77,9 +75,12 @@ class ClientCipherUtils(CipherUtils):
         # Verify signature of received peer Finish packet
         try:
             peer_key.verify(sig, self.hello_messages, ec.ECDSA(hashes.SHA256()))
+            return True
         except Exception as e:
             logger.error("Finish signature verification failed with {}".format(e))
             return False
+
+        return True
 
     def encrypt_data(self, ct):
         aesgcm = AESGCM(self.client_write)
@@ -123,6 +124,7 @@ class ServerCipherUtils(CipherUtils):
         # Verify signature from received peer Finish packet
         try:
             peer_key.verify(sig, self.hello_messages, ec.ECDSA(hashes.SHA256()))
+            return True
         except Exception as e:
             logger.error("Finish signature verification failed with {}".format(e))
             return False
