@@ -22,8 +22,3 @@ class SithTransport(StackingTransport):
 
     def close(self):
         self.Protocol.close_connection('Close request received from higher protocol')
-        #self.Protocol.higherProtocol().connection_lost(None)
-        # Create and send CLOSE packet
-        #close_pkt = SITHPacket().sith_close()
-        #self.Protocol.transport.write(close_pkt.__serialize__())
-        #self.Protocol.transport.close()
