@@ -1,4 +1,5 @@
 import secrets
+import asyncio
 from logging import getLogger, DEBUG
 
 from playground.network.common import StackingProtocol
@@ -13,8 +14,6 @@ logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
 
 
-# TODO: Add handshake
-
 class SithClientProtocol(StackingProtocol):
     def __init__(self):
         super(SithClientProtocol, self).__init__()
@@ -28,6 +27,7 @@ class SithClientProtocol(StackingProtocol):
         self.deserializer = SITHPacket.Deserializer()
         self.client_hello = None
         self.peer_pub_key = None
+        self.hello_timer = None
 
     # ---------- Overridden methods ---------------- #
 
@@ -59,6 +59,7 @@ class SithClientProtocol(StackingProtocol):
                 if pkt.Type == SITHPacketType.HELLO.value:
                     # Continue handshake
                     if self.client_certs.validate_certificate_chain(pkt.Certificate):
+                        self.hello_timer.cancel()
                         self.state = StateType.HELLO_RECEIVED.value
                         self.peer_pub_key = self.client_certs.get_peer_public_key(pkt.Certificate)
                         # Key Derivation
@@ -88,7 +89,7 @@ class SithClientProtocol(StackingProtocol):
                         self.higherProtocol().connection_made(self.SithTransport)
                         self.state = StateType.ESTABLISHED.value
                     else:
-                        logger.error('Signature Validation Error')
+                        self.close_connection('Signature Validation Error')
                 else:
                     logger.error('Unexpected packet type found')  # TODO drop?
             else:
@@ -111,4 +112,22 @@ class SithClientProtocol(StackingProtocol):
             logger.debug('\n SITH CLIENT: SENDING HELLO PACKET\n')
             self.transport.write(self.client_hello.__serialize__())
             self.state = StateType.HELLO_SENT.value
-            # TODO: Add timer for HELLO resend?
+            # Start timer for Hello packets.  Timer is cancelled when peer Hello is received.
+            self.hello_timer = asyncio.get_event_loop().call_later(1, self.resend_HELLO, self.client_hello)
+
+    def resend_HELLO(self, hello):
+        logger.debug('\n SITH CLIENT: RESENDING HELLO PACKET\n')
+        self.transport.write(hello.__serialize__())
+        # Restart timer
+        self.hello_timer = asyncio.get_event_loop().call_later(1, self.resend_HELLO, hello)
+
+    def close_connection(self, error):
+        logger.error(error)
+        # Create Close packet with error message
+        close_pkt = SITHPacket().sith_close(error)
+        self.transport.write(close_pkt.__serialize__())
+
+        # Close transports
+        self.higherProtocol().connection_lost(error)
+        self.transport.close()
+        self.state = StateType.CLOSED.value

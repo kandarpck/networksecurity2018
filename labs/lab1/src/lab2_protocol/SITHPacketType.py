@@ -1,11 +1,10 @@
 from enum import Enum, unique
 
 
-# 0 = SYN
-# 1 = ACK
-# 2 = SYNACK
-# 3 = DATA
-# 4 = FIN
+# 0 = HELLO
+# 1 = FINISH
+# 2 = DATA
+# 3 = CLOSE
 
 @unique
 class SITHPacketType(Enum):
@@ -26,5 +25,3 @@ class StateType(Enum):
 
 
 packet_type_mapping = ['HELLO', 'FINISH', 'DATA', 'CLOSE']
-
-max_seq_no = 2147483647

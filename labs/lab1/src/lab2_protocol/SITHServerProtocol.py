@@ -13,8 +13,6 @@ logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
 
 
-# TODO: Complete handshake
-
 class SithServerProtocol(StackingProtocol):
     def __init__(self):
         super(SithServerProtocol, self).__init__()
@@ -73,7 +71,7 @@ class SithServerProtocol(StackingProtocol):
                         client_iv, server_iv, server_write, server_read = self.cipher_util.generate_server_keys(
                             pkt.__serialize__(), self.server_hello.__serialize__())
 
-                        # Send FINISH Packet TODO: Change to ECDSA signature
+                        # Send FINISH Packet
                         signature = self.cipher_util.get_signature(pkt.__serialize__(),
                                                                    self.server_hello.__serialize__())
                         finish_pkt = SITHPacket().sith_finish(signature)
@@ -81,7 +79,7 @@ class SithServerProtocol(StackingProtocol):
                         logger.debug('\n SITH SERVER: SENDING FINISH PACKET\n')
                         self.transport.write(finish_pkt.__serialize__())
                     else:
-                        logger.error("Error in certificate chain validation {}".format(pkt))
+                        self.close_connection("Error in certificate chain validation {}".format(pkt))
                 else:
                     logger.error('Unexpected packet type found')  # TODO drop?
             elif self.state == StateType.HELLO_RECEIVED.value:
@@ -95,7 +93,7 @@ class SithServerProtocol(StackingProtocol):
                         self.higherProtocol().connection_made(self.SithTransport)
                         self.state = StateType.ESTABLISHED.value
                     else:
-                        logger.error('Signature Validation Error')
+                        self.close_connection('Signature Validation Error')
                 else:
                     logger.error('Unexpected packet type found')  # TODO drop?
             else:
@@ -104,3 +102,16 @@ class SithServerProtocol(StackingProtocol):
     def connection_lost(self, exc):
         logger.error('\n SITH SERVER: Connection to client lost.\n')
         self.transport = None
+
+# ------------- Custom Methods -------------------#
+
+    def close_connection(self, error):
+        logger.error(error)
+        # Create Close packet with error message
+        close_pkt = SITHPacket().sith_close(error)
+        self.transport.write(close_pkt.__serialize__())
+
+        # Close transports
+        self.higherProtocol().connection_lost(error)
+        self.transport.close()
+        self.state = StateType.CLOSED.value

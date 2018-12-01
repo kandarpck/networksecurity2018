@@ -43,7 +43,7 @@ class SITHPacket(PacketType):
     def sith_close(self, error=None):
         close = SITHPacket()
         close.Type = SITHPacketType.CLOSE.value
-        close.Ciphertext = error
+        close.Ciphertext = bytes(error, 'utf-8')
         return close
 
     def __repr__(self):
