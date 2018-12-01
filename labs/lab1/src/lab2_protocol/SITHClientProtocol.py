@@ -53,7 +53,7 @@ class SithClientProtocol(StackingProtocol):
                     self.transport.close()
                     self.state = StateType.CLOSED.value
                 else:
-                    logger.error('Unexpected packet type found')  # TODO drop?
+                    logger.error('Unexpected packet type found')
             elif self.state == StateType.HELLO_SENT.value:
                 # Only packet expected is HELLO from the server
                 if pkt.Type == SITHPacketType.HELLO.value:
