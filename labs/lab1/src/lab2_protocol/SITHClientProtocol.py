@@ -42,46 +42,46 @@ class SithClientProtocol(StackingProtocol):
         logger.debug('\n SITH Client received data. \n')
         self.deserializer.update(data)
         for pkt in self.deserializer.nextPackets():
-            if self.state == StateType.ESTABLISHED.value:
-                # Expecting Data or Close packets
+            # If CLOSE is received during any STATE, connection will be closed.
+            if pkt.Type == SITHPacketType.CLOSE.value:
+                # Close connection
+                self.close_connection()
+            elif self.state == StateType.ESTABLISHED.value:
+                # Expecting Data packets
                 if pkt.Type == SITHPacketType.DATA.value:
                     pt = self.cipher_util.server_decrypt(pkt.Ciphertext)
                     self.higherProtocol().data_received(pt)
-                elif pkt.Type == SITHPacketType.CLOSE.value:
-                    # Close connection
-                    self.higherProtocol().connection_lost(pkt.Ciphertext)
-                    self.transport.close()
-                    self.state = StateType.CLOSED.value
                 else:
-                    logger.error('Unexpected packet type found')
+                    logger.error('SITH Protocol unexpected packet type found in {} state'.format(self.state))
             elif self.state == StateType.HELLO_SENT.value:
-                # Only packet expected is HELLO from the server
+                # Expecting HELLO from the server
                 if pkt.Type == SITHPacketType.HELLO.value:
                     # Continue handshake
                     if self.client_certs.validate_certificate_chain(pkt.Certificate):
                         self.hello_timer.cancel()
                         self.state = StateType.HELLO_RECEIVED.value
                         self.peer_pub_key = self.client_certs.get_peer_public_key(pkt.Certificate)
+
                         # Key Derivation
                         logger.debug('\n SITH CLIENT: DERIVING KEYS\n')
                         shared = self.cipher_util.generate_client_shared(pkt.PublicValue)
                         client_iv, server_iv, client_read, client_write = self.cipher_util.generate_client_keys(
                             self.client_hello.__serialize__(), pkt.__serialize__())
-                        # Send FINISH Packet TODO: Change to ECDSA signature
+
+                        # Send FINISH Packet
                         signature = self.cipher_util.get_signature(self.client_hello.__serialize__(),
                                                                    pkt.__serialize__())
                         finish_pkt = SITHPacket().sith_finish(signature)
-                        print('Sending keys for verification \n {}'.format(finish_pkt))
                         logger.debug('\n SITH CLIENT: SENDING FINISH PACKET\n')
                         self.transport.write(finish_pkt.__serialize__())
                     else:
-                        logger.error("Error in certificate chain validation {}".format(pkt))
+                        self.send_close("Error in certificate chain validation {}".format(pkt))
                 else:
-                    logger.error('Unexpected packet type found')  # TODO drop?
+                    logger.error('SITH Protocol unexpected packet type found in {} state'.format(self.state))
             elif self.state == StateType.HELLO_RECEIVED.value:
                 # Expecting FINISH packet from server
                 if pkt.Type == SITHPacketType.FINISH.value:
-                    # TODO: Verify signatures
+                    # Verify signatures
                     if self.cipher_util.verify_signature(self.peer_pub_key, pkt.Signature):
                         # Establish connection
                         logger.debug('\n SITH CLIENT MAKING CONNECTION \n')
@@ -89,11 +89,11 @@ class SithClientProtocol(StackingProtocol):
                         self.higherProtocol().connection_made(self.SithTransport)
                         self.state = StateType.ESTABLISHED.value
                     else:
-                        self.close_connection('Signature Validation Error')
+                        self.send_close('Signature Validation Error')
                 else:
-                    logger.error('Unexpected packet type found')  # TODO drop?
+                    logger.error('SITH Protocol unexpected packet type found in {} state'.format(self.state))
             else:
-                logger.error('Unexpected state found')  # TODO drop?
+                logger.error('SITH Protocol receiving data in unexpected state')
 
     def connection_lost(self, exc):
         logger.error('\n SITH CLIENT: Connection to server lost.\n')
@@ -104,7 +104,7 @@ class SithClientProtocol(StackingProtocol):
     def initiate_handshake(self):
         # Create Hello Packet to initiate session
         if self.state == StateType.LISTEN.value:
-            self.client_hello = SITHPacket().sith_hello(random=secrets.token_bytes(32),  # 32 bytes = 256 bits
+            self.client_hello = SITHPacket().sith_hello(random=secrets.token_bytes(32),
                                                         public_val=self.cipher_util.public_key.public_bytes(),
                                                         certs=[self.client_certs.client_cert,
                                                                self.client_certs.intermediate_cert,
@@ -126,7 +126,10 @@ class SithClientProtocol(StackingProtocol):
         # Create Close packet with error message
         close_pkt = SITHPacket().sith_close(error)
         self.transport.write(close_pkt.__serialize__())
+        # Close connection
+        self.close_connection(error)
 
+    def close_connection(self, error=None):
         # Close transports
         self.higherProtocol().connection_lost(error)
         self.transport.close()

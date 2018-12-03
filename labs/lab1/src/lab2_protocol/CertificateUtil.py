@@ -23,19 +23,14 @@ class CertificateUtils(object):
     def get_root_certificate(self):
         # file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/20184_root_signed.cert')
         file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/temp_root_cert.cert')
-        # Must decode back into x509.Cert object
-        # root = x509.load_pem_x509_certificate(file, default_backend())
         return file
 
     def get_certificates_for_ip(self, ip_addr):
         # get these certs from file
         int_file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/temp_int_cert.cert')
-        # int_cert = x509.load_pem_x509_certificate(int_file, default_backend())
         client_server_file = self.read_certificate_from_path(
             os.path.dirname(__file__) + '/certificates/temp_client_cert.cert')
-        # client_server_cert = x509.load_pem_x509_certificate(client_server_file, default_backend())
         return client_server_file, int_file
-        # return None, None
 
     def check_types(self, certs):
         for certificate in certs:
@@ -44,7 +39,6 @@ class CertificateUtils(object):
         return True
 
     def validate_certificate_chain(self, certs):
-        # TODO: Convert certs from byte string to Cert Object
         cert_obj = self.load_certs(certs)  # Convert certs to x509.Cert Objects
         if len(cert_obj) < 3 or not self.check_types(cert_obj):
             return False
@@ -76,7 +70,6 @@ class CertificateUtils(object):
         temp = []
         for cert in certs:
             temp.append(x509.load_pem_x509_certificate(cert, default_backend()))
-
         return temp
 
 
