@@ -1,6 +1,6 @@
 import secrets
 import asyncio
-from logging import getLogger, DEBUG
+from logging import getLogger, WARNING
 
 from playground.network.common import StackingProtocol
 
@@ -11,7 +11,7 @@ from .SITHPacketType import SITHPacketType, StateType
 from .SITHTransport import SithTransport
 
 logger = getLogger('playground.' + __name__)
-logger.setLevel(DEBUG)
+logger.setLevel(WARNING)
 
 
 class SithClientProtocol(StackingProtocol):
