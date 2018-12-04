@@ -22,7 +22,7 @@ class SithServerProtocol(StackingProtocol):
         self.state = StateType.LISTEN.value
         self.address = None
         self.cipher_util = ServerCipherUtils()
-        self.server_certs = ServerCertificateUtils(self.address)
+        self.server_certs = ServerCertificateUtils()
         self.deserializer = SITHPacket.Deserializer()
         self.server_hello = None
         self.peer_pub_key = None

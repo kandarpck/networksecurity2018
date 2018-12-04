@@ -47,7 +47,7 @@ class ClientCipherUtils(CipherUtils):
         super(ClientCipherUtils, self).__init__()
         self.private_key, self.public_key = self.generate_private_public_keypair()
         self.shared_key = None
-        self.ecdsa_key = self.get_ecdsa_key(os.path.dirname(__file__) + '/certificates/tempclient_prkey.pem')
+        self.ecdsa_key = self.get_ecdsa_key(os.path.dirname(__file__) + '/certificates/5555.1.1.1_private_key.pem')
         self.client_iv, self.server_iv, self.client_read, self.client_write = None, None, None, None
         self.hello_messages = None
 
@@ -94,7 +94,7 @@ class ServerCipherUtils(CipherUtils):
         super(ServerCipherUtils, self).__init__()
         self.private_key, self.public_key = self.generate_private_public_keypair()
         self.shared_key = None
-        self.ecdsa_key = self.get_ecdsa_key(os.path.dirname(__file__) + '/certificates/tempserver_prkey.pem')
+        self.ecdsa_key = self.get_ecdsa_key(os.path.dirname(__file__) + '/certificates/5555.2.2.2_private_key.pem')
         self.client_iv, self.server_iv, self.server_read, self.server_write = None, None, None, None
         self.hello_messages = None
 

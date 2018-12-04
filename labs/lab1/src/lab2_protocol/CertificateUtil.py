@@ -9,7 +9,6 @@ from cryptography.hazmat.primitives.asymmetric import ec
 logger = getLogger('playground.' + __name__)
 logger.setLevel(DEBUG)
 
-# TODO: Add Cert Revocation List
 
 class CertificateUtils(object):
 
@@ -21,15 +20,15 @@ class CertificateUtils(object):
             raise FileNotFoundError('File not found at {}'.format(path))
 
     def get_root_certificate(self):
-        # file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/20184_root_signed.cert')
-        file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/temp_root_cert.cert')
+        file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/20184_root_signed.cert')
+        # file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/temp_root_cert.cert')
         return file
 
-    def get_certificates_for_ip(self, ip_addr):
+    def get_certificates_for_ip(self, ip_addr='5555.1.1.1'):
         # get these certs from file
         int_file = self.read_certificate_from_path(os.path.dirname(__file__) + '/certificates/temp_int_cert.cert')
         client_server_file = self.read_certificate_from_path(
-            os.path.dirname(__file__) + '/certificates/temp_client_cert.cert')
+            os.path.dirname(__file__) + '/certificates/tmp_client_cert.cert')
         return client_server_file, int_file
 
     def check_types(self, certs):
@@ -74,26 +73,26 @@ class CertificateUtils(object):
 
 
 class ClientCertificateUtils(CertificateUtils):
-    def __init__(self, ip_addr):
+    def __init__(self, ip_addr='5555.1.1.1'):
         super(ClientCertificateUtils, self).__init__()
         # self.client_cert, self.intermediate_cert = self.get_certificates_for_ip(ip_addr)
         self.intermediate_cert = self.read_certificate_from_path(
-            os.path.dirname(__file__) + '/certificates/temp_int_cert.cert')
+            os.path.dirname(__file__) + '/certificates/' + ip_addr.split('.')[0] + '_signed.cert')
         self.client_cert = self.read_certificate_from_path(
-            os.path.dirname(__file__) + '/certificates/temp_client_cert.cert')
+            os.path.dirname(__file__) + '/certificates/' + ip_addr + '_signed.cert')
 
 
 class ServerCertificateUtils(CertificateUtils):
-    def __init__(self, ip_addr):
+    def __init__(self, ip_addr='5555.2.2.2'):
         super(ServerCertificateUtils, self).__init__()
         # self.server_cert, self.intermediate_cert = self.get_certificates_for_ip(ip_addr)
         self.intermediate_cert = self.read_certificate_from_path(
-            os.path.dirname(__file__) + '/certificates/temp_int_cert.cert')
+            os.path.dirname(__file__) + '/certificates/' + ip_addr.split('.')[0] + '_signed.cert')
         self.server_cert = self.read_certificate_from_path(
-            os.path.dirname(__file__) + '/certificates/temp_server_cert.cert')
+            os.path.dirname(__file__) + '/certificates/' + ip_addr + '_signed.cert')
 
 
 if __name__ == '__main__':
-    client = ClientCertificateUtils(None)
-    server = ServerCertificateUtils(None)
+    client = ClientCertificateUtils()
+    server = ServerCertificateUtils()
     assert client.get_root_certificate() == server.get_root_certificate()
