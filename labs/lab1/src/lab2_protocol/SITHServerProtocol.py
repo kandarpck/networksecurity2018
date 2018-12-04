@@ -103,7 +103,7 @@ class SithServerProtocol(StackingProtocol):
 
 # ------------- Custom Methods -------------------#
 
-    def close_connection(self, error):
+    def send_close(self, error):
         logger.error(error)
         # Create Close packet with error message
         close_pkt = SITHPacket().sith_close(error)

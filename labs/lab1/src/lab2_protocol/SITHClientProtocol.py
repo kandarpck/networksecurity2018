@@ -121,7 +121,7 @@ class SithClientProtocol(StackingProtocol):
         # Restart timer
         self.hello_timer = asyncio.get_event_loop().call_later(1, self.resend_HELLO, hello)
 
-    def close_connection(self, error):
+    def send_close(self, error):
         logger.error(error)
         # Create Close packet with error message
         close_pkt = SITHPacket().sith_close(error)
